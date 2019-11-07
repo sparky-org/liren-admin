@@ -18,22 +18,21 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        if(true){
-            return true;
-        }
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            if (handlerMethod.getMethodAnnotation(NeedLogin.class) == null && handlerMethod.getBeanType().getAnnotationsByType(NeedLogin.class) == null){
+            if (handlerMethod.getMethodAnnotation(NeedLogin.class) == null){
                 return true;
             }
             String token = request.getHeader("token");
             if (token == null ) {
                 logger.error("验证失败，token 为空");
                 response.setStatus(401);
+                return false;
             }
-            if (!TokenManager.verifyToken(token)) {
+            if (null == TokenManager.unsign(token, String.class)) {
                 logger.error("验证失败，token已过期");
                 response.setStatus(401);
+                return false;
             }
         }
         return true;

@@ -60,4 +60,8 @@ public class TokenManager {
             return null;
         }
     }
+
+    public static boolean verifyToken(String token) {
+        return true;
+    }
 }
