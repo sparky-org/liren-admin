@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ServiceItemRecordMapper">
+  <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.ServiceItemRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="service_no" jdbcType="BIGINT" property="serviceNo" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+    <result column="reward_point" jdbcType="INTEGER" property="rewardPoint" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="emp_no" jdbcType="BIGINT" property="empNo" />
+    <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="is_valid" jdbcType="TINYINT" property="isValid" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, service_no, complete_time, reward_point, customer_phone, emp_no, shop_no, creator, 
+    is_valid, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_service_item_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_service_item_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_service_item_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecordExample">
+    delete from t_service_item_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_service_item_record (service_no, complete_time, reward_point, 
+      customer_phone, emp_no, shop_no, 
+      creator, is_valid, gmt_create, 
+      gmt_modify)
+    values (#{serviceNo,jdbcType=BIGINT}, #{completeTime,jdbcType=TIMESTAMP}, #{rewardPoint,jdbcType=INTEGER}, 
+      #{customerPhone,jdbcType=VARCHAR}, #{empNo,jdbcType=BIGINT}, #{shopNo,jdbcType=BIGINT}, 
+      #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_service_item_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serviceNo != null">
+        service_no,
+      </if>
+      <if test="completeTime != null">
+        complete_time,
+      </if>
+      <if test="rewardPoint != null">
+        reward_point,
+      </if>
+      <if test="customerPhone != null">
+        customer_phone,
+      </if>
+      <if test="empNo != null">
+        emp_no,
+      </if>
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serviceNo != null">
+        #{serviceNo,jdbcType=BIGINT},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewardPoint != null">
+        #{rewardPoint,jdbcType=INTEGER},
+      </if>
+      <if test="customerPhone != null">
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="empNo != null">
+        #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecordExample" resultType="java.lang.Long">
+    select count(*) from t_service_item_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_service_item_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.serviceNo != null">
+        service_no = #{record.serviceNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.completeTime != null">
+        complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rewardPoint != null">
+        reward_point = #{record.rewardPoint,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerPhone != null">
+        customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empNo != null">
+        emp_no = #{record.empNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.shopNo != null">
+        shop_no = #{record.shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=TINYINT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_service_item_record
+    set id = #{record.id,jdbcType=BIGINT},
+      service_no = #{record.serviceNo,jdbcType=BIGINT},
+      complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
+      reward_point = #{record.rewardPoint,jdbcType=INTEGER},
+      customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      emp_no = #{record.empNo,jdbcType=BIGINT},
+      shop_no = #{record.shopNo,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=BIGINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
+    update t_service_item_record
+    <set>
+      <if test="serviceNo != null">
+        service_no = #{serviceNo,jdbcType=BIGINT},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewardPoint != null">
+        reward_point = #{rewardPoint,jdbcType=INTEGER},
+      </if>
+      <if test="customerPhone != null">
+        customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="empNo != null">
+        emp_no = #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="shopNo != null">
+        shop_no = #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
+    update t_service_item_record
+    set service_no = #{serviceNo,jdbcType=BIGINT},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      reward_point = #{rewardPoint,jdbcType=INTEGER},
+      customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      emp_no = #{empNo,jdbcType=BIGINT},
+      shop_no = #{shopNo,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=BIGINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
