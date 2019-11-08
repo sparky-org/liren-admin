@@ -26,8 +26,8 @@
           or scope = 'ALL'
         )
       and not exists (select task_no from t_task_record where emp_no = #{cond.empNo} and is_valid=1 and a.id = task_no)
-      <if test="cond.pointType != null">
-        a.point_no = #{cond.point_no}
+      <if test="cond.pointNo != null">
+        a.point_no = #{cond.pointNo}
       </if>
     union all
     select id, title, content, point_no, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'COMPLETE' as status, creator, is_valid, gmt_create,
