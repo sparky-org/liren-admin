@@ -49,7 +49,7 @@ public class TaskBOTest {
         cond.setStart(start);
         cond.setLength(1);
         List<MyTaskPO> taskPOS = taskBO.queryTask(cond);
-        Assert.assertTrue(taskPOS.size() == 1);
+        Assert.assertTrue(taskPOS.size() == 0);
     }
 
     private QueryTaskCond initQueryCond() {
