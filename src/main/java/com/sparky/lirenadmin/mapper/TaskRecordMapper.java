@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.TaskRecord;
 import com.sparky.lirenadmin.entity.TaskRecordExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TaskRecordMapper {
     long countByExample(TaskRecordExample example);
 
