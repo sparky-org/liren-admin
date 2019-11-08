@@ -1,7 +1,9 @@
 package com.sparky.lirenadmin.bo;
 
+import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
 import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskDtl;
+import com.sparky.lirenadmin.entity.po.MyTaskPO;
 
 import java.util.List;
 
@@ -23,8 +25,10 @@ public interface TaskBO {
 
     Task getTask(Long taskNo);
 
-    int countTask(String pointType);
+    int countTask(QueryTaskCond cond);
 
-    List<Task> queryTask(String pointType);
+    List<MyTaskPO> queryTask(QueryTaskCond cond);
+
+
 
 }

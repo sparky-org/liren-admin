@@ -5,6 +5,10 @@ import java.util.Date;
 public class Task {
     private Long id;
 
+    private Long empNo;
+
+    private String status;
+
     private String title;
 
     private String content;
