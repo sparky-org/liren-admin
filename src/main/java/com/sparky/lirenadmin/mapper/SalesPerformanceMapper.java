@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.SalesPerformance;
 import com.sparky.lirenadmin.entity.SalesPerformanceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SalesPerformanceMapper {
     long countByExample(SalesPerformanceExample example);
 

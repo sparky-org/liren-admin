@@ -9,4 +9,6 @@ public interface PointBO {
     void increasePoint(IncreasePointDO increasePointDO, Function<Long, Boolean> doRewardTask);
 
     Point findEmployeePoint(Long id);
+
+    IncreasePointDO buildIncreasePointDO(String origin, Long originId, Long empNo, Long creator, Integer point, Long shopNo);
 }

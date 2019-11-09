@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.ServiceItemRecord;
 import com.sparky.lirenadmin.entity.ServiceItemRecordExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ServiceItemRecordMapper {
     long countByExample(ServiceItemRecordExample example);
 

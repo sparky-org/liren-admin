@@ -30,6 +30,7 @@ public class PointBOImpl implements PointBO {
         Point existPoint = getPointByEmp(increasePointDO.getEmpNo());
         if (existPoint != null){
             point.setId(existPoint.getId());
+            point.setPoint(point.getPoint() + existPoint.getPoint());
             doModify(point);
         }else{
             doCreatePoint(point);
@@ -42,6 +43,18 @@ public class PointBOImpl implements PointBO {
     @Override
     public Point findEmployeePoint(Long id) {
         return getPointByEmp(id);
+    }
+
+    @Override
+    public IncreasePointDO buildIncreasePointDO(String origin, Long originId, Long empNo, Long creator, Integer point, Long shopNo) {
+        IncreasePointDO pointDO = new IncreasePointDO();
+        pointDO.setEmpNo(empNo);
+        pointDO.setOperator(creator);
+        pointDO.setOrigin(origin);
+        pointDO.setOriginNo(originId);
+        pointDO.setPoint(point);
+        pointDO.setShopNo(shopNo);
+        return pointDO;
     }
 
     private RewardRecord buildRewardRecord(IncreasePointDO increasePointDO) {

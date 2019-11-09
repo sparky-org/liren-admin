@@ -31,4 +31,8 @@ public interface ApplyBO {
     void approve(Apply apply);
 
     List<Apply> queryApprovalPendingTasks(Long id);
+
+    Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long approvalEmp, Long creator, Long shopNo);
+
+    Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long creator, Long shopNo);
 }

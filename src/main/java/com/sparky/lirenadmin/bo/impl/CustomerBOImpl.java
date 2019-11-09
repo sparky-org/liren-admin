@@ -3,16 +3,21 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.CustomerBO;
 import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.entity.CustomerInfo;
+import com.sparky.lirenadmin.entity.CustomerInfoExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.mapper.CustomerInfoMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class CustomerBOImpl implements CustomerBO {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerBOImpl.class);
 
     @Autowired
     private EmployeeBO employeeBO;
@@ -72,6 +77,20 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public List<CustomerInfo> queryCustomer(Long shopNo, Long empNo) {
         return null;
+    }
+
+    @Override
+    public CustomerInfo getCustomerByPhone(String customerPhone) {
+        CustomerInfoExample example = new CustomerInfoExample();
+        example.createCriteria().andPhoneEqualTo(customerPhone).andIsValidEqualTo(true);
+        List<CustomerInfo> customerInfos = customerInfoMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(customerInfos)){
+            return null;
+        }
+        if (customerInfos.size() > 1){
+            logger.warn("系统中存在相同手机号的顾客。手机号：" + customerPhone);
+        }
+        return customerInfos.iterator().next();
     }
 
     private void doUpdate(CustomerInfo customerInfo){

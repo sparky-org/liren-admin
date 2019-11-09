@@ -1,9 +1,11 @@
 package com.sparky.lirenadmin.bo.impl;
 
-import com.sparky.lirenadmin.bo.*;
+import com.sparky.lirenadmin.bo.ApplyBO;
+import com.sparky.lirenadmin.bo.PointBO;
+import com.sparky.lirenadmin.bo.TaskBO;
+import com.sparky.lirenadmin.bo.TaskRecordBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
 import com.sparky.lirenadmin.entity.Apply;
-import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskRecord;
 import com.sparky.lirenadmin.mapper.TaskRecordMapper;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Service
@@ -23,12 +26,10 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     @Autowired
     private TaskBO taskBO;
     @Autowired
-    private ShopEmployeeBO shopEmployeeBO;
-    @Autowired
     private PointBO pointBO;
 
     @Override
-    public void createTaskRecord(TaskRecord record) {
+    public void createTaskRecord(@NotNull TaskRecord record) {
         doCreateTaskRecord(record);
         applyBO.createApply(buildApply(record));
     }
@@ -44,14 +45,8 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(TaskRecord record) {
-        IncreasePointDO pointDO = new IncreasePointDO();
-        pointDO.setEmpNo(record.getEmpNo());
-        pointDO.setOperator(record.getEmpNo());
-        pointDO.setOrigin("TASK_RECORD");
-        pointDO.setOriginNo(record.getId());
-        pointDO.setPoint(record.getRewardPoint());
-        pointDO.setShopNo(record.getShopNo());
-        return pointDO;
+        return pointBO.buildIncreasePointDO("TASK_RECORD", record.getId(),
+                record.getEmpNo(), record.getCreator(), record.getRewardPoint(), record.getShopNo());
     }
 
     private Boolean doRewardTask(Long recordNo){
@@ -59,7 +54,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
         record.setId(recordNo);
         record.setIsRewarded(true);
         record.setGmtModify(new Date());
-        int i = taskRecordMapper.updateByPrimaryKeySelective(record);
+        taskRecordMapper.updateByPrimaryKeySelective(record);
         return true;
     }
 
@@ -67,16 +62,8 @@ public class TaskRecordBOImpl implements TaskRecordBO {
         return taskRecordMapper.selectByPrimaryKey(recordNo);
     }
 
-    private Apply buildApply(TaskRecord record) {
-        Apply apply = new Apply();
-        apply.setApplyContent(buildApplyContent(record));
-        apply.setApplyEmpNo(record.getEmpNo());
-        ShopEmployee employee = shopEmployeeBO.getShopAdmin(record.getEmpNo());
-        apply.setAuditEmpNo(employee.getManagerNo());
-        apply.setCreator(record.getEmpNo());
-        apply.setShopNo(record.getShopNo());
-        apply.setOrigin("TASK_RECORD");
-        apply.setOriginNo(record.getId());
+    private Apply buildApply(@NotNull TaskRecord record) {
+        Apply apply = applyBO.buildApply("TASK_RECORD", record.getId(), buildApplyContent(record),record.getEmpNo(), record.getCreator(), record.getShopNo());
         return apply;
     }
 

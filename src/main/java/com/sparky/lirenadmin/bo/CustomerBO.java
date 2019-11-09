@@ -18,4 +18,5 @@ public interface CustomerBO {
 
     List<CustomerInfo> queryCustomer(Long shopNo, Long empNo);
 
+    CustomerInfo getCustomerByPhone(String customerPhone);
 }

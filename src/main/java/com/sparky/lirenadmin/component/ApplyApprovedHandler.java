@@ -18,6 +18,6 @@ public interface ApplyApprovedHandler {
     * @Author:
     * @Time: 2019/11/8
     */
-    void afterApplyApproved(Long originNo);
+    void afterApplyApproved(String origin, Long originNo);
 
 }
