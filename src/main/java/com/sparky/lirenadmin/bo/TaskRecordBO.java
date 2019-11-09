@@ -31,4 +31,5 @@ public interface TaskRecordBO {
     */
     void rewardTask(Long recordNo);
 
+    TaskRecord getTaskRecord(Long id);
 }

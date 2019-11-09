@@ -63,7 +63,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
         return true;
     }
 
-    private TaskRecord getTaskRecord(Long recordNo){
+    public TaskRecord getTaskRecord(Long recordNo){
         return taskRecordMapper.selectByPrimaryKey(recordNo);
     }
 

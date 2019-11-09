@@ -100,6 +100,7 @@ public class TaskBOTest {
         }
         //结果：申请单已审批通过，任务已经奖励,打印以上多有对象
         System.out.println(JSONArray.toJSONString(approvalPending));
+        record = taskRecordBO.getTaskRecord(record.getId());
         System.out.println(JSONObject.toJSONString(record));
         Point point = pointBO.findEmployeePoint(employee.getId());
         System.out.println(JSONObject.toJSONString(point));
