@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.VacationApply;
 import com.sparky.lirenadmin.entity.VacationApplyExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface VacationApplyMapper {
     long countByExample(VacationApplyExample example);
 

@@ -10,6 +10,7 @@ import com.sparky.lirenadmin.invoker.NotifyInvoker;
 import com.sparky.lirenadmin.mapper.ApplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -80,5 +81,17 @@ public class ApplyBOImpl implements ApplyBO {
             throw new RuntimeException("没有管理员，不符合业务规则");
         }
         return buildApply(origin, originId, content, applyEmp, admin.getId(), creator, shopNo);
+    }
+
+    @Override
+    public Apply queryApplyByOrigin(String origin, Long originNo) {
+        ApplyExample example = new ApplyExample();
+        example.createCriteria().andOriginEqualTo(origin).andOriginNoEqualTo(originNo).andIsValidEqualTo(true);
+        example.setOrderByClause("gmt_modify desc");
+        List<Apply> applies = applyMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(applies)){
+            return null;
+        }
+        return applies.iterator().next();
     }
 }

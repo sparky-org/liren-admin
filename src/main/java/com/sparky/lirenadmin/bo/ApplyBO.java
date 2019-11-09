@@ -35,4 +35,6 @@ public interface ApplyBO {
     Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long approvalEmp, Long creator, Long shopNo);
 
     Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long creator, Long shopNo);
+
+    Apply queryApplyByOrigin(String origin, Long originNo);
 }
