@@ -7,6 +7,8 @@ import com.sparky.lirenadmin.mapper.ServiceItemRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
 
@@ -23,20 +25,15 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     }
 
     private void doCreateServiceItem(ServiceItemRecord record) {
-
+        record.setIsValid(true);
+        record.setGmtModify(new Date());
+        record.setGmtCreate(new Date());
+        serviceItemRecordMapper.insertSelective(record);
     }
 
     private Apply buildApply(ServiceItemRecord record) {
-        Apply apply = new Apply();
-//        apply.setApplyContent(buildApplyContent(record));
-//        apply.setApplyEmpNo(record.getEmpNo());
-//        ShopEmployee employee = shopEmployeeBO.getShopAdmin(record.getEmpNo());
-//        apply.setAuditEmpNo(employee.getManagerNo());
-//        apply.setCreator(record.getEmpNo());
-//        apply.setShopNo(record.getShopNo());
-//        apply.setOrigin("SERVICE_RECORD");
-//        apply.setOriginNo(record.getId());
-        return apply;
+        return applyBO.buildApply("SERVICE_ITEM", record.getId(), "项目内容申请",
+                record.getEmpNo(), record.getCreator(), record.getShopNo());
     }
 
     private String buildApplyContent(ServiceItemRecord record) {

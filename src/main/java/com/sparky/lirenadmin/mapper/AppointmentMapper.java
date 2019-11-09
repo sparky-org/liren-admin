@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.Appointment;
 import com.sparky.lirenadmin.entity.AppointmentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AppointmentMapper {
     long countByExample(AppointmentExample example);
 

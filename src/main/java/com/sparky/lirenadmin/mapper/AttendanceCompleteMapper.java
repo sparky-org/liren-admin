@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.AttendanceComplete;
 import com.sparky.lirenadmin.entity.AttendanceCompleteExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AttendanceCompleteMapper {
     long countByExample(AttendanceCompleteExample example);
 

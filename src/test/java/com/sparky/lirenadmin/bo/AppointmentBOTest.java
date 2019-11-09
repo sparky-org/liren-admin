@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.bo;
 
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.entity.*;
@@ -12,7 +13,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,22 +21,24 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @Transactional
 @Rollback(true)
-public class SalesPerformanceBOTest {
+public class AppointmentBOTest {
 
 
     @Autowired
-    private SalesPerformanceBO salesPerformanceBO;
+    private AppointmentBO appointmentBO;
     @Autowired
     private ShopEmployeeBO shopEmployeeBO;
     @Autowired
     private BeautyShopBO beautyShopBO;
+    @Autowired
+    private TaskRecordBO taskRecordBO;
     @Autowired
     private ApplyBO applyBO;
     @Autowired
     private PointBO pointBO;
 
     @Test
-    public void testCreateSalePerformance(){
+    public void testCreateAppointment(){
         //1. 初始化管理员
         BeautyShop shop = initShop();
         beautyShopBO.createShop(shop);
@@ -51,8 +53,8 @@ public class SalesPerformanceBOTest {
         employee.setManagerNo(admin.getId());
         employee.setIsAdmin(false);
         shopEmployeeBO.createEmployee(employee);
-        SalesPerformance performance = initPerformance(employee);
-        salesPerformanceBO.createSalePerformance(performance);
+        Appointment performance = initAppointment(employee);
+        appointmentBO.createAppointment(performance);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
         for (Apply apply : approvalPending){
             applyBO.approve(apply);
@@ -63,14 +65,15 @@ public class SalesPerformanceBOTest {
         System.out.println(JSONObject.toJSONString(point));
     }
 
-    private SalesPerformance initPerformance(ShopEmployee employee) {
-        SalesPerformance performance = new SalesPerformance();
-        performance.setAmount(new BigDecimal(1000));
-        performance.setCompleteTime(new Date());
-        performance.setCreator(employee.getId());
+    private Appointment initAppointment(ShopEmployee employee) {
+        Appointment performance = new Appointment();
+        performance.setAppointEmpNo(employee.getId());
         performance.setCustomerPhone("13011111110");
-        performance.setEmpNo(employee.getId());
+        performance.setServiceNo(0l);
+        performance.setAppointTime(new Date());
         performance.setRewardPoint(120);
+        performance.setServiceEmpNo(employee.getId());
+        performance.setCreator(employee.getId());
         performance.setShopNo(employee.getShopNo());
         return performance;
     }
