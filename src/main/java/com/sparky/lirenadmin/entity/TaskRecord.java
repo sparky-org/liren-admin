@@ -15,6 +15,10 @@ public class TaskRecord {
 
     private Integer rewardPoint;
 
+    private Boolean isRewarded;
+
+    private Date rewardTime;
+
     private Long shopNo;
 
     private Long creator;
@@ -71,6 +75,22 @@ public class TaskRecord {
 
     public void setRewardPoint(Integer rewardPoint) {
         this.rewardPoint = rewardPoint;
+    }
+
+    public Boolean getIsRewarded() {
+        return isRewarded;
+    }
+
+    public void setIsRewarded(Boolean isRewarded) {
+        this.isRewarded = isRewarded;
+    }
+
+    public Date getRewardTime() {
+        return rewardTime;
+    }
+
+    public void setRewardTime(Date rewardTime) {
+        this.rewardTime = rewardTime;
     }
 
     public Long getShopNo() {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +30,14 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
         }
         ShopEmployee admin = getShopAdmin(employee.getShopNo(), true);
         return admin;
+    }
+
+    @Override
+    public void createEmployee(ShopEmployee employee) {
+        employee.setIsValid(true);
+        employee.setGmtCreate(new Date());
+        employee.setGmtModify(new Date());
+        shopEmployeeMapper.insertSelective(employee);
     }
 
     private ShopEmployee getShopAdmin(Long shopNo, boolean isAdmin){

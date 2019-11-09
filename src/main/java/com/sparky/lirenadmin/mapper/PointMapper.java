@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.Point;
 import com.sparky.lirenadmin.entity.PointExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PointMapper {
     long countByExample(PointExample example);
 

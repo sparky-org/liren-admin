@@ -50,14 +50,16 @@ public class TaskRecordBOImpl implements TaskRecordBO {
         pointDO.setOrigin("TASK_RECORD");
         pointDO.setOriginNo(record.getId());
         pointDO.setPoint(record.getRewardPoint());
+        pointDO.setShopNo(record.getShopNo());
         return pointDO;
     }
 
     private Boolean doRewardTask(Long recordNo){
         TaskRecord record = new TaskRecord();
         record.setId(recordNo);
+        record.setIsRewarded(true);
         record.setGmtModify(new Date());
-        taskRecordMapper.updateByPrimaryKeySelective(record);
+        int i = taskRecordMapper.updateByPrimaryKeySelective(record);
         return true;
     }
 
@@ -86,6 +88,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     }
 
     private void doCreateTaskRecord(TaskRecord record) {
+        record.setIsRewarded(false);
         record.setIsValid(true);
         record.setGmtCreate(new Date());
         record.setGmtModify(new Date());

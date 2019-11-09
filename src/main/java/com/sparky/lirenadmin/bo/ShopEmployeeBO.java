@@ -6,4 +6,6 @@ public interface ShopEmployeeBO {
     ShopEmployee getEmployee(Long empNo);
 
     ShopEmployee getShopAdmin(Long empNo);
+
+    void createEmployee(ShopEmployee admin);
 }

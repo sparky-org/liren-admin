@@ -41,4 +41,108 @@ public class MyTaskPO {
     private Date gmtCreate;
 
     private Date gmtModify;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getEmpNo() {
+        return empNo;
+    }
+
+    public void setEmpNo(Long empNo) {
+        this.empNo = empNo;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Long getPointNo() {
+        return pointNo;
+    }
+
+    public void setPointNo(Long pointNo) {
+        this.pointNo = pointNo;
+    }
+
+    public Integer getJoinLimit() {
+        return joinLimit;
+    }
+
+    public void setJoinLimit(Integer joinLimit) {
+        this.joinLimit = joinLimit;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public Long getShopNo() {
+        return shopNo;
+    }
+
+    public void setShopNo(Long shopNo) {
+        this.shopNo = shopNo;
+    }
+
+    public Long getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Long creator) {
+        this.creator = creator;
+    }
+
+    public Boolean getValid() {
+        return isValid;
+    }
+
+    public void setValid(Boolean valid) {
+        isValid = valid;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModify() {
+        return gmtModify;
+    }
+
+    public void setGmtModify(Date gmtModify) {
+        this.gmtModify = gmtModify;
+    }
 }

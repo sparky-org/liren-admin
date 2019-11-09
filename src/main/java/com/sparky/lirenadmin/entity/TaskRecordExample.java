@@ -465,6 +465,126 @@ public class TaskRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsRewardedIsNull() {
+            addCriterion("is_rewarded is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedIsNotNull() {
+            addCriterion("is_rewarded is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedEqualTo(Boolean value) {
+            addCriterion("is_rewarded =", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedNotEqualTo(Boolean value) {
+            addCriterion("is_rewarded <>", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedGreaterThan(Boolean value) {
+            addCriterion("is_rewarded >", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_rewarded >=", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedLessThan(Boolean value) {
+            addCriterion("is_rewarded <", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_rewarded <=", value, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedIn(List<Boolean> values) {
+            addCriterion("is_rewarded in", values, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedNotIn(List<Boolean> values) {
+            addCriterion("is_rewarded not in", values, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_rewarded between", value1, value2, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsRewardedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_rewarded not between", value1, value2, "isRewarded");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeIsNull() {
+            addCriterion("reward_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeIsNotNull() {
+            addCriterion("reward_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeEqualTo(Date value) {
+            addCriterion("reward_time =", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotEqualTo(Date value) {
+            addCriterion("reward_time <>", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeGreaterThan(Date value) {
+            addCriterion("reward_time >", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("reward_time >=", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeLessThan(Date value) {
+            addCriterion("reward_time <", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeLessThanOrEqualTo(Date value) {
+            addCriterion("reward_time <=", value, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeIn(List<Date> values) {
+            addCriterion("reward_time in", values, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotIn(List<Date> values) {
+            addCriterion("reward_time not in", values, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeBetween(Date value1, Date value2) {
+            addCriterion("reward_time between", value1, value2, "rewardTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardTimeNotBetween(Date value1, Date value2) {
+            addCriterion("reward_time not between", value1, value2, "rewardTime");
+            return (Criteria) this;
+        }
+
         public Criteria andShopNoIsNull() {
             addCriterion("shop_no is null");
             return (Criteria) this;

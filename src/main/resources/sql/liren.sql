@@ -91,6 +91,8 @@ CREATE TABLE `t_task_record` (
   `complete_count` int NOT NULL COMMENT '完成次数',
   `emp_no` bigint(11) NOT NULL COMMENT '员工编号',
   `reward_point` int NOT NULL COMMENT '奖励积分',
+  `is_rewarded` tinyint(1) not NULL DEFAULT 0 COMMENT '是否奖励',
+  `reward_time` datetime DEFAULT NULL COMMENT '奖励发放时间',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
   `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',

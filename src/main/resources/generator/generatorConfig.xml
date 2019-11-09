@@ -12,7 +12,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/liren?serverTimezone=UTC" userId="root" password="root">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/liren?serverTimezone=UTC" userId="root" password="admin">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -31,95 +31,96 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="t_vacation_apply" domainObjectName="VacationApply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="reason" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
+        <!--<table tableName="t_vacation_apply" domainObjectName="VacationApply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="reason" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
         <table tableName="t_task_record" domainObjectName="TaskRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
+            <columnOverride column="is_rewarded" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
         </table>
-        <table tableName="t_task_dtl" domainObjectName="TaskDtl" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_task" domainObjectName="Task" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
-        <table tableName="t_shop_job" domainObjectName="ShopJob" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_shop_employee" domainObjectName="ShopEmployee" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="is_admin" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_service_item_record" domainObjectName="ServiceItemRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_sales_performance" domainObjectName="SalesPerformance" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_reward_record" domainObjectName="RewardRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_reward_punishment" domainObjectName="RewardPunishment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
-        <table tableName="t_point_config" domainObjectName="PointConfig" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_point" domainObjectName="Point" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_daily_record" domainObjectName="DailyRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="today" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <columnOverride column="tomorrow" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
-        <table tableName="t_customer_trace" domainObjectName="CustomerTrace" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_customer_info" domainObjectName="CustomerInfo" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <columnOverride column="year_plan" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
-        <table tableName="t_beauty_shop" domainObjectName="BeautyShop" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_attendance_complete" domainObjectName="AttendanceComplete" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_appointment" domainObjectName="Appointment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_apply_dtl" domainObjectName="ApplyDtl" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-        </table>
-        <table tableName="t_apply" domainObjectName="Apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="apply_content" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
+        <!--<table tableName="t_task_dtl" domainObjectName="TaskDtl" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_task" domainObjectName="Task" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_job" domainObjectName="ShopJob" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shop_employee" domainObjectName="ShopEmployee" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="is_admin" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_service_item_record" domainObjectName="ServiceItemRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_sales_performance" domainObjectName="SalesPerformance" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_reward_record" domainObjectName="RewardRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_reward_punishment" domainObjectName="RewardPunishment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="title" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+            <!--<columnOverride column="content" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_point_config" domainObjectName="PointConfig" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_point" domainObjectName="Point" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_daily_record" domainObjectName="DailyRecord" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="today" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+            <!--<columnOverride column="tomorrow" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_customer_trace" domainObjectName="CustomerTrace" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_customer_info" domainObjectName="CustomerInfo" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="remark" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+            <!--<columnOverride column="year_plan" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_beauty_shop" domainObjectName="BeautyShop" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_attendance_complete" domainObjectName="AttendanceComplete" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_appointment" domainObjectName="Appointment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_apply_dtl" domainObjectName="ApplyDtl" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_apply" domainObjectName="Apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="apply_content" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

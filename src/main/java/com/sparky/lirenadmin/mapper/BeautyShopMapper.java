@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.BeautyShopExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BeautyShopMapper {
     long countByExample(BeautyShopExample example);
 

@@ -2,6 +2,8 @@ package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.Apply;
 
+import java.util.List;
+
 public interface ApplyBO {
 
     /**
@@ -28,4 +30,5 @@ public interface ApplyBO {
     */
     void approve(Apply apply);
 
+    List<Apply> queryApprovalPendingTasks(Long id);
 }

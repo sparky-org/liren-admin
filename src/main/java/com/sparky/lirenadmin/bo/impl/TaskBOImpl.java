@@ -53,7 +53,7 @@ public class TaskBOImpl implements TaskBO {
 
     @Override
     public Task getTask(Long taskNo) {
-        return null;
+        return taskMapper.selectByPrimaryKey(taskNo);
     }
 
     @Override
