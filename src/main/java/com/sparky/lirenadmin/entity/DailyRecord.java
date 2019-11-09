@@ -13,6 +13,10 @@ public class DailyRecord {
 
     private Long managerNo;
 
+    private Boolean isRewarded;
+
+    private Date rewardTime;
+
     private Long shopNo;
 
     private Long creator;
@@ -61,6 +65,22 @@ public class DailyRecord {
 
     public void setManagerNo(Long managerNo) {
         this.managerNo = managerNo;
+    }
+
+    public Boolean getIsRewarded() {
+        return isRewarded;
+    }
+
+    public void setIsRewarded(Boolean isRewarded) {
+        this.isRewarded = isRewarded;
+    }
+
+    public Date getRewardTime() {
+        return rewardTime;
+    }
+
+    public void setRewardTime(Date rewardTime) {
+        this.rewardTime = rewardTime;
     }
 
     public Long getShopNo() {

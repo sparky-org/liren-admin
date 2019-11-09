@@ -1,12 +1,9 @@
 package com.sparky.lirenadmin.bo.impl;
 
-import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.AttendanceCompleteBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
-import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.AttendanceComplete;
-import com.sparky.lirenadmin.entity.SalesPerformance;
 import com.sparky.lirenadmin.mapper.AttendanceCompleteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +33,9 @@ public class AttendanceCompleteBOImpl implements AttendanceCompleteBO {
     private Boolean doReward(Long salesId) {
         AttendanceComplete attendanceComplete = new AttendanceComplete();
         attendanceComplete.setId(salesId);
+        attendanceComplete.setIsRewarded(true);
+        attendanceComplete.setRewardTime(new Date());
         attendanceComplete.setGmtModify(new Date());
-        //TODO 增加是否已发放积分，发放时间两个字段
         attendanceMapper.updateByPrimaryKeySelective(attendanceComplete);
         return true;
     }
@@ -48,8 +46,9 @@ public class AttendanceCompleteBOImpl implements AttendanceCompleteBO {
 
     private void doCreateAttendance(AttendanceComplete attendance) {
         attendance.setIsValid(true);
-        attendance.setGmtCreate(new Date());
         attendance.setGmtModify(new Date());
+        attendance.setIsRewarded(false);
+        attendance.setGmtCreate(new Date());
         attendanceMapper.insertSelective(attendance);
     }
     //考勤正常直接奖励，不再走审批流

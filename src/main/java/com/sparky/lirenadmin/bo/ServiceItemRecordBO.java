@@ -6,4 +6,6 @@ public interface ServiceItemRecordBO {
 
     void createServiceRecord(ServiceItemRecord record);
 
+    void reward(Long salesNo);
+
 }

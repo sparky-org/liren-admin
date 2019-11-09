@@ -7,6 +7,8 @@
     <result column="today" jdbcType="VARCHAR" property="today" />
     <result column="tomorrow" jdbcType="VARCHAR" property="tomorrow" />
     <result column="manager_no" jdbcType="BIGINT" property="managerNo" />
+    <result column="is_rewarded" jdbcType="TINYINT" property="isRewarded" />
+    <result column="reward_time" jdbcType="TIMESTAMP" property="rewardTime" />
     <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
     <result column="creator" jdbcType="BIGINT" property="creator" />
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_date, today, tomorrow, manager_no, shop_no, creator, is_valid, gmt_create, 
-    gmt_modify
+    id, record_date, today, tomorrow, manager_no, is_rewarded, reward_time, shop_no, 
+    creator, is_valid, gmt_create, gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.DailyRecordExample" resultMap="BaseResultMap">
     select
@@ -111,13 +113,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_daily_record (record_date, today, tomorrow, 
-      manager_no, shop_no, creator, 
-      is_valid, gmt_create, gmt_modify
-      )
+      manager_no, is_rewarded, reward_time, 
+      shop_no, creator, is_valid, 
+      gmt_create, gmt_modify)
     values (#{recordDate,jdbcType=TIMESTAMP}, #{today,jdbcType=VARCHAR}, #{tomorrow,jdbcType=VARCHAR}, 
-      #{managerNo,jdbcType=BIGINT}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
-      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
-      )
+      #{managerNo,jdbcType=BIGINT}, #{isRewarded,jdbcType=TINYINT}, #{rewardTime,jdbcType=TIMESTAMP}, 
+      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.DailyRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -136,6 +138,12 @@
       </if>
       <if test="managerNo != null">
         manager_no,
+      </if>
+      <if test="isRewarded != null">
+        is_rewarded,
+      </if>
+      <if test="rewardTime != null">
+        reward_time,
       </if>
       <if test="shopNo != null">
         shop_no,
@@ -165,6 +173,12 @@
       </if>
       <if test="managerNo != null">
         #{managerNo,jdbcType=BIGINT},
+      </if>
+      <if test="isRewarded != null">
+        #{isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="rewardTime != null">
+        #{rewardTime,jdbcType=TIMESTAMP},
       </if>
       <if test="shopNo != null">
         #{shopNo,jdbcType=BIGINT},
@@ -207,6 +221,12 @@
       <if test="record.managerNo != null">
         manager_no = #{record.managerNo,jdbcType=BIGINT},
       </if>
+      <if test="record.isRewarded != null">
+        is_rewarded = #{record.isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="record.rewardTime != null">
+        reward_time = #{record.rewardTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.shopNo != null">
         shop_no = #{record.shopNo,jdbcType=BIGINT},
       </if>
@@ -234,6 +254,8 @@
       today = #{record.today,jdbcType=VARCHAR},
       tomorrow = #{record.tomorrow,jdbcType=VARCHAR},
       manager_no = #{record.managerNo,jdbcType=BIGINT},
+      is_rewarded = #{record.isRewarded,jdbcType=TINYINT},
+      reward_time = #{record.rewardTime,jdbcType=TIMESTAMP},
       shop_no = #{record.shopNo,jdbcType=BIGINT},
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
@@ -257,6 +279,12 @@
       </if>
       <if test="managerNo != null">
         manager_no = #{managerNo,jdbcType=BIGINT},
+      </if>
+      <if test="isRewarded != null">
+        is_rewarded = #{isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="rewardTime != null">
+        reward_time = #{rewardTime,jdbcType=TIMESTAMP},
       </if>
       <if test="shopNo != null">
         shop_no = #{shopNo,jdbcType=BIGINT},
@@ -282,6 +310,8 @@
       today = #{today,jdbcType=VARCHAR},
       tomorrow = #{tomorrow,jdbcType=VARCHAR},
       manager_no = #{managerNo,jdbcType=BIGINT},
+      is_rewarded = #{isRewarded,jdbcType=TINYINT},
+      reward_time = #{rewardTime,jdbcType=TIMESTAMP},
       shop_no = #{shopNo,jdbcType=BIGINT},
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},

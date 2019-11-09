@@ -33,9 +33,10 @@ public class AppointmentBOImpl implements AppointmentBO {
 
     private Boolean doReward(Long salesId) {
         Appointment appointment = new Appointment();
-        appointment.setId(salesId);
+        appointment.setRewardTime(new Date());
         appointment.setGmtModify(new Date());
-        //TODO 增加是否已发放积分，发放时间两个字段
+        appointment.setId(salesId);
+        appointment.setIsRewarded(true);
         appointmentMapper.updateByPrimaryKeySelective(appointment);
         return true;
     }

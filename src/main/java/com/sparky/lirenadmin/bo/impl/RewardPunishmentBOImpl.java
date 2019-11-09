@@ -25,17 +25,17 @@ public class RewardPunishmentBOImpl implements RewardPunishmentBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(RewardPunishment record) {
-        //TODO 缺少积分值
         return pointBO.buildIncreasePointDO("REWARD_PUNISH", record.getId(),
-                record.getCreator(), record.getCreator(), 10, record.getShopNo());
+                record.getCreator(), record.getCreator(), record.getPoint(), record.getShopNo());
 
     }
 
     private Boolean doReward(Long salesId) {
         RewardPunishment dailyRecord = new RewardPunishment();
         dailyRecord.setId(salesId);
+        dailyRecord.setRewardTime(new Date());
         dailyRecord.setGmtModify(new Date());
-        //TODO 增加是否已发放积分，发放时间两个字段
+        dailyRecord.setIsRewarded(true);
         rewardPunishmentMapper.updateByPrimaryKeySelective(dailyRecord);
         return true;
     }
@@ -46,6 +46,7 @@ public class RewardPunishmentBOImpl implements RewardPunishmentBO {
 
     private void doCreateRewardPunishment(RewardPunishment rp) {
         rp.setIsValid(true);
+        rp.setIsRewarded(false);
         rp.setGmtCreate(new Date());
         rp.setGmtModify(new Date());
         rewardPunishmentMapper.insertSelective(rp);

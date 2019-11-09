@@ -34,9 +34,10 @@ public class DailyRecordBOImpl implements DailyRecordBO {
 
     private Boolean doReward(Long salesId) {
         DailyRecord dailyRecord = new DailyRecord();
+        dailyRecord.setRewardTime(new Date());
         dailyRecord.setId(salesId);
         dailyRecord.setGmtModify(new Date());
-        //TODO 增加是否已发放积分，发放时间两个字段
+        dailyRecord.setIsRewarded(true);
         dailyRecordMapper.updateByPrimaryKeySelective(dailyRecord);
         return true;
     }
@@ -48,6 +49,7 @@ public class DailyRecordBOImpl implements DailyRecordBO {
     private void doCreateDailyRecord(DailyRecord dailyRecord) {
         dailyRecord.setIsValid(true);
         dailyRecord.setGmtCreate(new Date());
+        dailyRecord.setIsRewarded(false);
         dailyRecord.setGmtModify(new Date());
         dailyRecordMapper.insertSelective(dailyRecord);
     }

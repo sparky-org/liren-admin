@@ -50,7 +50,8 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
         SalesPerformance salesPerformance = new SalesPerformance();
         salesPerformance.setId(salesId);
         salesPerformance.setGmtModify(new Date());
-        //TODO 增加是否已发放积分，发放时间两个字段
+        salesPerformance.setIsRewarded(true);
+        salesPerformance.setRewardTime(new Date());
         salesPerformanceMapper.updateByPrimaryKeySelective(salesPerformance);
         return true;
     }
@@ -72,6 +73,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     }
 
     private void doCreateSales(SalesPerformance salesPerformance) {
+        salesPerformance.setIsRewarded(false);
         salesPerformance.setIsValid(true);
         salesPerformance.setGmtModify(new Date());
         salesPerformance.setGmtCreate(new Date());

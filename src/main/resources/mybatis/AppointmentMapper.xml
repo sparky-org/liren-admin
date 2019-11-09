@@ -10,6 +10,8 @@
     <result column="reward_point" jdbcType="INTEGER" property="rewardPoint" />
     <result column="service_emp_no" jdbcType="BIGINT" property="serviceEmpNo" />
     <result column="appoint_emp_no" jdbcType="BIGINT" property="appointEmpNo" />
+    <result column="is_rewarded" jdbcType="TINYINT" property="isRewarded" />
+    <result column="reward_time" jdbcType="TIMESTAMP" property="rewardTime" />
     <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
     <result column="creator" jdbcType="BIGINT" property="creator" />
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
@@ -76,7 +78,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, customer_phone, service_no, appoint_time, remark, reward_point, service_emp_no, 
-    appoint_emp_no, shop_no, creator, is_valid, gmt_create, gmt_modify
+    appoint_emp_no, is_rewarded, reward_time, shop_no, creator, is_valid, gmt_create, 
+    gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.AppointmentExample" resultMap="BaseResultMap">
     select
@@ -115,14 +118,14 @@
     </selectKey>
     insert into t_appointment (customer_phone, service_no, appoint_time, 
       remark, reward_point, service_emp_no, 
-      appoint_emp_no, shop_no, creator, 
-      is_valid, gmt_create, gmt_modify
-      )
+      appoint_emp_no, is_rewarded, reward_time, 
+      shop_no, creator, is_valid, 
+      gmt_create, gmt_modify)
     values (#{customerPhone,jdbcType=VARCHAR}, #{serviceNo,jdbcType=BIGINT}, #{appointTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR}, #{rewardPoint,jdbcType=INTEGER}, #{serviceEmpNo,jdbcType=BIGINT}, 
-      #{appointEmpNo,jdbcType=BIGINT}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
-      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
-      )
+      #{appointEmpNo,jdbcType=BIGINT}, #{isRewarded,jdbcType=TINYINT}, #{rewardTime,jdbcType=TIMESTAMP}, 
+      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.Appointment">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -150,6 +153,12 @@
       </if>
       <if test="appointEmpNo != null">
         appoint_emp_no,
+      </if>
+      <if test="isRewarded != null">
+        is_rewarded,
+      </if>
+      <if test="rewardTime != null">
+        reward_time,
       </if>
       <if test="shopNo != null">
         shop_no,
@@ -188,6 +197,12 @@
       </if>
       <if test="appointEmpNo != null">
         #{appointEmpNo,jdbcType=BIGINT},
+      </if>
+      <if test="isRewarded != null">
+        #{isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="rewardTime != null">
+        #{rewardTime,jdbcType=TIMESTAMP},
       </if>
       <if test="shopNo != null">
         #{shopNo,jdbcType=BIGINT},
@@ -239,6 +254,12 @@
       <if test="record.appointEmpNo != null">
         appoint_emp_no = #{record.appointEmpNo,jdbcType=BIGINT},
       </if>
+      <if test="record.isRewarded != null">
+        is_rewarded = #{record.isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="record.rewardTime != null">
+        reward_time = #{record.rewardTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.shopNo != null">
         shop_no = #{record.shopNo,jdbcType=BIGINT},
       </if>
@@ -269,6 +290,8 @@
       reward_point = #{record.rewardPoint,jdbcType=INTEGER},
       service_emp_no = #{record.serviceEmpNo,jdbcType=BIGINT},
       appoint_emp_no = #{record.appointEmpNo,jdbcType=BIGINT},
+      is_rewarded = #{record.isRewarded,jdbcType=TINYINT},
+      reward_time = #{record.rewardTime,jdbcType=TIMESTAMP},
       shop_no = #{record.shopNo,jdbcType=BIGINT},
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
@@ -302,6 +325,12 @@
       <if test="appointEmpNo != null">
         appoint_emp_no = #{appointEmpNo,jdbcType=BIGINT},
       </if>
+      <if test="isRewarded != null">
+        is_rewarded = #{isRewarded,jdbcType=TINYINT},
+      </if>
+      <if test="rewardTime != null">
+        reward_time = #{rewardTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="shopNo != null">
         shop_no = #{shopNo,jdbcType=BIGINT},
       </if>
@@ -329,6 +358,8 @@
       reward_point = #{rewardPoint,jdbcType=INTEGER},
       service_emp_no = #{serviceEmpNo,jdbcType=BIGINT},
       appoint_emp_no = #{appointEmpNo,jdbcType=BIGINT},
+      is_rewarded = #{isRewarded,jdbcType=TINYINT},
+      reward_time = #{rewardTime,jdbcType=TIMESTAMP},
       shop_no = #{shopNo,jdbcType=BIGINT},
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},
