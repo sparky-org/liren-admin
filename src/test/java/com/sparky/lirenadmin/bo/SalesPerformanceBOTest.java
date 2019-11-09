@@ -34,6 +34,8 @@ public class SalesPerformanceBOTest {
     private ApplyBO applyBO;
     @Autowired
     private PointBO pointBO;
+    @Autowired
+    private CustomerBO customerBO;
 
     @Test
     public void testCreateSalePerformance(){
@@ -43,7 +45,7 @@ public class SalesPerformanceBOTest {
         ShopEmployee admin = initEmployee();
         admin.setShopNo(shop.getId());
         shopEmployeeBO.createEmployee(admin);
-        //初始化一名普通员工
+        //2. 初始化一名普通员工
         ShopEmployee employee = initEmployee();
         employee.setName("美容师");
         employee.setPhone("13000000001");
@@ -51,7 +53,11 @@ public class SalesPerformanceBOTest {
         employee.setManagerNo(admin.getId());
         employee.setIsAdmin(false);
         shopEmployeeBO.createEmployee(employee);
-        SalesPerformance performance = initPerformance(employee);
+        //3. 初始化一名顾客
+        CustomerInfo customerInfo = initCustomer(employee);
+        customerBO.createCustomer(customerInfo);
+        //4. 初始化销售业绩
+        SalesPerformance performance = initPerformance(employee, customerInfo);
         salesPerformanceBO.createSalePerformance(performance);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
         for (Apply apply : approvalPending){
@@ -63,12 +69,22 @@ public class SalesPerformanceBOTest {
         System.out.println(JSONObject.toJSONString(point));
     }
 
-    private SalesPerformance initPerformance(ShopEmployee employee) {
+    private CustomerInfo initCustomer(ShopEmployee employee) {
+        CustomerInfo info = new CustomerInfo();
+        info.setName("张三");
+        info.setSex("FEMALE");
+        info.setPhone("13611111110");
+        info.setShopNo(employee.getShopNo());
+        info.setCreator(employee.getId());
+        return info;
+    }
+
+    private SalesPerformance initPerformance(ShopEmployee employee, CustomerInfo customerInfo) {
         SalesPerformance performance = new SalesPerformance();
         performance.setAmount(new BigDecimal(1000));
         performance.setCompleteTime(new Date());
         performance.setCreator(employee.getId());
-        performance.setCustomerPhone("13011111110");
+        performance.setCustomerPhone(customerInfo.getPhone());
         performance.setEmpNo(employee.getId());
         performance.setRewardPoint(120);
         performance.setShopNo(employee.getShopNo());

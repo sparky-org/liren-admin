@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.CustomerTrace;
 import com.sparky.lirenadmin.entity.CustomerTraceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CustomerTraceMapper {
     long countByExample(CustomerTraceExample example);
 

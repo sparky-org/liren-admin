@@ -346,3 +346,18 @@ CREATE TABLE `t_customer_trace` (
   `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_service_item`;
+CREATE TABLE `t_service_item` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `item_name` varchar(256) NOT NULL COMMENT '项目名称',
+  `duration` int NOT NULL COMMENT '护理时长，单位/分',
+  `item_desc` text DEFAULT NULL COMMENT '项目描述',
+  `reward_point` int NOT NULL COMMENT '完成奖励',
+  `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
+  `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
+  `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
+  `gmt_create` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
