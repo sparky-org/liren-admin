@@ -4,6 +4,7 @@ import com.sparky.lirenadmin.bo.AppointmentBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
 import com.sparky.lirenadmin.entity.Appointment;
+import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.mapper.AppointmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,12 @@ public class AppointmentBOImpl implements AppointmentBO {
     public void createAppointment(Appointment appointment) {
         doCreateAppointment(appointment);
         reward(appointment);
+    }
+
+    @Override
+    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
+
+        return 0;
     }
 
     private IncreasePointDO buildIncreasePointDO(Appointment appointment) {

@@ -1,6 +1,9 @@
 package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.SalesPerformance;
+import com.sparky.lirenadmin.entity.ShopEmployee;
+
+import java.util.Date;
 
 public interface SalesPerformanceBO {
 
@@ -8,4 +11,5 @@ public interface SalesPerformanceBO {
 
     void reward(Long salesNo);
 
+    Integer countAppointCustomer(ShopEmployee employee, Date today);
 }

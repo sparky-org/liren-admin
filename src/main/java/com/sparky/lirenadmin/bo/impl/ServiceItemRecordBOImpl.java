@@ -2,10 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
-import com.sparky.lirenadmin.entity.Apply;
-import com.sparky.lirenadmin.entity.CustomerInfo;
-import com.sparky.lirenadmin.entity.CustomerTrace;
-import com.sparky.lirenadmin.entity.ServiceItemRecord;
+import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.mapper.ServiceItemRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +38,11 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
             throw new RuntimeException("增加业绩完成积分失败，业绩不存在");
         }
         pointBO.increasePoint(buildIncreasePointDO(sales), this::doReward);
+    }
+
+    @Override
+    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
+        return 0;
     }
 
     private CustomerTrace buildTrace(ServiceItemRecord record) {

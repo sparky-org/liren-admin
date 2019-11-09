@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.VacationApplyBO;
 import com.sparky.lirenadmin.entity.Apply;
+import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.VacationApply;
 import com.sparky.lirenadmin.mapper.VacationApplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class VacationApplyBOImpl implements VacationApplyBO {
     @Override
     public VacationApply getVacation(Long id) {
         return vacationApplyMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
+        return 0;
     }
 
 

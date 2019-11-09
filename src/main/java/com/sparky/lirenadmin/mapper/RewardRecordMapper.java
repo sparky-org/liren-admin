@@ -2,11 +2,10 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.RewardRecordExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface RewardRecordMapper {
     long countByExample(RewardRecordExample example);
 
