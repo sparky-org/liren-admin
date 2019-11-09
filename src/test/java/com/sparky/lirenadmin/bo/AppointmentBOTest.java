@@ -20,7 +20,7 @@ import java.util.List;
 @MapperScan("com.sparky.lirenadmin.mapper")
 @RunWith(SpringRunner.class)
 @Transactional
-@Rollback(true)
+@Rollback(false)
 public class AppointmentBOTest {
 
 
@@ -40,19 +40,23 @@ public class AppointmentBOTest {
     @Test
     public void testCreateAppointment(){
         //1. 初始化管理员
-        BeautyShop shop = initShop();
-        beautyShopBO.createShop(shop);
-        ShopEmployee admin = initEmployee();
-        admin.setShopNo(shop.getId());
-        shopEmployeeBO.createEmployee(admin);
-        //初始化一名普通员工
-        ShopEmployee employee = initEmployee();
-        employee.setName("美容师");
-        employee.setPhone("13000000001");
-        employee.setShopNo(shop.getId());
-        employee.setManagerNo(admin.getId());
-        employee.setIsAdmin(false);
-        shopEmployeeBO.createEmployee(employee);
+//        BeautyShop shop = initShop();
+//        beautyShopBO.createShop(shop);
+//        ShopEmployee admin = initEmployee();
+//        admin.setShopNo(shop.getId());
+//        shopEmployeeBO.createEmployee(admin);
+//        //初始化一名普通员工
+//        ShopEmployee employee = initEmployee();
+//        employee.setName("美容师");
+//        employee.setPhone("13000000001");
+//        employee.setShopNo(shop.getId());
+//        employee.setManagerNo(admin.getId());
+//        employee.setIsAdmin(false);
+//        shopEmployeeBO.createEmployee(employee);
+        //****
+        ShopEmployee employee = shopEmployeeBO.getEmployee(6l);
+        ShopEmployee admin = shopEmployeeBO.getEmployee(5l);
+        //****
         Appointment performance = initAppointment(employee);
         appointmentBO.createAppointment(performance);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
