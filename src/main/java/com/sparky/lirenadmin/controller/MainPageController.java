@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +42,7 @@ public class MainPageController {
     //TODO 需要测试下多线程情况下是共用5线程还是独占5线程
     private ExecutorService executor = Executors.newFixedThreadPool(5);
 
-    @RequestMapping("/findTodayBusiness")
+    @RequestMapping(value = "/findTodayBusiness", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation("今日动态和排名")
     public BaseResponseWrapper<TodayBusinessVO> findTodayBusiness(@RequestParam @ApiParam Long empNo){
@@ -69,7 +70,6 @@ public class MainPageController {
 
             businessVO.setYourRank(1);
             businessVO.setObtainPoint(0);
-            //TODO 昨天
             businessVO.setChampionDate(new Date());
             businessVO.setChampionName(employee.getName());
 
