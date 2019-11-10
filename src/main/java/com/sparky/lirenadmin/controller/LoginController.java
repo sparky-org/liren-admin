@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Api(value = "登陆模块")
+@Api(tags = "登陆模块")
 @Controller
 @RequestMapping("/")
 public class LoginController {

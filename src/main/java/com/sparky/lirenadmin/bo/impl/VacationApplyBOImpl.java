@@ -6,7 +6,7 @@ import com.sparky.lirenadmin.bo.VacationApplyBO;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.VacationApply;
-import com.sparky.lirenadmin.mapper.VacationApplyMapper;
+import com.sparky.lirenadmin.mapper.ext.VacationApplyMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Date;
 public class VacationApplyBOImpl implements VacationApplyBO {
 
     @Autowired
-    private VacationApplyMapper vacationApplyMapper;
+    private VacationApplyMapperExt vacationApplyMapper;
     @Autowired
     private ApplyBO applyBO;
 
@@ -41,10 +41,15 @@ public class VacationApplyBOImpl implements VacationApplyBO {
     }
 
     @Override
-    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
-        return 0;
+    public Integer sumRestEmployeeNum(ShopEmployee employee, Date today) {
+        int total;
+        if (employee.getIsAdmin()){
+            total = vacationApplyMapper.sumRestEmployeeNumByShop(employee.getShopNo(), today);
+        }else{
+            total = vacationApplyMapper.sumRestEmployeeNumByEmp(employee.getShopNo(), today);
+        }
+        return total;
     }
-
 
     private void doCreateVacationApply(VacationApply apply) {
         apply.setAuditStatus("APPROVAL");

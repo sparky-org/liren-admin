@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.VacationApplyMapperExt">
+  <select id="sumRestEmployeeNumByShop" resultType="java.lang.Integer">
+    select count(distinct(b.id)) from (
+    select * from t_vacation_apply where is_valid = 1
+    ) a inner join (
+    select * from t_shop_employee where is_valid = 1 and shop_no = #{shopNo}
+    ) b on a.apply_emp_no = b.id
+    where a.audit_status='APPROVED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
+  </select>
+
+  <select id="sumRestEmployeeNumByEmp" resultType="java.lang.Integer">
+    select count(distinct(b.id)) from (
+        select * from t_vacation_apply where is_valid = 1
+    ) a inner join (
+        select * from t_shop_employee where is_valid = 1 and (id = #{empNo} or manager_no = #{empNo})
+    ) b on a.apply_emp_no = b.id;
+    where a.audit_status='APPROVED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
+  </select>
+</mapper>

@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(value = "上传文件")
+@Api(tags = "上传文件")
 @Controller
 @RequestMapping("/file")
 public class FileUploadController {

@@ -3,7 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
 import com.sparky.lirenadmin.entity.*;
-import com.sparky.lirenadmin.mapper.ServiceItemRecordMapper;
+import com.sparky.lirenadmin.mapper.ext.ServiceItemRecordMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     private CustomerTraceBO customerTraceBO;
 
     @Autowired
-    private ServiceItemRecordMapper serviceItemRecordMapper;
+    private ServiceItemRecordMapperExt serviceItemRecordMapper;
 
     @Override
     public void createServiceRecord(ServiceItemRecord record) {
@@ -41,8 +41,14 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     }
 
     @Override
-    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
-        return 0;
+    public Integer sumServiceItemRecordNum(ShopEmployee employee, Date today) {
+        int total;
+        if (employee.getIsAdmin()){
+            total = serviceItemRecordMapper.sumServiceItemRecordNumByShop(employee.getShopNo(), today);
+        }else{
+            total = serviceItemRecordMapper.sumServiceItemRecordNumByEmp(employee.getShopNo(), today);
+        }
+        return total;
     }
 
     private CustomerTrace buildTrace(ServiceItemRecord record) {

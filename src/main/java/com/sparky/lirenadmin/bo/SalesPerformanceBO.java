@@ -11,5 +11,5 @@ public interface SalesPerformanceBO {
 
     void reward(Long salesNo);
 
-    Integer countAppointCustomer(ShopEmployee employee, Date today);
+    Integer sumSalePerformanceNum(ShopEmployee employee, Date today);
 }

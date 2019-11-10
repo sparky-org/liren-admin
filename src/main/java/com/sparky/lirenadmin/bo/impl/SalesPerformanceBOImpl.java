@@ -3,7 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
 import com.sparky.lirenadmin.entity.*;
-import com.sparky.lirenadmin.mapper.SalesPerformanceMapper;
+import com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     private CustomerTraceBO customerTraceBO;
 
     @Autowired
-    private SalesPerformanceMapper salesPerformanceMapper;
+    private SalesPerformanceMapperExt salesPerformanceMapper;
 
     @Override
     public void createSalePerformance(SalesPerformance salesPerformance) {
@@ -43,9 +43,14 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     }
 
     @Override
-    public Integer countAppointCustomer(ShopEmployee employee, Date today) {
-
-        return 1;
+    public Integer sumSalePerformanceNum(ShopEmployee employee, Date today) {
+        int total;
+        if (employee.getIsAdmin()){
+            total = salesPerformanceMapper.sumSalePerformanceNumByShop(employee.getShopNo(), today);
+        }else{
+            total = salesPerformanceMapper.sumSalePerformanceNumByEmp(employee.getShopNo(), today);
+        }
+        return total;
     }
 
     private CustomerTrace buildTrace(SalesPerformance record) {

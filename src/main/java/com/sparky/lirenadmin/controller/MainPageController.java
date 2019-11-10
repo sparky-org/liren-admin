@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.*;
 
-@Api(value = "主页接口")
+@Api(tags = "主页接口")
 @Controller
 @RequestMapping("/main")
 public class MainPageController {
@@ -51,12 +51,13 @@ public class MainPageController {
             if (null == employee){
                 throw new RuntimeException(String.format("员工[%d]不存在。", empNo));
             }
+            Date today = new Date();
             //获取预约客户数
-            Future<Integer> appointment = executor.submit(() -> sumAppointmentCustomer(employee));
-            Future<Integer> salePerformance = executor.submit(() -> sumSalePerformanceNum(employee));
-            Future<Integer> serviceItemRecord = executor.submit(() -> sumServiceItemRecordNum(employee));
-            Future<Integer> restEmployee = executor.submit(() -> sumRestEmployeeNum(employee));
-            Future<List<PointRankPO>> rankPOList = executor.submit(() -> findPointRank(empNo));
+            Future<Integer> appointment = executor.submit(() -> sumAppointmentCustomer(employee,today));
+            Future<Integer> salePerformance = executor.submit(() -> sumSalePerformanceNum(employee,today));
+            Future<Integer> serviceItemRecord = executor.submit(() -> sumServiceItemRecordNum(employee,today));
+            Future<Integer> restEmployee = executor.submit(() -> sumRestEmployeeNum(employee,today));
+            Future<List<PointRankPO>> rankPOList = executor.submit(() -> findPointRank(empNo,today));
 
             TodayBusinessVO businessVO = new TodayBusinessVO();
             Integer appointmentNum =  catchExceptionAndReturn(appointment);
@@ -70,7 +71,7 @@ public class MainPageController {
 
             businessVO.setYourRank(1);
             businessVO.setObtainPoint(0);
-            businessVO.setChampionDate(new Date());
+            businessVO.setChampionDate(today);
             businessVO.setChampionName(employee.getName());
 
             List<PointRankPO> rankPOS = catchExceptionAndReturn(rankPOList);
@@ -80,7 +81,7 @@ public class MainPageController {
                     PointRankPO rankPO = iterator.next();
                     if (rankPO.getRank() == 1){
                         //第一名
-                        businessVO.setChampionDate(new Date());
+                        businessVO.setChampionDate(today);
                         ShopEmployee champion = shopEmployeeBO.getEmployee(rankPO.getEmpNo());
                         businessVO.setChampionName(champion.getName());
                     }
@@ -98,8 +99,7 @@ public class MainPageController {
         }
     }
 
-    private List<PointRankPO> findPointRank(Long empNo){
-        Date today = new Date();
+    private List<PointRankPO> findPointRank(Long empNo, Date today){
         return rewardRecordBO.findPointRank(empNo, today);
     }
 
@@ -112,20 +112,16 @@ public class MainPageController {
         return null;
     }
 
-    private Integer sumAppointmentCustomer(ShopEmployee employee){
-        Date today = new Date();
+    private Integer sumAppointmentCustomer(ShopEmployee employee, Date today){
         return appointmentBO.countAppointCustomer(employee, today);
     }
-    private Integer sumSalePerformanceNum(ShopEmployee employee){
-        Date today = new Date();
-        return salesPerformanceBO.countAppointCustomer(employee, today);
+    private Integer sumSalePerformanceNum(ShopEmployee employee, Date today){
+        return salesPerformanceBO.sumSalePerformanceNum(employee, today);
     }
-    private Integer sumServiceItemRecordNum(ShopEmployee employee){
-        Date today = new Date();
-        return serviceItemRecordBO.countAppointCustomer(employee, today);
+    private Integer sumServiceItemRecordNum(ShopEmployee employee, Date today){
+        return serviceItemRecordBO.sumServiceItemRecordNum(employee, today);
     }
-    private Integer sumRestEmployeeNum(ShopEmployee employee){
-        Date today = new Date();
-        return vacationApplyBO.countAppointCustomer(employee, today);
+    private Integer sumRestEmployeeNum(ShopEmployee employee, Date today){
+        return vacationApplyBO.sumRestEmployeeNum(employee, today);
     }
 }

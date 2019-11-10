@@ -13,5 +13,5 @@ public interface VacationApplyBO {
 
     VacationApply getVacation(Long id);
 
-    Integer countAppointCustomer(ShopEmployee employee, Date today);
+    Integer sumRestEmployeeNum(ShopEmployee employee, Date today);
 }

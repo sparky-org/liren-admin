@@ -11,5 +11,5 @@ public interface ServiceItemRecordBO {
 
     void reward(Long salesNo);
 
-    Integer countAppointCustomer(ShopEmployee employee, Date today);
+    Integer sumServiceItemRecordNum(ShopEmployee employee, Date today);
 }
