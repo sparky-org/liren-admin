@@ -142,4 +142,8 @@ public class ShopEmployee {
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
     }
+
+    public String getAvatar() {
+        return null;
+    }
 }

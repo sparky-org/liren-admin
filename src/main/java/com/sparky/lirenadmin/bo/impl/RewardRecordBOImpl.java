@@ -28,4 +28,14 @@ public class RewardRecordBOImpl implements RewardRecordBO {
     public List<PointRankPO> findPointRank(Long empNo, Date date) {
         return rewardRecordMapper.findPointRank(empNo, date);
     }
+
+    @Override
+    public int countRewardRecord(String shopNo) {
+        return rewardRecordMapper.countRewardRecord(shopNo);
+    }
+
+    @Override
+    public List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize) {
+        return rewardRecordMapper.pagingQueryRewardRecord(shopNo, start, pageSize);
+    }
 }

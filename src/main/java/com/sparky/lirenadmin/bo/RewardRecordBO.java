@@ -10,4 +10,8 @@ public interface RewardRecordBO {
     void createReward(RewardRecord rewardRecord);
 
     List<PointRankPO> findPointRank(Long empNo, Date date);
+
+    int countRewardRecord(String shopNo);
+
+    List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize);
 }

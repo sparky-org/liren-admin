@@ -1,13 +1,19 @@
 package com.sparky.lirenadmin.controller;
 
 import com.sparky.lirenadmin.bo.*;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
+import com.sparky.lirenadmin.controller.response.PointTraceVO;
 import com.sparky.lirenadmin.controller.response.TodayBusinessVO;
+import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.po.PointRankPO;
+import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -96,6 +103,36 @@ public class MainPageController {
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/pagingQueryPointTrace",method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation("积分动态")
+    public PagingResponseWrapper<List<PointTraceVO>> pagingQueryPointTrace(@RequestParam @ApiParam String shopNo,
+                                                                           @RequestParam @ApiParam Integer currentPage,
+                                                                           @RequestParam @ApiParam Integer pageSize){
+        try {
+            int total = rewardRecordBO.countRewardRecord(shopNo);
+            if (total < 1){
+                return PagingResponseWrapper.success(new ArrayList(), total);
+            }
+            int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+            List<RewardRecord> records = rewardRecordBO.pagingQueryRewardRecord(shopNo, start, pageSize);
+            List<PointTraceVO> result = new ArrayList<>();
+            for (RewardRecord record : records){
+                PointTraceVO vo = new PointTraceVO();
+                ShopEmployee employee = shopEmployeeBO.getEmployee(record.getEmpNo());
+                vo.setEmpName(employee.getName());
+                vo.setEmpIcon(employee.getAvatar());
+                vo.setPoint(record.getPoint());
+                vo.setRewardTime(DateUtils.formatDate(record.getRewardTime(), "yyyy-mm-dd HH:mi:ss"));
+                vo.setTitle(RewardTypeEnum.valueOf(record.getOrigin()).name());
+            }
+            return PagingResponseWrapper.success(result, total);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return (PagingResponseWrapper)PagingResponseWrapper.fail(null, e.getMessage());
         }
     }
 

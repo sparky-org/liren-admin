@@ -15,4 +15,20 @@
       ) a
     ) b where b.emp_no=#{empNo} or b.rownum=1;
   </select>
+
+  <select id="countRewardRecord" resultType="java.lang.Integer">
+    select count(*)
+      from t_reward_record
+     where shopNo = #{shopNo}
+       and is_valid = 1
+  </select>
+
+  <select id="pagingQueryRewardRecord" resultMap="BaseResultMap">
+    select *
+      from t_reward_record
+     where shopNo = #{shopNo}
+       and is_valid = 1
+     order by gmt_create
+     limit #{start}, #{pageSize}
+  </select>
 </mapper>
