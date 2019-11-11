@@ -39,7 +39,7 @@ public class MyTaskController {
     private static final Logger logger = LoggerFactory.getLogger(MyTaskController.class);
 
     @Autowired
-    private static TaskBO taskBO;
+    private TaskBO taskBO;
     @Autowired
     private PointBO pointBO;
 

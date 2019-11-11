@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.CustomerInfoMapperExt">
+
+  <sql id="emp_scope_where_condition">
+    where id in (
+      select a.id from (
+          select * from t_customer_info
+           where is_valid = 1
+             <if test="interval == 'DAY'">
+               and STR_TO_DATE(DATE_FORMAT(gmt_create,'%Y-%m-%d'),'%Y-%m-%d')=STR_TO_DATE(sysdate(),'%Y-%m-%d')
+             </if>
+             <if test="interval == 'QUARTER'">
+               and quarter(gmt_create) =quarter(sysdate())
+             </if>
+             <if test="interval == 'MONTH'">
+               and month(gmt_create) =month(sysdate())
+             </if>
+             <if test="interval == 'YEAR'">
+               and year(gmt_create) =year(sysdate())
+             </if>
+      ) a inner join (
+          select *
+            from t_shop_employee
+           where is_valid = 1
+             and shop_no = #{shopNo}
+             <if test="empNo != null">
+               and (id = #{empNo} or manager_no = #{empNo})
+             </if>
+      ) b on a.creator = b.id
+    )
+  </sql>
+
+  <select id="countGrowthOfSpecialInterval" resultType="java.lang.Integer">
+    select count(*)
+      from t_customer_info
+    <include refid="emp_scope_where_condition"/>
+  </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.sparky.lirenadmin.bo.CustomerBO;
 import com.sparky.lirenadmin.bo.CustomerTraceBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
@@ -7,9 +8,12 @@ import com.sparky.lirenadmin.controller.request.AddCustomerDTO;
 import com.sparky.lirenadmin.controller.request.ModifyCustomerDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.CustomerDetailVO;
+import com.sparky.lirenadmin.controller.response.SimpleCustomerVO;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.CustomerTrace;
 import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.entity.po.CustomerActiveStatistics;
+import com.sparky.lirenadmin.entity.po.CustomerGrowthStatisticsPO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,7 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -109,6 +113,88 @@ public class MyCustomerController {
             logger.error("创建客户异常。", e.getMessage());
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
+    }
+
+    @ApiOperation("客户统计")
+    @RequestMapping(value = "/getGrowthStatistics",method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper<CustomerGrowthStatisticsPO> getGrowthStatistics(@RequestParam @ApiParam Long empNo){
+        try {
+            CustomerGrowthStatisticsPO po = customerBO.getGrowthStatistics(empNo);
+            return BaseResponseWrapper.success(po);
+        } catch (Exception e) {
+            logger.error("统计客户信息异常。", e);
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    @ApiOperation("活跃客户曲线")
+    @RequestMapping(value = "/activeCustomerStatistics",method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper<List<CustomerActiveStatistics>> activeCustomerStatistics(@RequestParam @ApiParam Long empNo){
+        try {
+            List<CustomerActiveStatistics> po = customerTraceBO.activeCustomerStatistics(empNo);
+            System.out.println(JSONArray.toJSONString(po));
+            List<String> monthList = new ArrayList<>();
+            Date today = new Date();
+            monthList.add(DateUtils.formatDate(today, "yyyy-MM"));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(today);
+            for(int i=0; i<11; i++){
+                calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+                Date day = calendar.getTime();
+                monthList.add(DateUtils.formatDate(day, "yyyy-MM"));
+            }
+            Map<String, Integer> activeMap = new HashMap<>();
+            if (!CollectionUtils.isEmpty(po)){
+                activeMap = po.stream().collect(Collectors.toMap(e -> e.getYearMonth(), e-> e.getCount()));
+            }
+            List<CustomerActiveStatistics> statistics = new ArrayList<>();
+            for (String m : monthList){
+                CustomerActiveStatistics s = new CustomerActiveStatistics();
+                    s.setYearMonth(m);
+                if (activeMap.get(m) != null){
+                    s.setCount(activeMap.get(m));
+                }else{
+                    s.setCount(0);
+                }
+                statistics.add(s);
+            }
+            return BaseResponseWrapper.success(statistics);
+        } catch (Exception e) {
+            logger.error("统计活跃客户异常。", e);
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    @ApiOperation("我的客户")
+    @RequestMapping(value = "/myCustomers",method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper<List<SimpleCustomerVO>> myCustomers(@RequestParam @ApiParam Long empNo,
+                                                             @RequestParam @ApiParam Integer start,
+                                                             @RequestParam @ApiParam Integer pageSize){
+        try {
+            ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
+            if(null == employee){
+                throw new RuntimeException("员工不存在");
+            }
+            int total = customerBO.countCustomer(employee.getShopNo(), empNo);
+            List<CustomerInfo> customerInfos = customerBO.queryCustomer(employee.getShopNo(), empNo);
+            List<SimpleCustomerVO> vos = customerInfos.stream().map(this::convertToSimpleCustomerVO).collect(Collectors.toList());
+            return BaseResponseWrapper.success(vos);
+        } catch (Exception e) {
+            logger.error("统计活跃客户异常。", e);
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    private SimpleCustomerVO convertToSimpleCustomerVO(CustomerInfo customerInfo) {
+        SimpleCustomerVO vo = new SimpleCustomerVO();
+        vo.setCustomerNo(customerInfo.getId());
+        vo.setName(customerInfo.getName());
+        vo.setPhone(customerInfo.getPhone());
+        vo.setAddDate(DateUtils.formatDate(customerInfo.getGmtCreate(), "yyyy-MM-dd"));
+        return vo;
     }
 
     private void fillBaseInfo(CustomerDetailVO detailVO, CustomerInfo customerInfo) {

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sparky.lirenadmin.mapper.CustomerTraceMapper">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.CustomerTraceMapperExt">
+  <resultMap id="StatisticResultMap" type="com.sparky.lirenadmin.entity.po.CustomerActiveStatistics">
+    <result column="yearMonth" jdbcType="VARCHAR" property="yearMonth" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+
   <select id="pagingQueryTrace" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
@@ -8,5 +13,28 @@
     where customer_no = #{customerNo}
     order by gmt_create desc
     limit #{start},#{length}
+  </select>
+
+  <select id="activeCustomerStatistics" resultMap="StatisticResultMap">
+    select date_format(date, '%Y-%m') as yearMonth, count(*) as count
+    from t_customer_trace
+    where id in (
+      select a.id
+        from (
+                select * from t_customer_trace
+                where shop_no = #{shopNo} and is_valid = 1
+              ) a
+             inner join (
+                 select *
+                   from t_shop_employee
+                  where is_valid = 1
+                  <if test="isAdmin != true">
+                    and (id = #{empNo} or manager_no = #{empNo})
+                  </if>
+      ) b on a.creator = b.id
+    )
+    group by date_format(date, '%Y-%m')
+    order by date_format(date, '%Y-%m') desc
+    limit 12
   </select>
 </mapper>

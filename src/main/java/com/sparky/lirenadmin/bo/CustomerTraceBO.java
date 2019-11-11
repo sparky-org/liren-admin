@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.CustomerTrace;
+import com.sparky.lirenadmin.entity.po.CustomerActiveStatistics;
 
 import java.util.Date;
 import java.util.List;
@@ -21,4 +22,6 @@ public interface CustomerTraceBO {
     List<CustomerTrace> pagingQueryTrace(Long customerId, Integer start, Integer length);
 
     CustomerTrace buildCustomerTrace(Long customerNo, Date time, String activeTpye, Long relatedNo, Long shopNo, Long creator);
+
+    List<CustomerActiveStatistics> activeCustomerStatistics(Long empNo);
 }

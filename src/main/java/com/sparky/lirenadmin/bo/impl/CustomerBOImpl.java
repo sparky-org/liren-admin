@@ -5,7 +5,8 @@ import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.CustomerInfoExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
-import com.sparky.lirenadmin.mapper.CustomerInfoMapper;
+import com.sparky.lirenadmin.entity.po.CustomerGrowthStatisticsPO;
+import com.sparky.lirenadmin.mapper.ext.CustomerInfoMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,8 @@ public class CustomerBOImpl implements CustomerBO {
     @Autowired
     private EmployeeBO employeeBO;
 
-
     @Autowired
-    private CustomerInfoMapper customerInfoMapper;
+    private CustomerInfoMapperExt customerInfoMapper;
 
     @Override
     public void createCustomer(CustomerInfo customerInfo) {
@@ -91,6 +91,21 @@ public class CustomerBOImpl implements CustomerBO {
             logger.warn("系统中存在相同手机号的顾客。手机号：" + customerPhone);
         }
         return customerInfos.iterator().next();
+    }
+
+    @Override
+    public CustomerGrowthStatisticsPO getGrowthStatistics(Long empNo) {
+        ShopEmployee employee = employeeBO.getEmployee(empNo);
+        int today = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"DAY");
+        int thisMonth = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"MONTH");
+        int thisQuarter = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"QUARTER");
+        int thisYear = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"YEAR");
+        CustomerGrowthStatisticsPO statisticsPO = new CustomerGrowthStatisticsPO();
+        statisticsPO.setToday(today);
+        statisticsPO.setThisMonth(thisMonth);
+        statisticsPO.setThisSeason(thisQuarter);
+        statisticsPO.setThisYear(thisYear);
+        return statisticsPO;
     }
 
     private void doUpdate(CustomerInfo customerInfo){

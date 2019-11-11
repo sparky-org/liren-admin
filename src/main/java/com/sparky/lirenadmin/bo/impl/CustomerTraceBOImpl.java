@@ -1,12 +1,16 @@
 package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.CustomerTraceBO;
+import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.entity.CustomerTrace;
 import com.sparky.lirenadmin.entity.CustomerTraceExample;
+import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.entity.po.CustomerActiveStatistics;
 import com.sparky.lirenadmin.mapper.ext.CustomerTraceMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +19,8 @@ public class CustomerTraceBOImpl implements CustomerTraceBO {
 
     @Autowired
     private CustomerTraceMapperExt customerTraceMapper;
+    @Autowired
+    private ShopEmployeeBO shopEmployeeBO;
 
     @Override
     public void createCustomerTrace(CustomerTrace trace) {
@@ -46,5 +52,14 @@ public class CustomerTraceBOImpl implements CustomerTraceBO {
         trace.setShopNo(shopNo);
         trace.setCreator(creator);
         return trace;
+    }
+
+    @Override
+    public List<CustomerActiveStatistics> activeCustomerStatistics(Long empNo) {
+        ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
+        if(employee == null){
+            return new ArrayList<>();
+        }
+        return customerTraceMapper.activeCustomerStatistics(employee.getShopNo(), empNo, employee.getIsAdmin());
     }
 }

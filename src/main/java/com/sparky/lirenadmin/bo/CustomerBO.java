@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.CustomerInfo;
+import com.sparky.lirenadmin.entity.po.CustomerGrowthStatisticsPO;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface CustomerBO {
     List<CustomerInfo> queryCustomer(Long shopNo, Long empNo);
 
     CustomerInfo getCustomerByPhone(String customerPhone);
+
+    CustomerGrowthStatisticsPO getGrowthStatistics(Long empNo);
 }

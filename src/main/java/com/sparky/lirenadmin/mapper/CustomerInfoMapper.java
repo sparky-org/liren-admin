@@ -2,11 +2,10 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.CustomerInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface CustomerInfoMapper {
     long countByExample(CustomerInfoExample example);
 
