@@ -5,6 +5,7 @@ import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.TaskBO;
 import com.sparky.lirenadmin.bo.TaskRecordBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskRecord;
@@ -45,7 +46,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(TaskRecord record) {
-        return pointBO.buildIncreasePointDO("TASK_RECORD", record.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.TASK_RECORD.getCode(), record.getId(),
                 record.getEmpNo(), record.getCreator(), record.getRewardPoint(), record.getShopNo());
     }
 
@@ -63,7 +64,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     }
 
     private Apply buildApply(@NotNull TaskRecord record) {
-        Apply apply = applyBO.buildApply("TASK_RECORD", record.getId(), buildApplyContent(record),record.getEmpNo(), record.getCreator(), record.getShopNo());
+        Apply apply = applyBO.buildApply(RewardTypeEnum.TASK_RECORD.getCode(), record.getId(), buildApplyContent(record),record.getEmpNo(), record.getCreator(), record.getShopNo());
         return apply;
     }
 

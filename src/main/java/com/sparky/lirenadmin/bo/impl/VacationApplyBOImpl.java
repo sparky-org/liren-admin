@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.VacationApplyBO;
+import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.VacationApply;
@@ -60,7 +61,7 @@ public class VacationApplyBOImpl implements VacationApplyBO {
     }
 
     private Apply buildApply(VacationApply apply) {
-        return applyBO.buildApply("VACATION", apply.getId(), buildApplyContent(apply),
+        return applyBO.buildApply(ApplyTypeEnum.VACATION.getCode(), apply.getId(), buildApplyContent(apply),
                 apply.getApplyEmpNo(), apply.getAuditEmpNo(), apply.getCreator(),
                 apply.getShopNo());
     }

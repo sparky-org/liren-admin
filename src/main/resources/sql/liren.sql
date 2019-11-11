@@ -37,6 +37,7 @@ CREATE TABLE `t_shop_employee` (
   `name` varchar(16) NOT NULL COMMENT '姓名',
   `phone` varchar(16) NOT NULL COMMENT '手机号',
   `password` varchar(16) NOT NULL COMMENT '登录密码',
+  `avatar` varchar(255) NOT NULL COMMENT '头像',
   `age` int DEFAULT NULL COMMENT '年龄',
   `birthday` DATETIME DEFAULT NULL COMMENT '生日',
   `is_admin` tinyint(1) NOT NULL COMMENT '是否管理员',

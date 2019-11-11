@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.DailyRecordBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.DailyRecord;
 import com.sparky.lirenadmin.mapper.DailyRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class DailyRecordBOImpl implements DailyRecordBO {
 
     private IncreasePointDO buildIncreasePointDO(DailyRecord record) {
         //TODO 缺少积分值
-        return pointBO.buildIncreasePointDO("DAILY_RECORD", record.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.DAILY_RECORD.getCode(), record.getId(),
                 record.getCreator(), record.getCreator(), 10, record.getShopNo());
 
     }

@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.AppointmentBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.Appointment;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.mapper.ext.AppointmentMapperExt;
@@ -38,7 +39,7 @@ public class AppointmentBOImpl implements AppointmentBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(Appointment appointment) {
-        return pointBO.buildIncreasePointDO("APPOINTMENT", appointment.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.APPOINTMENT.getCode(), appointment.getId(),
                 appointment.getAppointEmpNo(), appointment.getCreator(), appointment.getRewardPoint(), appointment.getShopNo());
 
     }

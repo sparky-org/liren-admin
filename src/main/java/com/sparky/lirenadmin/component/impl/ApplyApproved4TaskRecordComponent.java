@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.component.impl;
 
 import com.sparky.lirenadmin.bo.TaskRecordBO;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
+import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class ApplyApproved4TaskRecordComponent implements ApplyApprovedHandler {
 
     @Override
     public void afterApplyApproved(String origin, Long originNo) {
-        if (!"TASK_RECORD".equals(origin)){
+        if (!ApplyTypeEnum.TASK_RECORD.getCode().equals(origin)){
             return;
         }
         taskRecordBO.rewardTask(originNo);

@@ -127,7 +127,7 @@ public class MainPageController {
                 vo.setEmpIcon(employee.getAvatar());
                 vo.setPoint(record.getPoint());
                 vo.setRewardTime(DateUtils.formatDate(record.getRewardTime(), "yyyy-mm-dd HH:mi:ss"));
-                vo.setTitle(RewardTypeEnum.valueOf(record.getOrigin()).name());
+                vo.setTitle(RewardTypeEnum.valueOf(record.getOrigin()).getDesc());
             }
             return PagingResponseWrapper.success(result, total);
         } catch (IllegalArgumentException e) {

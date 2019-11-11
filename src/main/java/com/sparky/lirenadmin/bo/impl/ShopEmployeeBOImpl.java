@@ -34,10 +34,21 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
 
     @Override
     public void createEmployee(ShopEmployee employee) {
+        if (employee == null){
+            throw new RuntimeException("要保存的员工不存在");
+        }
+        if (employee.getAvatar() == null){
+            setDefaultAvatar(employee);
+        }
         employee.setIsValid(true);
         employee.setGmtCreate(new Date());
         employee.setGmtModify(new Date());
         shopEmployeeMapper.insertSelective(employee);
+    }
+
+    private void setDefaultAvatar(ShopEmployee employee) {
+        //TODO 设置默认图片
+        employee.setAvatar("/jyw-server/xxxxx");
     }
 
     private ShopEmployee getShopAdmin(Long shopNo, boolean isAdmin){

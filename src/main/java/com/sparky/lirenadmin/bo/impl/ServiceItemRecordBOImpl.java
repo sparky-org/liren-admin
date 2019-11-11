@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.mapper.ext.ServiceItemRecordMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     private CustomerTrace buildTrace(ServiceItemRecord record) {
         CustomerInfo customer = customerBO.getCustomerByPhone(record.getCustomerPhone());
         return customerTraceBO.buildCustomerTrace(customer.getId(), record.getCompleteTime(),
-                "SERVICE_ITEM", record.getId(), record.getShopNo(), record.getEmpNo());
+                RewardTypeEnum.REWARD_PUNISH.getCode(), record.getId(), record.getShopNo(), record.getEmpNo());
     }
 
     private ServiceItemRecord getServiceItem(Long serviceItemRecordId) {
@@ -62,7 +63,7 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(ServiceItemRecord itemRecord) {
-        return pointBO.buildIncreasePointDO("SERVICE_ITEM", itemRecord.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.REWARD_PUNISH.getCode(), itemRecord.getId(),
                 itemRecord.getEmpNo(), itemRecord.getCreator(), itemRecord.getRewardPoint(), itemRecord.getShopNo());
 
     }

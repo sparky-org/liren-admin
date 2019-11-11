@@ -13,6 +13,8 @@ public class ShopEmployee {
 
     private String password;
 
+    private String avatar;
+
     private Integer age;
 
     private Date birthday;
@@ -69,6 +71,14 @@ public class ShopEmployee {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
 
     public Integer getAge() {
@@ -141,9 +151,5 @@ public class ShopEmployee {
 
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
-    }
-
-    public String getAvatar() {
-        return null;
     }
 }

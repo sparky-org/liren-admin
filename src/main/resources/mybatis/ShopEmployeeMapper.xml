@@ -7,6 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="is_admin" jdbcType="TINYINT" property="isAdmin" />
@@ -76,7 +77,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, job_no, name, phone, password, age, birthday, is_admin, manager_no, shop_no, 
+    id, job_no, name, phone, password, avatar, age, birthday, is_admin, manager_no, shop_no, 
     creator, is_valid, gmt_create, gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.ShopEmployeeExample" resultMap="BaseResultMap">
@@ -115,15 +116,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_shop_employee (job_no, name, phone, 
-      password, age, birthday, 
-      is_admin, manager_no, shop_no, 
-      creator, is_valid, gmt_create, 
-      gmt_modify)
+      password, avatar, age, 
+      birthday, is_admin, manager_no, 
+      shop_no, creator, is_valid, 
+      gmt_create, gmt_modify)
     values (#{jobNo,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
-      #{isAdmin,jdbcType=TINYINT}, #{managerNo,jdbcType=BIGINT}, #{shopNo,jdbcType=BIGINT}, 
-      #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP})
+      #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=TINYINT}, #{managerNo,jdbcType=BIGINT}, 
+      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.ShopEmployee">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -142,6 +143,9 @@
       </if>
       <if test="password != null">
         password,
+      </if>
+      <if test="avatar != null">
+        avatar,
       </if>
       <if test="age != null">
         age,
@@ -183,6 +187,9 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
@@ -237,6 +244,9 @@
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.age != null">
         age = #{record.age,jdbcType=INTEGER},
       </if>
@@ -276,6 +286,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
       age = #{record.age,jdbcType=INTEGER},
       birthday = #{record.birthday,jdbcType=TIMESTAMP},
       is_admin = #{record.isAdmin,jdbcType=TINYINT},
@@ -303,6 +314,9 @@
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
@@ -340,6 +354,7 @@
       name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       is_admin = #{isAdmin,jdbcType=TINYINT},

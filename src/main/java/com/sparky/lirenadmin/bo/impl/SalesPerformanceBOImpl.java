@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +57,12 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     private CustomerTrace buildTrace(SalesPerformance record) {
         CustomerInfo customer = customerBO.getCustomerByPhone(record.getCustomerPhone());
         return customerTraceBO.buildCustomerTrace(customer.getId(), record.getCompleteTime(),
-                "SALES_PERF", record.getId(), record.getShopNo(), record.getEmpNo());
+                RewardTypeEnum.SAL_PERF.getCode(), record.getId(), record.getShopNo(), record.getEmpNo());
     }
 
 
     private IncreasePointDO buildIncreasePointDO(SalesPerformance sales) {
-        return pointBO.buildIncreasePointDO("SALES_PERF", sales.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.SAL_PERF.getCode(), sales.getId(),
                 sales.getEmpNo(), sales.getCreator(), sales.getRewardPoint(), sales.getShopNo());
 
     }

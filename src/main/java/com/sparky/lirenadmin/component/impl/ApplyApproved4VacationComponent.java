@@ -3,8 +3,8 @@ package com.sparky.lirenadmin.component.impl;
 import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.VacationApplyBO;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
+import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.entity.Apply;
-import com.sparky.lirenadmin.entity.VacationApply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class ApplyApproved4VacationComponent implements ApplyApprovedHandler {
 
     @Override
     public void afterApplyApproved(String origin, Long originNo) {
-        if (!"VACATION".equals(origin)){
+        if (!ApplyTypeEnum.VACATION.getCode().equals(origin)){
             return;
         }
         Apply apply = applyBO.queryApplyByOrigin(origin, originNo);

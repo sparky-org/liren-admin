@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.RewardPunishmentBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.RewardPunishment;
 import com.sparky.lirenadmin.mapper.RewardPunishmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class RewardPunishmentBOImpl implements RewardPunishmentBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(RewardPunishment record) {
-        return pointBO.buildIncreasePointDO("REWARD_PUNISH", record.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.REWARD_PUNISH.getCode(), record.getId(),
                 record.getCreator(), record.getCreator(), record.getPoint(), record.getShopNo());
 
     }

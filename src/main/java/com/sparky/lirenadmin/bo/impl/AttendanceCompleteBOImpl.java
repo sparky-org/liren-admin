@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.AttendanceCompleteBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.AttendanceComplete;
 import com.sparky.lirenadmin.mapper.AttendanceCompleteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AttendanceCompleteBOImpl implements AttendanceCompleteBO {
     }
 
     private IncreasePointDO buildIncreasePointDO(AttendanceComplete attendanceComplete) {
-        return pointBO.buildIncreasePointDO("ATTENDANCE", attendanceComplete.getId(),
+        return pointBO.buildIncreasePointDO(RewardTypeEnum.ATTENDANCE.getCode(), attendanceComplete.getId(),
                 attendanceComplete.getEmpNo(), attendanceComplete.getCreator(), attendanceComplete.getRewardPoint(), attendanceComplete.getShopNo());
 
     }
