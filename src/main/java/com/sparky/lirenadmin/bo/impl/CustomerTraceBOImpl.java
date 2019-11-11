@@ -2,7 +2,8 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.CustomerTraceBO;
 import com.sparky.lirenadmin.entity.CustomerTrace;
-import com.sparky.lirenadmin.mapper.CustomerTraceMapper;
+import com.sparky.lirenadmin.entity.CustomerTraceExample;
+import com.sparky.lirenadmin.mapper.ext.CustomerTraceMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class CustomerTraceBOImpl implements CustomerTraceBO {
 
     @Autowired
-    private CustomerTraceMapper customerTraceMapper;
+    private CustomerTraceMapperExt customerTraceMapper;
 
     @Override
     public void createCustomerTrace(CustomerTrace trace) {
@@ -25,12 +26,14 @@ public class CustomerTraceBOImpl implements CustomerTraceBO {
 
     @Override
     public int countTrace(Long customerId) {
-        return 0;
+        CustomerTraceExample example = new CustomerTraceExample();
+        example.createCriteria().andCustomerNoEqualTo(customerId);
+        return new Long(customerTraceMapper.countByExample(example)).intValue();
     }
 
     @Override
     public List<CustomerTrace> pagingQueryTrace(Long customerId, Integer start, Integer length) {
-        return null;
+        return customerTraceMapper.pagingQueryTrace(customerId, start, length);
     }
 
     @Override

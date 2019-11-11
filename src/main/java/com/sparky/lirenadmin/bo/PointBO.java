@@ -11,4 +11,6 @@ public interface PointBO {
     Point findEmployeePoint(Long id);
 
     IncreasePointDO buildIncreasePointDO(String origin, Long originId, Long empNo, Long creator, Integer point, Long shopNo);
+
+    Point getPoint(Long pointNo);
 }
