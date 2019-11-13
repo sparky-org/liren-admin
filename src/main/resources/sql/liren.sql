@@ -53,6 +53,8 @@ CREATE TABLE `t_shop_employee` (
 DROP TABLE IF EXISTS `t_sales_performance`;
 CREATE TABLE `t_sales_performance` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(256) NOT NULL COMMENT '申报标题',
+  `content` text NOT NULL COMMENT '申报内容',
   `amount` decimal(25,2) NOT NULL COMMENT '业绩金额',
   `complete_time` datetime NOT NULL COMMENT '业绩完成时间',
   `customer_phone` varchar(11) DEFAULT NULL COMMENT '客户手机号',
@@ -73,6 +75,8 @@ DROP TABLE IF EXISTS `t_service_item_record`;
 CREATE TABLE `t_service_item_record` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `service_no` bigint(11) NOT NULL COMMENT '项目编号',
+  `title` varchar(256) NOT NULL COMMENT '申报标题',
+  `content` text NOT NULL COMMENT '申报内容',
   `complete_time` datetime NOT NULL COMMENT '项目完成时间',
   `reward_point` int NOT NULL COMMENT '奖励积分',
   `customer_phone` varchar(11) DEFAULT NULL COMMENT '客户手机号',
@@ -193,6 +197,7 @@ CREATE TABLE `t_apply` (
   `origin` varchar(16) NOT NULL COMMENT '申请单来源',
   `origin_no` bigint(11) NOT NULL COMMENT '关联单据号',
   `audit_status` varchar(8) NOT NULL COMMENT '审批状态',
+  `audit_time` date DEFAULT NULL COMMENT '审批时间',
   `remark` varchar(1024) DEFAULT NULL COMMENT '审批备注',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',

@@ -19,6 +19,8 @@ public class Apply {
 
     private String auditStatus;
 
+    private Date auditTime;
+
     private String remark;
 
     private Long shopNo;
@@ -93,6 +95,14 @@ public class Apply {
 
     public void setAuditStatus(String auditStatus) {
         this.auditStatus = auditStatus == null ? null : auditStatus.trim();
+    }
+
+    public Date getAuditTime() {
+        return auditTime;
+    }
+
+    public void setAuditTime(Date auditTime) {
+        this.auditTime = auditTime;
     }
 
     public String getRemark() {

@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.ShopJob;
 import com.sparky.lirenadmin.entity.ShopJobExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ShopJobMapper {
     long countByExample(ShopJobExample example);
 

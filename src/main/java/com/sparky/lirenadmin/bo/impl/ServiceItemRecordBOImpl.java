@@ -52,6 +52,11 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
         return total;
     }
 
+    @Override
+    public ServiceItemRecord getServiceItemRecord(Long id) {
+        return getServiceItem(id);
+    }
+
     private CustomerTrace buildTrace(ServiceItemRecord record) {
         CustomerInfo customer = customerBO.getCustomerByPhone(record.getCustomerPhone());
         return customerTraceBO.buildCustomerTrace(customer.getId(), record.getCompleteTime(),

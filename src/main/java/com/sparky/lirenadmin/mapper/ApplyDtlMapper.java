@@ -2,9 +2,12 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.ApplyDtl;
 import com.sparky.lirenadmin.entity.ApplyDtlExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface ApplyDtlMapper {
     long countByExample(ApplyDtlExample example);
 

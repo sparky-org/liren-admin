@@ -7,6 +7,10 @@ public class ServiceItemRecord {
 
     private Long serviceNo;
 
+    private String title;
+
+    private String content;
+
     private Date completeTime;
 
     private Integer rewardPoint;
@@ -43,6 +47,22 @@ public class ServiceItemRecord {
 
     public void setServiceNo(Long serviceNo) {
         this.serviceNo = serviceNo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     public Date getCompleteTime() {

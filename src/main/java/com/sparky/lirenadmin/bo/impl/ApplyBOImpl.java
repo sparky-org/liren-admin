@@ -4,6 +4,7 @@ import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
+import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ApplyExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
@@ -117,5 +118,20 @@ public class ApplyBOImpl implements ApplyBO {
     @Override
     public List<Apply> pagingQueryApply(QueryApplyCond cond) {
         return applyMapper.pagingQueryApply(cond);
+    }
+
+    @Override
+    public Apply getApply(Long id) {
+        return applyMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void revert(Apply apply) {
+        if (apply.getId() == null){
+            throw new RuntimeException("待撤回申请的id不存在");
+        }
+        apply.setAuditStatus(ApplyStatusEnum.REVERTED.getCode());
+        apply.setGmtModify(new Date());
+        applyMapper.updateByPrimaryKeySelective(apply);
     }
 }

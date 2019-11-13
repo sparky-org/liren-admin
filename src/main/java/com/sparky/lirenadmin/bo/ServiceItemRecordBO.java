@@ -12,4 +12,6 @@ public interface ServiceItemRecordBO {
     void reward(Long salesNo);
 
     Integer sumServiceItemRecordNum(ShopEmployee employee, Date today);
+
+    ServiceItemRecord getServiceItemRecord(Long id);
 }

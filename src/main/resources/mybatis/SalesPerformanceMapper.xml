@@ -3,6 +3,7 @@
 <mapper namespace="com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt">
   <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.SalesPerformance">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
     <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
@@ -15,6 +16,9 @@
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sparky.lirenadmin.entity.SalesPerformance">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,9 +79,29 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, amount, complete_time, customer_phone, reward_point, emp_no, is_rewarded, reward_time, 
-    shop_no, creator, is_valid, gmt_create, gmt_modify
+    id, title, amount, complete_time, customer_phone, reward_point, emp_no, is_rewarded, 
+    reward_time, shop_no, creator, is_valid, gmt_create, gmt_modify
   </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sparky.lirenadmin.entity.SalesPerformanceExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_sales_performance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.SalesPerformanceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -93,9 +117,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_sales_performance
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -113,16 +139,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_sales_performance (amount, complete_time, customer_phone, 
-      reward_point, emp_no, is_rewarded, 
-      reward_time, shop_no, creator, 
-      is_valid, gmt_create, gmt_modify
-      )
-    values (#{amount,jdbcType=DECIMAL}, #{completeTime,jdbcType=TIMESTAMP}, #{customerPhone,jdbcType=VARCHAR}, 
-      #{rewardPoint,jdbcType=INTEGER}, #{empNo,jdbcType=BIGINT}, #{isRewarded,jdbcType=TINYINT}, 
-      #{rewardTime,jdbcType=TIMESTAMP}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
-      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
-      )
+    insert into t_sales_performance (title, amount, complete_time, 
+      customer_phone, reward_point, emp_no, 
+      is_rewarded, reward_time, shop_no, 
+      creator, is_valid, gmt_create, 
+      gmt_modify, content)
+    values (#{title,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{completeTime,jdbcType=TIMESTAMP}, 
+      #{customerPhone,jdbcType=VARCHAR}, #{rewardPoint,jdbcType=INTEGER}, #{empNo,jdbcType=BIGINT}, 
+      #{isRewarded,jdbcType=TINYINT}, #{rewardTime,jdbcType=TIMESTAMP}, #{shopNo,jdbcType=BIGINT}, 
+      #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.SalesPerformance">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,6 +156,9 @@
     </selectKey>
     insert into t_sales_performance
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
       <if test="amount != null">
         amount,
       </if>
@@ -166,8 +195,14 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
       <if test="amount != null">
         #{amount,jdbcType=DECIMAL},
       </if>
@@ -204,6 +239,9 @@
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.SalesPerformanceExample" resultType="java.lang.Long">
@@ -217,6 +255,9 @@
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.amount != null">
         amount = #{record.amount,jdbcType=DECIMAL},
@@ -254,7 +295,31 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_sales_performance
+    set id = #{record.id,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
+      customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
+      reward_point = #{record.rewardPoint,jdbcType=INTEGER},
+      emp_no = #{record.empNo,jdbcType=BIGINT},
+      is_rewarded = #{record.isRewarded,jdbcType=TINYINT},
+      reward_time = #{record.rewardTime,jdbcType=TIMESTAMP},
+      shop_no = #{record.shopNo,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=BIGINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -262,6 +327,7 @@
   <update id="updateByExample" parameterType="map">
     update t_sales_performance
     set id = #{record.id,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
       amount = #{record.amount,jdbcType=DECIMAL},
       complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
       customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
@@ -281,6 +347,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.SalesPerformance">
     update t_sales_performance
     <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="amount != null">
         amount = #{amount,jdbcType=DECIMAL},
       </if>
@@ -317,12 +386,34 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sparky.lirenadmin.entity.SalesPerformance">
+    update t_sales_performance
+    set title = #{title,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      customer_phone = #{customerPhone,jdbcType=VARCHAR},
+      reward_point = #{rewardPoint,jdbcType=INTEGER},
+      emp_no = #{empNo,jdbcType=BIGINT},
+      is_rewarded = #{isRewarded,jdbcType=TINYINT},
+      reward_time = #{rewardTime,jdbcType=TIMESTAMP},
+      shop_no = #{shopNo,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=BIGINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.SalesPerformance">
     update t_sales_performance
-    set amount = #{amount,jdbcType=DECIMAL},
+    set title = #{title,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
       complete_time = #{completeTime,jdbcType=TIMESTAMP},
       customer_phone = #{customerPhone,jdbcType=VARCHAR},
       reward_point = #{rewardPoint,jdbcType=INTEGER},

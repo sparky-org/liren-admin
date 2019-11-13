@@ -42,4 +42,8 @@ public interface ApplyBO {
     Integer countApply(QueryApplyCond buildQueryApplyCond);
 
     List<Apply> pagingQueryApply(QueryApplyCond cond);
+
+    Apply getApply(Long id);
+
+    void revert(Apply apply);
 }

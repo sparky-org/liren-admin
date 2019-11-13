@@ -2,9 +2,8 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ApplyExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface ApplyMapper {
     long countByExample(ApplyExample example);

@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.ServiceItemRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="service_no" jdbcType="BIGINT" property="serviceNo" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
     <result column="reward_point" jdbcType="INTEGER" property="rewardPoint" />
     <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
@@ -75,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, service_no, complete_time, reward_point, customer_phone, emp_no, is_rewarded, 
-    reward_time, shop_no, creator, is_valid, gmt_create, gmt_modify
+    id, service_no, title, content, complete_time, reward_point, customer_phone, emp_no, 
+    is_rewarded, reward_time, shop_no, creator, is_valid, gmt_create, gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecordExample" resultMap="BaseResultMap">
     select
@@ -113,16 +115,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_service_item_record (service_no, complete_time, reward_point, 
-      customer_phone, emp_no, is_rewarded, 
-      reward_time, shop_no, creator, 
-      is_valid, gmt_create, gmt_modify
-      )
-    values (#{serviceNo,jdbcType=BIGINT}, #{completeTime,jdbcType=TIMESTAMP}, #{rewardPoint,jdbcType=INTEGER}, 
-      #{customerPhone,jdbcType=VARCHAR}, #{empNo,jdbcType=BIGINT}, #{isRewarded,jdbcType=TINYINT}, 
-      #{rewardTime,jdbcType=TIMESTAMP}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
-      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
-      )
+    insert into t_service_item_record (service_no, title, content, 
+      complete_time, reward_point, customer_phone, 
+      emp_no, is_rewarded, reward_time, 
+      shop_no, creator, is_valid, 
+      gmt_create, gmt_modify)
+    values (#{serviceNo,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{completeTime,jdbcType=TIMESTAMP}, #{rewardPoint,jdbcType=INTEGER}, #{customerPhone,jdbcType=VARCHAR}, 
+      #{empNo,jdbcType=BIGINT}, #{isRewarded,jdbcType=TINYINT}, #{rewardTime,jdbcType=TIMESTAMP}, 
+      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -132,6 +134,12 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="serviceNo != null">
         service_no,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
       </if>
       <if test="completeTime != null">
         complete_time,
@@ -170,6 +178,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="serviceNo != null">
         #{serviceNo,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="completeTime != null">
         #{completeTime,jdbcType=TIMESTAMP},
@@ -221,6 +235,12 @@
       <if test="record.serviceNo != null">
         service_no = #{record.serviceNo,jdbcType=BIGINT},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
       <if test="record.completeTime != null">
         complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
       </if>
@@ -263,6 +283,8 @@
     update t_service_item_record
     set id = #{record.id,jdbcType=BIGINT},
       service_no = #{record.serviceNo,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
       reward_point = #{record.rewardPoint,jdbcType=INTEGER},
       customer_phone = #{record.customerPhone,jdbcType=VARCHAR},
@@ -283,6 +305,12 @@
     <set>
       <if test="serviceNo != null">
         service_no = #{serviceNo,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="completeTime != null">
         complete_time = #{completeTime,jdbcType=TIMESTAMP},
@@ -323,6 +351,8 @@
   <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.ServiceItemRecord">
     update t_service_item_record
     set service_no = #{serviceNo,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       complete_time = #{completeTime,jdbcType=TIMESTAMP},
       reward_point = #{rewardPoint,jdbcType=INTEGER},
       customer_phone = #{customerPhone,jdbcType=VARCHAR},
