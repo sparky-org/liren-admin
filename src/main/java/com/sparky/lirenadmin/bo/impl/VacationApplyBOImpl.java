@@ -3,8 +3,10 @@ package com.sparky.lirenadmin.bo.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.VacationApplyBO;
+import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.entity.Apply;
+import com.sparky.lirenadmin.entity.ApplyDtl;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.VacationApply;
 import com.sparky.lirenadmin.mapper.ext.VacationApplyMapperExt;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class VacationApplyBOImpl implements VacationApplyBO {
@@ -22,9 +25,9 @@ public class VacationApplyBOImpl implements VacationApplyBO {
     private ApplyBO applyBO;
 
     @Override
-    public void createVacationApply(VacationApply apply) {
+    public void createVacationApply(VacationApply apply, List<ApplyDtl> dtls) {
         doCreateVacationApply(apply);
-        applyBO.createApply(buildApply(apply));
+        applyBO.createApply(buildApply(apply), dtls);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class VacationApplyBOImpl implements VacationApplyBO {
     }
 
     private void doCreateVacationApply(VacationApply apply) {
-        apply.setAuditStatus("APPROVAL");
+        apply.setAuditStatus(ApplyStatusEnum.NEW.getCode());
         apply.setIsValid(true);
         apply.setGmtCreate(new Date());
         apply.setGmtModify(new Date());

@@ -32,7 +32,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     @Override
     public void createTaskRecord(@NotNull TaskRecord record) {
         doCreateTaskRecord(record);
-        applyBO.createApply(buildApply(record));
+        applyBO.createApply(buildApply(record), null);
     }
 
     @Transactional

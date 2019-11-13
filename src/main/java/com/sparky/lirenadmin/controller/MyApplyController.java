@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.auth0.jwt.internal.org.apache.commons.lang3.StringUtils;
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
@@ -65,17 +66,9 @@ public class MyApplyController {
                                                               @RequestParam @ApiParam Integer currentPage,
                                                               @RequestParam @ApiParam Integer pageSize){
         try {
-            QueryApplyCond cond = buildQueryApplyCond(empNo, applyType, status, begin, end);
-            Integer total = applyBO.countApply(cond);
-            if (total < 1){
-                return PagingResponseWrapper.success(new ArrayList<>(), 0);
-            }
-            int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
-            cond.setStart(start);
-            cond.setLength(pageSize);
-            List<Apply> applies = applyBO.pagingQueryApply(cond);
-            List<ListApplyVO> applyVOS = applies.stream().map(this::convertToApplyVO).collect(Collectors.toList());
-            return PagingResponseWrapper.success(applyVOS, total);
+            QueryApplyCond cond = buildQueryApplyCond(empNo, null, applyType, status, begin, end);
+            PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
+            return applyVOS;
         } catch (Exception e) {
             logger.error("申请列表查询异常", e.getMessage());
             return (PagingResponseWrapper)PagingResponseWrapper.fail(null, e.getMessage());
@@ -139,7 +132,7 @@ public class MyApplyController {
             if (apply.getApplyEmpNo() != empNo){
                 throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
             }
-            if (canRevert(apply.getCreator(), apply.getAuditStatus())){
+            if (!canRevert(apply.getCreator(), apply.getAuditStatus())){
                 throw new RuntimeException(String.format("当前申请[%d]状态是[%s]不能被撤回", applyNo, ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
             }
             applyBO.revert(apply);
@@ -155,17 +148,7 @@ public class MyApplyController {
     @ResponseBody
     public BaseResponseWrapper newVacationApply(@RequestBody NewVacationApplyDTO newVacationApplyDTO){
         try {
-//            Apply apply = applyBO.getApply(applyNo);
-//            if(apply == null){
-//                throw new RuntimeException(String.format("申请[%d]不存在", applyNo));
-//            }
-//            if (apply.getApplyEmpNo() != empNo){
-//                throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
-//            }
-//            if (canRevert(apply.getCreator(), apply.getAuditStatus())){
-//                throw new RuntimeException(String.format("当前申请[%d]状态是[%s]不能被撤回", applyNo, ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
-//            }
-//            applyBO.revert(apply);
+            vacationApplyBO.createVacationApply(convertToVacationApply(newVacationApplyDTO), buildApplyDtl(newVacationApplyDTO.getCcList()));
             return BaseResponseWrapper.success(null);
         } catch (RuntimeException e) {
             logger.error("新建申请异常", e.getMessage());
@@ -178,17 +161,7 @@ public class MyApplyController {
     @ResponseBody
     public BaseResponseWrapper newNormalApply(@RequestBody NewNormalApplyDTO newNormalApplyDTO){
         try {
-//            Apply apply = applyBO.getApply(applyNo);
-//            if(apply == null){
-//                throw new RuntimeException(String.format("申请[%d]不存在", applyNo));
-//            }
-//            if (apply.getApplyEmpNo() != empNo){
-//                throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
-//            }
-//            if (canRevert(apply.getCreator(), apply.getAuditStatus())){
-//                throw new RuntimeException(String.format("当前申请[%d]状态是[%s]不能被撤回", applyNo, ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
-//            }
-//            applyBO.revert(apply);
+            applyBO.createApply(convertToApply(newNormalApplyDTO), buildApplyDtl(newNormalApplyDTO.getCcEmpList()));
             return BaseResponseWrapper.success(null);
         } catch (RuntimeException e) {
             logger.error("新建申请异常", e.getMessage());
@@ -199,48 +172,102 @@ public class MyApplyController {
     @ApiOperation("待我审批")
     @RequestMapping(value = "/myApprovalPending", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper myApprovalPending(@RequestParam @ApiParam Long auditEmpNo){
+    public PagingResponseWrapper<List<ListApplyVO>> myApprovalPending(@RequestParam @ApiParam Long auditEmpNo,
+                                                                      @RequestParam(required = false) @ApiParam String applyType,
+                                                                      @RequestParam(required = false) @ApiParam String status,
+                                                                      @RequestParam(required = false) @ApiParam Date begin,
+                                                                      @RequestParam(required = false) @ApiParam Date end,
+                                                                      @RequestParam @ApiParam Integer currentPage,
+                                                                      @RequestParam @ApiParam Integer pageSize){
         try {
-//            Apply apply = applyBO.getApply(applyNo);
-//            if(apply == null){
-//                throw new RuntimeException(String.format("申请[%d]不存在", applyNo));
-//            }
-//            if (apply.getApplyEmpNo() != empNo){
-//                throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
-//            }
-//            if (canRevert(apply.getCreator(), apply.getAuditStatus())){
-//                throw new RuntimeException(String.format("当前申请[%d]状态是[%s]不能被撤回", applyNo, ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
-//            }
-//            applyBO.revert(apply);
-            return BaseResponseWrapper.success(null);
+            QueryApplyCond cond = buildQueryApplyCond(null, auditEmpNo, applyType, status, begin, end);
+            PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
+            return applyVOS;
         } catch (RuntimeException e) {
-            logger.error("查询异常", e.getMessage());
-            return BaseResponseWrapper.fail(null, e.getMessage());
+            logger.error("查询异常", e);
+            return (PagingResponseWrapper)BaseResponseWrapper.fail(null, e.getMessage());
         }
+    }
+
+    private PagingResponseWrapper<List<ListApplyVO>> pagingQueryApp(QueryApplyCond cond, Integer currentPage, Integer pageSize){
+        Integer total = applyBO.countApply(cond);
+        if (total < 1){
+            return PagingResponseWrapper.success(new ArrayList<>(), 0);
+        }
+        int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+        cond.setStart(start);
+        cond.setLength(pageSize);
+        List<Apply> applies = applyBO.pagingQueryApply(cond);
+        List<ListApplyVO> applyVOS = applies.stream().map(this::convertToApplyVO).collect(Collectors.toList());
+        return PagingResponseWrapper.success(applyVOS, total);
     }
 
     @ApiOperation("审批")
     @RequestMapping(value = "/approve", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper approve(@RequestParam @ApiParam Long applyNo,
+                                       @RequestParam @ApiParam Boolean result,
                                        @RequestParam @ApiParam Long auditEmpNo){
         try {
-//            Apply apply = applyBO.getApply(applyNo);
-//            if(apply == null){
-//                throw new RuntimeException(String.format("申请[%d]不存在", applyNo));
-//            }
-//            if (apply.getApplyEmpNo() != empNo){
-//                throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
-//            }
-//            if (canRevert(apply.getCreator(), apply.getAuditStatus())){
-//                throw new RuntimeException(String.format("当前申请[%d]状态是[%s]不能被撤回", applyNo, ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
-//            }
-//            applyBO.revert(apply);
+            Apply apply = applyBO.getApply(applyNo);
+            if (!ApplyStatusEnum.NEW.getCode().equals(apply.getAuditStatus())){
+                throw new RuntimeException(String.format("[%s]状态的申请单不允许再次审批", ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
+            }
+            if (apply.getAuditEmpNo() != auditEmpNo){
+                throw new RuntimeException(String.format("[%d]无权审批", auditEmpNo));
+            }
+            if (result){
+                applyBO.approve(apply);
+            }else{
+                applyBO.refuse(apply);
+            }
             return BaseResponseWrapper.success(null);
         } catch (RuntimeException e) {
             logger.error("审批异常", e.getMessage());
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
+    }
+
+    /*---------------------------分割线，以下是私有方法----------------------------------------*/
+
+    private Apply convertToApply(NewNormalApplyDTO newNormalApplyDTO) {
+        ShopEmployee employee = shopEmployeeBO.getEmployee(newNormalApplyDTO.getEmpNo());
+        if (null == employee){
+            throw new RuntimeException("员工不存在");
+        }
+        return applyBO.buildApply(ApplyTypeEnum.NORMAL.getCode(), 0l, newNormalApplyDTO.getContent(),
+                newNormalApplyDTO.getEmpNo(), newNormalApplyDTO.getAuditEmpNo(), newNormalApplyDTO.getEmpNo(),
+                employee.getShopNo());
+    }
+
+    private List<ApplyDtl> buildApplyDtl(String ccList) {
+        if (StringUtils.isBlank(ccList)){
+            return null;
+        }
+        List<ApplyDtl> dtls = new ArrayList<>();
+        for (String ccId : ccList.split(",")){
+            ApplyDtl dtl = new ApplyDtl();
+            dtl.setCcNo(Long.parseLong(ccId));
+            dtls.add(dtl);
+        }
+        return dtls;
+    }
+
+    private VacationApply convertToVacationApply(NewVacationApplyDTO newVacationApplyDTO) {
+        ShopEmployee employee = shopEmployeeBO.getEmployee(newVacationApplyDTO.getApplyEmpNo());
+        if (employee == null){
+            throw new RuntimeException("申请人不存在");
+        }
+        VacationApply vacationApply = new VacationApply();
+        vacationApply.setApplyEmpNo(newVacationApplyDTO.getApplyEmpNo());
+        vacationApply.setAuditEmpNo(newVacationApplyDTO.getAuditEmpNo());
+        vacationApply.setBeginDate(newVacationApplyDTO.getBegin());
+        vacationApply.setEndDate(newVacationApplyDTO.getEnd());
+        vacationApply.setPicList(newVacationApplyDTO.getAttachemntPicList());
+        vacationApply.setReason(newVacationApplyDTO.getReason());
+        vacationApply.setShopNo(employee.getShopNo());
+        vacationApply.setCreator(newVacationApplyDTO.getApplyEmpNo());
+        return vacationApply;
     }
 
     private NormalApplyDetailVO buildNormalApplyDetailVO(Apply apply) {
@@ -268,7 +295,7 @@ public class MyApplyController {
 
         vo.setBeinDate(vacationApply.getBeginDate());
         vo.setEndDate(vacationApply.getEndDate());
-        vo.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()));
+        vo.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()) + 1);
         vo.setReason(vacationApply.getReason());
 
         ShopEmployee applyEmp = shopEmployeeBO.getEmployee(apply.getApplyEmpNo());
@@ -300,6 +327,7 @@ public class MyApplyController {
 
     private ListApplyVO convertToApplyVO(Apply apply) {
         ListApplyVO applyVO = new ListApplyVO();
+        applyVO.setApplyNo(apply.getId());
         applyVO.setApplyType(apply.getOrigin());
         applyVO.setApplyTypeDesc(ApplyTypeEnum.valueOf(apply.getOrigin()).getDesc());
         applyVO.setStatus(apply.getAuditStatus());
@@ -319,7 +347,7 @@ public class MyApplyController {
         if(vacationApply != null){
             v.setBegin(vacationApply.getBeginDate());
             v.setEnd(vacationApply.getEndDate());
-            v.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()));
+            v.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()) + 1);
         }
         return v;
     }
@@ -364,12 +392,13 @@ public class MyApplyController {
         return normal;
     }
 
-    private QueryApplyCond buildQueryApplyCond(Long empNo, String applyType, String status, Date begin, Date end) {
-        if (null == ApplyTypeEnum.valueOf(applyType)){
+    private QueryApplyCond buildQueryApplyCond(Long empNo,Long auditEmpNo, String applyType, String status, Date begin, Date end) {
+        if (applyType != null && null == ApplyTypeEnum.valueOf(applyType)){
             throw new RuntimeException(String.format("申请类型不存在，可用的申请类型有[%s]", ApplyTypeEnum.listCodes()));
         }
         QueryApplyCond cond = new QueryApplyCond();
         cond.setEmpNo(empNo);
+        cond.setAuditEmpNo(auditEmpNo);
         cond.setApplyType(applyType);
         cond.setStatus(status);
         cond.setBegin(begin);

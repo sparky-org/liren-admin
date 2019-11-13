@@ -7,6 +7,7 @@ import com.sparky.lirenadmin.mapper.ApplyDtlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,5 +28,13 @@ public class ApplyDtlBOImpl implements ApplyDtlBO {
         ApplyDtlExample example = new ApplyDtlExample();
         example.createCriteria().andIsValidEqualTo(true).andApplyNoEqualTo(applyNo);
         return applyDtlMapper.selectByExample(example);
+    }
+
+    @Override
+    public void createApplyDtl(ApplyDtl dtl) {
+        dtl.setGmtCreate(new Date());
+        dtl.setGmtModify(new Date());
+        dtl.setIsValid(true);
+        applyDtlMapper.insertSelective(dtl);
     }
 }

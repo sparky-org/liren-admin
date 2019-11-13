@@ -28,7 +28,7 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     @Override
     public void createServiceRecord(ServiceItemRecord record) {
         doCreateServiceItem(record);
-        applyBO.createApply(buildApply(record));
+        applyBO.createApply(buildApply(record), null);
         customerTraceBO.createCustomerTrace(buildTrace(record));
     }
 

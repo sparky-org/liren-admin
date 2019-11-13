@@ -12,6 +12,7 @@ import java.util.Date;
 public class QueryApplyCond {
 
     private Long empNo;
+    private Long auditEmpNo;
     private String applyType;
     private String status;
     private Date begin;
@@ -42,6 +43,14 @@ public class QueryApplyCond {
 
     public void setEmpNo(Long empNo) {
         this.empNo = empNo;
+    }
+
+    public Long getAuditEmpNo() {
+        return auditEmpNo;
+    }
+
+    public void setAuditEmpNo(Long auditEmpNo) {
+        this.auditEmpNo = auditEmpNo;
     }
 
     public String getApplyType() {

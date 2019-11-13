@@ -50,7 +50,7 @@ public class VacationBOTest {
         employee.setIsAdmin(false);
         shopEmployeeBO.createEmployee(employee);
         VacationApply record = initVacationApply(employee);
-        vacationApplyBO.createVacationApply(record);
+        vacationApplyBO.createVacationApply(record, null);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
         for (Apply apply : approvalPending){
             applyBO.approve(apply);

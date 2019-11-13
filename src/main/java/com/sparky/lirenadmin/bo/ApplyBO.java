@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.entity.Apply;
+import com.sparky.lirenadmin.entity.ApplyDtl;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface ApplyBO {
     * @Author:
     * @Time: 2019/11/8
     */
-    void createApply(Apply apply);
+    void createApply(Apply apply, List<ApplyDtl> dtls);
 
     /**
      * 审批通过
@@ -30,6 +31,8 @@ public interface ApplyBO {
     * @Time: 2019/11/8
     */
     void approve(Apply apply);
+
+    void refuse(Apply apply);
 
     List<Apply> queryApprovalPendingTasks(Long id);
 

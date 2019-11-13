@@ -6,17 +6,22 @@
     <include refid="Base_Column_List"/>
     from t_apply
     where is_valid = 1
-      and apply_emp_no = #{cond.emp_no}
+      <if test="cond.empNo != null">
+        and apply_emp_no = #{cond.empNo}
+      </if>
+      <if test="cond.auditEmpNo != null">
+        and audit_emp_no = #{cond.auditEmpNo}
+      </if>
       <if test="cond.applyType != null">
         and origin = #{cond.applyType}
       </if>
       <if test="cond.status != null">
         and audit_status = #{cond.status}
       </if>
-      <if test="cond.start != null and cond.end != null">
-        and gmt_create between #{cond.start} and #{cond.end}
+      <if test="cond.begin != null and cond.end != null">
+        and gmt_create between #{cond.begin} and #{cond.end}
       </if>
       order by audit_status desc, gmt_modify desc
-      limit #{cond.start}, #{cond.end}
+      limit #{cond.start}, #{cond.length}
   </select>
 </mapper>

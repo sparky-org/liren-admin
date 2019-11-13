@@ -29,7 +29,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     @Override
     public void createSalePerformance(SalesPerformance salesPerformance) {
         doCreateSales(salesPerformance);
-        applyBO.createApply(buildApply(salesPerformance));
+        applyBO.createApply(buildApply(salesPerformance), null);
         customerTraceBO.createCustomerTrace(buildTrace(salesPerformance));
     }
 

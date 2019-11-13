@@ -15,6 +15,8 @@ import java.util.Date;
 @ApiModel
 public class ListApplyVO {
 
+    @ApiModelProperty("申请编号")
+    private Long applyNo;
     @ApiModelProperty("申请类型描述")
     private String applyTypeDesc;
     @ApiModelProperty("申请类型")
@@ -29,6 +31,14 @@ public class ListApplyVO {
     private SalesPerformance salesPerformance;
     @ApiModelProperty("对应申请类型-NORMAL")
     private Normal normal;
+
+    public Long getApplyNo() {
+        return applyNo;
+    }
+
+    public void setApplyNo(Long applyNo) {
+        this.applyNo = applyNo;
+    }
 
     public String getApplyTypeDesc() {
         return applyTypeDesc;

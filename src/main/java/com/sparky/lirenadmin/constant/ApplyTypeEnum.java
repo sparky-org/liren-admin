@@ -10,7 +10,8 @@ public enum ApplyTypeEnum {
     TASK_RECORD("TASK_RECORD", "任务完成申请"),
     SAL_PERF("SAL_PERF", "业绩完成申请"),
     SERVICE_ITEM("SERVICE_ITEM", "项目完成申请"),
-    VACATION("VACATION", "请假申请");
+    VACATION("VACATION", "请假申请"),
+    NORMAL("NORMAL", "申请");
 
     private String code;
     private String desc;

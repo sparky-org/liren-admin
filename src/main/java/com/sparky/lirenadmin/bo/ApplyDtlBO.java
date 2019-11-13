@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ApplyDtlBO {
     List<ApplyDtl> listApplyDtl(Long applyNo);
+
+    void createApplyDtl(ApplyDtl dtl);
 }

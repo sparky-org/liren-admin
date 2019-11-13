@@ -1,15 +1,16 @@
 package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.ApplyBO;
+import com.sparky.lirenadmin.bo.ApplyDtlBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.entity.Apply;
+import com.sparky.lirenadmin.entity.ApplyDtl;
 import com.sparky.lirenadmin.entity.ApplyExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.invoker.NotifyInvoker;
-import com.sparky.lirenadmin.mapper.ApplyMapper;
 import com.sparky.lirenadmin.mapper.ext.ApplyMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,18 +33,28 @@ public class ApplyBOImpl implements ApplyBO {
 
     @Autowired
     private ShopEmployeeBO shopEmployeeBO;
-
+    @Autowired
+    private ApplyDtlBO applyDtlBO;
 
     @Autowired
     private ApplyMapperExt applyMapper;
 
     @Override
-    public void createApply(Apply apply) {
+    public void createApply(Apply apply, List<ApplyDtl> dtls) {
         apply.setGmtModify(new Date());
         apply.setGmtCreate(new Date());
         apply.setIsValid(true);
-        apply.setAuditStatus("NEW");
+        apply.setAuditStatus(ApplyStatusEnum.NEW.getCode());
         applyMapper.insertSelective(apply);
+        if (!CollectionUtils.isEmpty(dtls)){
+            for (ApplyDtl dtl : dtls){
+                dtl.setApplyNo(apply.getId());
+                dtl.setApplyType(apply.getOrigin());
+                dtl.setCreator(apply.getCreator());
+                dtl.setShopNo(apply.getShopNo());
+                applyDtlBO.createApplyDtl(dtl);
+            }
+        }
     }
 
     @Override
@@ -51,10 +62,20 @@ public class ApplyBOImpl implements ApplyBO {
         if (apply.getId() == null){
             throw new RuntimeException("审核失败，无审核对象");
         }
-        apply.setAuditStatus("APPROVED");
+        apply.setAuditStatus(ApplyStatusEnum.PASSED.getCode());
         apply.setGmtModify(new Date());
         applyMapper.updateByPrimaryKeySelective(apply);
         NotifyInvoker.invoke(ApplyApprovedHandler.class, "afterApplyApproved", new Object[]{apply.getOrigin(),apply.getOriginNo()});
+    }
+
+    @Override
+    public void refuse(Apply apply) {
+        if (apply.getId() == null){
+            throw new RuntimeException("审核失败，无审核对象");
+        }
+        apply.setAuditStatus(ApplyStatusEnum.REFUSED.getCode());
+        apply.setGmtModify(new Date());
+        applyMapper.updateByPrimaryKeySelective(apply);
     }
 
     @Override
@@ -101,7 +122,13 @@ public class ApplyBOImpl implements ApplyBO {
     @Override
     public Integer countApply(QueryApplyCond cond) {
         ApplyExample example = new ApplyExample();
-        ApplyExample.Criteria criteria = example.createCriteria().andApplyEmpNoEqualTo(cond.getEmpNo());
+        ApplyExample.Criteria criteria = example.createCriteria().andIsValidEqualTo(true);
+        if (cond.getEmpNo() != null) {
+            criteria.andApplyEmpNoEqualTo(cond.getEmpNo());
+        }
+        if (cond.getAuditEmpNo() != null) {
+            criteria.andAuditEmpNoEqualTo(cond.getAuditEmpNo());
+        }
         if (cond.getApplyType() != null){
             criteria.andOriginEqualTo(cond.getApplyType());
         }
