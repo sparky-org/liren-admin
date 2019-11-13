@@ -2,12 +2,14 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ApplyExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.invoker.NotifyInvoker;
 import com.sparky.lirenadmin.mapper.ApplyMapper;
+import com.sparky.lirenadmin.mapper.ext.ApplyMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -32,7 +34,7 @@ public class ApplyBOImpl implements ApplyBO {
 
 
     @Autowired
-    private ApplyMapper applyMapper;
+    private ApplyMapperExt applyMapper;
 
     @Override
     public void createApply(Apply apply) {
@@ -93,5 +95,27 @@ public class ApplyBOImpl implements ApplyBO {
             return null;
         }
         return applies.iterator().next();
+    }
+
+    @Override
+    public Integer countApply(QueryApplyCond cond) {
+        ApplyExample example = new ApplyExample();
+        ApplyExample.Criteria criteria = example.createCriteria().andApplyEmpNoEqualTo(cond.getEmpNo());
+        if (cond.getApplyType() != null){
+            criteria.andOriginEqualTo(cond.getApplyType());
+        }
+        if(cond.getStatus() != null){
+            criteria.andAuditStatusEqualTo(cond.getStatus());
+        }
+        if (cond.getStart() != null && cond.getEnd() != null){
+            criteria.andGmtCreateBetween(cond.getBegin(), cond.getEnd());
+        }
+        Long count = applyMapper.countByExample(example);
+        return count == null ? 0 : count.intValue();
+    }
+
+    @Override
+    public List<Apply> pagingQueryApply(QueryApplyCond cond) {
+        return applyMapper.pagingQueryApply(cond);
     }
 }

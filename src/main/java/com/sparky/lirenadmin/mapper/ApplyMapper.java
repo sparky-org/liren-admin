@@ -2,11 +2,10 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ApplyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface ApplyMapper {
     long countByExample(ApplyExample example);
 

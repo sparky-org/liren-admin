@@ -12,4 +12,6 @@ public interface SalesPerformanceBO {
     void reward(Long salesNo);
 
     Integer sumSalePerformanceNum(ShopEmployee employee, Date today);
+
+    SalesPerformance getSalesPerf(Long id);
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.ApplyMapperExt">
+  <select id="pagingQueryApply" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_apply
+    where is_valid = 1
+      and apply_emp_no = #{cond.emp_no}
+      <if test="cond.applyType != null">
+        and origin = #{cond.applyType}
+      </if>
+      <if test="cond.status != null">
+        and audit_status = #{cond.status}
+      </if>
+      <if test="cond.start != null and cond.end != null">
+        and gmt_create between #{cond.start} and #{cond.end}
+      </if>
+      order by audit_status desc, gmt_modify desc
+      limit #{cond.start}, #{cond.end}
+  </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.bo;
 
+import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.entity.Apply;
 
 import java.util.List;
@@ -37,4 +38,8 @@ public interface ApplyBO {
     Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long creator, Long shopNo);
 
     Apply queryApplyByOrigin(String origin, Long originNo);
+
+    Integer countApply(QueryApplyCond buildQueryApplyCond);
+
+    List<Apply> pagingQueryApply(QueryApplyCond cond);
 }

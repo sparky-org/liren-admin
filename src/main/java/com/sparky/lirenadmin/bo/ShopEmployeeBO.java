@@ -8,4 +8,6 @@ public interface ShopEmployeeBO {
     ShopEmployee getShopAdmin(Long empNo);
 
     void createEmployee(ShopEmployee admin);
+
+    void modify(ShopEmployee shopEmployee);
 }

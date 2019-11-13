@@ -54,6 +54,11 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
         return total;
     }
 
+    @Override
+    public SalesPerformance getSalesPerf(Long id) {
+        return salesPerformanceMapper.selectByPrimaryKey(id);
+    }
+
     private CustomerTrace buildTrace(SalesPerformance record) {
         CustomerInfo customer = customerBO.getCustomerByPhone(record.getCustomerPhone());
         return customerTraceBO.buildCustomerTrace(customer.getId(), record.getCompleteTime(),

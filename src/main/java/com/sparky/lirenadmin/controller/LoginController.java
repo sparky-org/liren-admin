@@ -1,6 +1,5 @@
 package com.sparky.lirenadmin.controller;
 
-import com.sparky.lirenadmin.annotations.NeedLogin;
 import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.LoginVO;
@@ -51,13 +50,5 @@ public class LoginController {
             logger.error("登陆未知异常", e);
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
-    }
-
-    @NeedLogin
-    @ApiOperation("validate")
-    @RequestMapping(value = "/validate",method = RequestMethod.POST)
-    @ResponseBody
-    public String testLogin(){
-        return "success";
     }
 }
