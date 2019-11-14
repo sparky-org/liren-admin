@@ -15,6 +15,14 @@ public class PagingResponseWrapper<T> extends BaseResponseWrapper{
         return wrapper;
     }
 
+    public static <T> PagingResponseWrapper<T> fail1(T result, String errMsg){
+        PagingResponseWrapper wrapper = new PagingResponseWrapper();
+        wrapper.setSuccess(false);
+        wrapper.setErrMsg(errMsg);
+        wrapper.setResult(result);
+        return wrapper;
+    }
+
     public int getTotal() {
         return total;
     }

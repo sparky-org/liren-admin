@@ -11,6 +11,7 @@ import com.sparky.lirenadmin.controller.MyApplyController;
 import com.sparky.lirenadmin.controller.request.NewNormalApplyDTO;
 import com.sparky.lirenadmin.controller.request.NewVacationApplyDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.controller.response.CCTomeVO;
 import com.sparky.lirenadmin.controller.response.ListApplyVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.Apply;
@@ -66,9 +67,19 @@ public class ApplyControllerTest {
         employee.setManagerNo(admin.getId());
         employee.setIsAdmin(false);
         shopEmployeeBO.createEmployee(employee);
+        //初始化一名普通员工
+        ShopEmployee cc = initEmployee(shop);
+        cc.setName("美容师");
+        cc.setPhone("13000000001");
+        cc.setShopNo(shop.getId());
+        cc.setManagerNo(admin.getId());
+        cc.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(cc);
 
         NewNormalApplyDTO newNormalApplyDTO = initNewNormalApplyDTO(employee,admin);
+        newNormalApplyDTO.setCcEmpList("" + cc.getId());
         myApplyController.newNormalApply(newNormalApplyDTO);
+        newNormalApplyDTO.setCcEmpList("" + cc.getId());
         myApplyController.newNormalApply(newNormalApplyDTO);
         NewVacationApplyDTO newVacationApplyDTO = initNewVacationApplyDTO(employee,admin);
         myApplyController.newVacationApply(newVacationApplyDTO);
@@ -98,10 +109,16 @@ public class ApplyControllerTest {
         //拒绝
         BaseResponseWrapper r2 = myApplyController.approve(pending.get(1).getApplyNo(),false, admin.getId());
         Assert.isTrue(r2.isSuccess(), "审批失败");
+
+
         result = myApplyController.listApply(employee.getId(),null,
                 null, null,null,
                 1, 10);
         System.out.println(JSONObject.toJSONString(result));
+
+        PagingResponseWrapper<List<CCTomeVO>> ccResult = myApplyController.ccToMe(cc.getId(),1,10);
+        Assert.isTrue(ccResult.isSuccess(), "query cc to me failed");
+        Assert.isTrue(((List<CCTomeVO>)ccResult.getResult()).size() == 1, "query cc to me failed");
     }
 
     private NewVacationApplyDTO initNewVacationApplyDTO(ShopEmployee employee, ShopEmployee admin) {

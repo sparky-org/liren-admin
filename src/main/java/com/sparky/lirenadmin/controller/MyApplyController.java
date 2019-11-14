@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,12 +67,16 @@ public class MyApplyController {
                                                               @RequestParam @ApiParam Integer currentPage,
                                                               @RequestParam @ApiParam Integer pageSize){
         try {
-            QueryApplyCond cond = buildQueryApplyCond(empNo, null,null, applyType, status, begin, end);
+            List<String> statuses = null;
+            if (status != null){
+                statuses = Arrays.asList(status);
+            }
+            QueryApplyCond cond = buildQueryApplyCond(empNo, null,null, applyType, statuses, begin, end);
             PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
             return applyVOS;
         } catch (Exception e) {
             logger.error("申请列表查询异常", e.getMessage());
-            return (PagingResponseWrapper)PagingResponseWrapper.fail(null, e.getMessage());
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
     }
 
@@ -180,31 +185,17 @@ public class MyApplyController {
                                                                       @RequestParam @ApiParam Integer currentPage,
                                                                       @RequestParam @ApiParam Integer pageSize){
         try {
-            QueryApplyCond cond = buildQueryApplyCond(null, auditEmpNo,null, applyType, status, begin, end);
+            List<String> statuses = null;
+            if (status != null){
+                statuses = Arrays.asList(status);
+            }
+            QueryApplyCond cond = buildQueryApplyCond(null, auditEmpNo,null, applyType, statuses, begin, end);
             PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
             return applyVOS;
         } catch (RuntimeException e) {
             logger.error("查询异常", e);
             return (PagingResponseWrapper)BaseResponseWrapper.fail(null, e.getMessage());
         }
-    }
-
-    private PagingResponseWrapper<List<ListApplyVO>> pagingQueryApp(QueryApplyCond cond, Integer currentPage, Integer pageSize){
-        Integer total = applyBO.countApply(cond);
-        List<Apply> applies = pagingQueryApp(cond,total, currentPage, pageSize);
-        List<ListApplyVO> applyVOS = applies.stream().map(this::convertToApplyVO).collect(Collectors.toList());
-        return PagingResponseWrapper.success(applyVOS, total);
-    }
-
-    private List<Apply> pagingQueryApp(QueryApplyCond cond, Integer total, Integer currentPage, Integer pageSize){
-        if (total < 1){
-            return new ArrayList<>();
-        }
-        int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
-        cond.setStart(start);
-        cond.setLength(pageSize);
-        List<Apply> applies = applyBO.pagingQueryApply(cond);
-        return applies;
     }
 
     @ApiOperation("审批")
@@ -240,22 +231,45 @@ public class MyApplyController {
                                                               @RequestParam @ApiParam Integer currentPage,
                                                               @RequestParam @ApiParam Integer pageSize){
         try {
-            QueryApplyCond cond = buildQueryApplyCond(null, null, empNo,null, null, null, null);
+            QueryApplyCond cond = buildQueryApplyCond(null, null, empNo,null,
+                    Arrays.asList(ApplyStatusEnum.NEW.getCode(), ApplyStatusEnum.PASSED.getCode()), null, null);
             Integer total = applyBO.countApply(cond);
             List<Apply> applyVOS = pagingQueryApp(cond,total, currentPage, pageSize);
             List<CCTomeVO> ccTomeVOS = applyVOS.stream().map(e -> {
                 CCTomeVO vo = new CCTomeVO();
-//                vo.set
+                vo.setTitle(ApplyTypeEnum.valueOf(e.getOrigin()).getDesc());
+                vo.setApplyNo(e.getApplyEmpNo());
+                vo.setApplyEmpName("");
+                vo.setAuditEmpName("");
+                vo.setStatusDesc(ApplyStatusEnum.valueOf(e.getAuditStatus()).getDesc());
                 return vo;
             }).collect(Collectors.toList());
             return PagingResponseWrapper.success(ccTomeVOS, total);
         } catch (Exception e) {
             logger.error("申请列表查询异常", e.getMessage());
-            return (PagingResponseWrapper)PagingResponseWrapper.fail(null, e.getMessage());
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
     }
 
+
     /*---------------------------分割线，以下是私有方法----------------------------------------*/
+    private PagingResponseWrapper<List<ListApplyVO>> pagingQueryApp(QueryApplyCond cond, Integer currentPage, Integer pageSize){
+        Integer total = applyBO.countApply(cond);
+        List<Apply> applies = pagingQueryApp(cond,total, currentPage, pageSize);
+        List<ListApplyVO> applyVOS = applies.stream().map(this::convertToApplyVO).collect(Collectors.toList());
+        return PagingResponseWrapper.success(applyVOS, total);
+    }
+
+    private List<Apply> pagingQueryApp(QueryApplyCond cond, Integer total, Integer currentPage, Integer pageSize){
+        if (total < 1){
+            return new ArrayList<>();
+        }
+        int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+        cond.setStart(start);
+        cond.setLength(pageSize);
+        List<Apply> applies = applyBO.pagingQueryApply(cond);
+        return applies;
+    }
 
     private Apply convertToApply(NewNormalApplyDTO newNormalApplyDTO) {
         ShopEmployee employee = shopEmployeeBO.getEmployee(newNormalApplyDTO.getEmpNo());
@@ -419,7 +433,7 @@ public class MyApplyController {
         return normal;
     }
 
-    private QueryApplyCond buildQueryApplyCond(Long empNo,Long auditEmpNo,Long ccEmpNo, String applyType, String status, Date begin, Date end) {
+    private QueryApplyCond buildQueryApplyCond(Long empNo,Long auditEmpNo,Long ccEmpNo, String applyType, List<String> statuses, Date begin, Date end) {
         if (applyType != null && null == ApplyTypeEnum.valueOf(applyType)){
             throw new RuntimeException(String.format("申请类型不存在，可用的申请类型有[%s]", ApplyTypeEnum.listCodes()));
         }
@@ -428,7 +442,7 @@ public class MyApplyController {
         cond.setAuditEmpNo(auditEmpNo);
         cond.setCcEmpNo(ccEmpNo);
         cond.setApplyType(applyType);
-        cond.setStatus(status);
+        cond.setStatuses(statuses);
         cond.setBegin(begin);
         cond.setEnd(end);
         return cond;

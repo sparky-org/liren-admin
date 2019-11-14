@@ -10,5 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ApplyMapperExt extends ApplyMapper {
+    Integer countByQueryCond(@Param("cond") QueryApplyCond cond);
+
     List<Apply> pagingQueryApply(@Param("cond") QueryApplyCond cond);
 }

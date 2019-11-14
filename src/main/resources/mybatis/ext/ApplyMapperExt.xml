@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparky.lirenadmin.mapper.ext.ApplyMapperExt">
-  <select id="pagingQueryApply" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from t_apply
-    where is_valid = 1
+  <sql id="paging_query_where_clause">
+    <where>
+      is_valid = 1
+      <if test="cond.ccEmpNo != null">
+        and id in
+        (select t_apply_dtl.apply_no from t_apply_dtl where t_apply_dtl.is_valid = 1 and t_apply_dtl.cc_no = #{cond.ccEmpNo})
+      </if>
       <if test="cond.empNo != null">
         and apply_emp_no = #{cond.empNo}
       </if>
@@ -15,12 +17,28 @@
       <if test="cond.applyType != null">
         and origin = #{cond.applyType}
       </if>
-      <if test="cond.status != null">
-        and audit_status = #{cond.status}
+      <if test="cond.statuses != null">
+        and audit_status in
+        <foreach collection="cond.statuses" item="status" separator="," open="(" close=")">
+          #{status}
+        </foreach>
       </if>
       <if test="cond.begin != null and cond.end != null">
         and gmt_create between #{cond.begin} and #{cond.end}
       </if>
+    </where>
+  </sql>
+
+  <select id="countByQueryCond" resultType="java.lang.Integer">
+    select count(*)
+      from t_apply
+    <include refid="paging_query_where_clause"/>
+  </select>
+  <select id="pagingQueryApply" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_apply
+    <include refid="paging_query_where_clause"/>
       order by audit_status desc, gmt_modify desc
       limit #{cond.start}, #{cond.length}
   </select>

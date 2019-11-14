@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.bo.cond;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName QueryApplyCond
@@ -15,7 +16,7 @@ public class QueryApplyCond {
     private Long auditEmpNo;
     private Long ccEmpNo;
     private String applyType;
-    private String status;
+    private List<String> statuses;
     private Date begin;
     private Date end;
 
@@ -54,6 +55,14 @@ public class QueryApplyCond {
         this.empNo = empNo;
     }
 
+    public List<String> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(List<String> statuses) {
+        this.statuses = statuses;
+    }
+
     public Long getAuditEmpNo() {
         return auditEmpNo;
     }
@@ -68,14 +77,6 @@ public class QueryApplyCond {
 
     public void setApplyType(String applyType) {
         this.applyType = applyType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Date getBegin() {

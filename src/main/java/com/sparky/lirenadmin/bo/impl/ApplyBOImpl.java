@@ -121,25 +121,8 @@ public class ApplyBOImpl implements ApplyBO {
 
     @Override
     public Integer countApply(QueryApplyCond cond) {
-        ApplyExample example = new ApplyExample();
-        ApplyExample.Criteria criteria = example.createCriteria().andIsValidEqualTo(true);
-        if (cond.getEmpNo() != null) {
-            criteria.andApplyEmpNoEqualTo(cond.getEmpNo());
-        }
-        if (cond.getAuditEmpNo() != null) {
-            criteria.andAuditEmpNoEqualTo(cond.getAuditEmpNo());
-        }
-        if (cond.getApplyType() != null){
-            criteria.andOriginEqualTo(cond.getApplyType());
-        }
-        if(cond.getStatus() != null){
-            criteria.andAuditStatusEqualTo(cond.getStatus());
-        }
-        if (cond.getStart() != null && cond.getEnd() != null){
-            criteria.andGmtCreateBetween(cond.getBegin(), cond.getEnd());
-        }
-        Long count = applyMapper.countByExample(example);
-        return count == null ? 0 : count.intValue();
+        Integer count = applyMapper.countByQueryCond(cond);
+        return count;
     }
 
     @Override

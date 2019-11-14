@@ -132,7 +132,7 @@ public class MainPageController {
             return PagingResponseWrapper.success(result, total);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            return (PagingResponseWrapper)PagingResponseWrapper.fail(null, e.getMessage());
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
     }
 
