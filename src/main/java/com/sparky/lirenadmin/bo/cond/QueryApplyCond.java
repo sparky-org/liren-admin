@@ -13,6 +13,7 @@ public class QueryApplyCond {
 
     private Long empNo;
     private Long auditEmpNo;
+    private Long ccEmpNo;
     private String applyType;
     private String status;
     private Date begin;
@@ -20,6 +21,14 @@ public class QueryApplyCond {
 
     private Integer start;
     private Integer length;
+
+    public Long getCcEmpNo() {
+        return ccEmpNo;
+    }
+
+    public void setCcEmpNo(Long ccEmpNo) {
+        this.ccEmpNo = ccEmpNo;
+    }
 
     public Integer getStart() {
         return start;
