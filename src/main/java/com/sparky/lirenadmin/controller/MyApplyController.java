@@ -239,8 +239,10 @@ public class MyApplyController {
                 CCTomeVO vo = new CCTomeVO();
                 vo.setTitle(ApplyTypeEnum.valueOf(e.getOrigin()).getDesc());
                 vo.setApplyNo(e.getApplyEmpNo());
-                vo.setApplyEmpName("");
-                vo.setAuditEmpName("");
+                ShopEmployee employee = shopEmployeeBO.getEmployee(e.getApplyEmpNo());
+                vo.setApplyEmpName(employee.getName());
+                ShopEmployee audit = shopEmployeeBO.getEmployee(e.getAuditEmpNo());
+                vo.setAuditEmpName(audit.getName());
                 vo.setStatusDesc(ApplyStatusEnum.valueOf(e.getAuditStatus()).getDesc());
                 return vo;
             }).collect(Collectors.toList());
