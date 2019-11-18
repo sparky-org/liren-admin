@@ -10,6 +10,7 @@ import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.QueryEmpGroupJob;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
+import com.sparky.lirenadmin.utils.Md5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.sparky.lirenadmin.utils.Md5Utils.md5;
 
 /**
  * @ClassName UserCenter
@@ -142,7 +145,7 @@ public class EmployeeController {
     @ApiOperation("查询岗位")
     @RequestMapping("/getShopJob")
     @ResponseBody
-    public BaseResponseWrapper getShopJob(Long shopNo){
+    public BaseResponseWrapper<List<ShopJob>> getShopJob(Long shopNo){
         try {
             List<ShopJob> jobs = shopJobBO.getShopJobByShop(shopNo);
             return BaseResponseWrapper.success(jobs);
@@ -232,6 +235,8 @@ public class EmployeeController {
 
     private ShopEmployee buildShopEmployee(CreateShopEmployeeDTO dto) {
         ShopEmployee employee = JSONObject.parseObject(JSONObject.toJSONString(dto), ShopEmployee.class);
+        employee.setPassword(md5("123456"));
+        employee.setIsAdmin(dto.getAdmin());
         return employee;
     }
 
@@ -248,19 +253,5 @@ public class EmployeeController {
         }
         job.setShopNo(employee.getShopNo());
         return job;
-    }
-
-    private String md5(String password){
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.update(password.getBytes());
-            String md5Pwd = new BigInteger(messageDigest.digest()).toString(16);
-            if (password.equals(md5Pwd)){
-                throw new RuntimeException("新旧密码不一致");
-            }
-            return md5Pwd;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("修改密码失败");
-        }
     }
 }

@@ -4,6 +4,7 @@ import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.LoginVO;
 import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.utils.Md5Utils;
 import com.sparky.lirenadmin.utils.TokenManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ public class LoginController {
             if (null == employee){
                 throw new RuntimeException("用户不存在");
             }
-            String md5Pwd = DigestUtils.md5DigestAsHex(password.getBytes());
+            String md5Pwd = Md5Utils.md5(password);
             if (!employee.getPassword().equals(md5Pwd)){
                 throw new RuntimeException("密码错误");
             }

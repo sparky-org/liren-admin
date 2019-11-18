@@ -39,6 +39,9 @@ public class CreateShopEmployeeDTO {
     @ApiModelProperty("创建人编号")
     private Long creator;
 
+    @ApiModelProperty("店铺编号")
+    private Long shopNo;
+
     public Long getJobNo() {
         return jobNo;
     }
@@ -101,5 +104,13 @@ public class CreateShopEmployeeDTO {
 
     public void setCreator(Long creator) {
         this.creator = creator;
+    }
+
+    public Long getShopNo() {
+        return shopNo;
+    }
+
+    public void setShopNo(Long shopNo) {
+        this.shopNo = shopNo;
     }
 }
