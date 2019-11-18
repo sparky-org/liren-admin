@@ -19,6 +19,8 @@ public class PointConfig {
 
     private Date gmtModify;
 
+    private String pointDesc;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class PointConfig {
 
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
+    }
+
+    public String getPointDesc() {
+        return pointDesc;
+    }
+
+    public void setPointDesc(String pointDesc) {
+        this.pointDesc = pointDesc == null ? null : pointDesc.trim();
     }
 }

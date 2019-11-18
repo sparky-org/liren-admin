@@ -594,6 +594,76 @@ public class PointConfigExample {
             addCriterion("gmt_modify not between", value1, value2, "gmtModify");
             return (Criteria) this;
         }
+
+        public Criteria andPointDescIsNull() {
+            addCriterion("point_desc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescIsNotNull() {
+            addCriterion("point_desc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescEqualTo(String value) {
+            addCriterion("point_desc =", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescNotEqualTo(String value) {
+            addCriterion("point_desc <>", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescGreaterThan(String value) {
+            addCriterion("point_desc >", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescGreaterThanOrEqualTo(String value) {
+            addCriterion("point_desc >=", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescLessThan(String value) {
+            addCriterion("point_desc <", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescLessThanOrEqualTo(String value) {
+            addCriterion("point_desc <=", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescLike(String value) {
+            addCriterion("point_desc like", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescNotLike(String value) {
+            addCriterion("point_desc not like", value, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescIn(List<String> values) {
+            addCriterion("point_desc in", values, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescNotIn(List<String> values) {
+            addCriterion("point_desc not in", values, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescBetween(String value1, String value2) {
+            addCriterion("point_desc between", value1, value2, "pointDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPointDescNotBetween(String value1, String value2) {
+            addCriterion("point_desc not between", value1, value2, "pointDesc");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

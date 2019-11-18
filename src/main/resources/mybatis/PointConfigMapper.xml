@@ -10,6 +10,7 @@
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="point_desc" jdbcType="VARCHAR" property="pointDesc" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, point_name, point, shop_no, creator, is_valid, gmt_create, gmt_modify
+    id, point_name, point, shop_no, creator, is_valid, gmt_create, gmt_modify, point_desc
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.PointConfigExample" resultMap="BaseResultMap">
     select
@@ -109,10 +110,10 @@
     </selectKey>
     insert into t_point_config (point_name, point, shop_no, 
       creator, is_valid, gmt_create, 
-      gmt_modify)
+      gmt_modify, point_desc)
     values (#{pointName,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, #{shopNo,jdbcType=BIGINT}, 
       #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP})
+      #{gmtModify,jdbcType=TIMESTAMP}, #{pointDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.PointConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -141,6 +142,9 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
+      <if test="pointDesc != null">
+        point_desc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pointName != null">
@@ -163,6 +167,9 @@
       </if>
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pointDesc != null">
+        #{pointDesc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +206,9 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.pointDesc != null">
+        point_desc = #{record.pointDesc,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +223,8 @@
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      point_desc = #{record.pointDesc,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +253,9 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="pointDesc != null">
+        point_desc = #{pointDesc,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -253,7 +267,8 @@
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      point_desc = #{pointDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

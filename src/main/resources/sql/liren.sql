@@ -310,6 +310,7 @@ CREATE TABLE `t_point_config` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `point_name` varchar(128) NOT NULL COMMENT '积分类型名称',
   `point` int NOT NULL COMMENT '奖励分',
+  `point_desc` text NOT NULL COMMENT '积分描述',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
   `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
@@ -360,6 +361,20 @@ CREATE TABLE `t_service_item` (
   `duration` int NOT NULL COMMENT '护理时长，单位/分',
   `item_desc` text DEFAULT NULL COMMENT '项目描述',
   `reward_point` int NOT NULL COMMENT '完成奖励',
+  `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
+  `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
+  `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
+  `gmt_create` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_shop_config`;
+CREATE TABLE `t_shop_config` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `config_type` varchar(32) NOT NULL COMMENT '配置类型:店内制度/公告/海报/积分奖励',
+  `config_name` varchar(32) NOT NULL COMMENT '配置类型:店内制度/公告/海报/积分奖励',
+  `content` text NOT NULL COMMENT '配置内容',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
   `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
