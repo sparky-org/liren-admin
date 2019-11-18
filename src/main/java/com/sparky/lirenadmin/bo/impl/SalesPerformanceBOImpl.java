@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class SalesPerformanceBOImpl implements SalesPerformanceBO {
@@ -27,7 +28,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     private SalesPerformanceMapperExt salesPerformanceMapper;
 
     @Override
-    public void createSalePerformance(SalesPerformance salesPerformance) {
+    public void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList) {
         doCreateSales(salesPerformance);
         applyBO.createApply(buildApply(salesPerformance), null);
         customerTraceBO.createCustomerTrace(buildTrace(salesPerformance));

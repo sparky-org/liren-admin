@@ -4,10 +4,11 @@ import com.sparky.lirenadmin.entity.SalesPerformance;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 
 import java.util.Date;
+import java.util.List;
 
 public interface SalesPerformanceBO {
 
-    void createSalePerformance(SalesPerformance salesPerformance);
+    void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList);
 
     void reward(Long salesNo);
 
