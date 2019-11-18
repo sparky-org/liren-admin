@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.bo;
 
+import com.sparky.lirenadmin.bo.cond.QueryCustomerCond;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.po.CustomerGrowthStatisticsPO;
 
@@ -22,4 +23,8 @@ public interface CustomerBO {
     CustomerInfo getCustomerByPhone(String customerPhone);
 
     CustomerGrowthStatisticsPO getGrowthStatistics(Long empNo);
+
+    Integer countCustomerByCond(QueryCustomerCond cond);
+
+    List<CustomerInfo> pagingQueryCustomerByCond(QueryCustomerCond cond);
 }

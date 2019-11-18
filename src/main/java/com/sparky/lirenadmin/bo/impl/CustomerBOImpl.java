@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.CustomerBO;
 import com.sparky.lirenadmin.bo.EmployeeBO;
+import com.sparky.lirenadmin.bo.cond.QueryCustomerCond;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.CustomerInfoExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
@@ -106,6 +107,16 @@ public class CustomerBOImpl implements CustomerBO {
         statisticsPO.setThisSeason(thisQuarter);
         statisticsPO.setThisYear(thisYear);
         return statisticsPO;
+    }
+
+    @Override
+    public Integer countCustomerByCond(QueryCustomerCond cond) {
+        return customerInfoMapper.countCustomerByCond(cond);
+    }
+
+    @Override
+    public List<CustomerInfo> pagingQueryCustomerByCond(QueryCustomerCond cond) {
+        return customerInfoMapper.pagingQueryCustomerByCond(cond);
     }
 
     private void doUpdate(CustomerInfo customerInfo){

@@ -4,16 +4,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.sparky.lirenadmin.bo.CustomerBO;
 import com.sparky.lirenadmin.bo.CustomerTraceBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.bo.cond.QueryCustomerCond;
 import com.sparky.lirenadmin.controller.request.AddCustomerDTO;
 import com.sparky.lirenadmin.controller.request.ModifyCustomerDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.CustomerDetailVO;
+import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.controller.response.SimpleCustomerVO;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.CustomerTrace;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.po.CustomerActiveStatistics;
 import com.sparky.lirenadmin.entity.po.CustomerGrowthStatisticsPO;
+import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -185,6 +188,31 @@ public class MyCustomerController {
         } catch (Exception e) {
             logger.error("统计活跃客户异常。", e);
             return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    @ApiOperation("分页查询本店顾客")
+    @RequestMapping(value = "/pagingQueryCustomer",method = RequestMethod.POST)
+    @ResponseBody
+    public PagingResponseWrapper<List<CustomerInfo>> pagingQueryCustomer(@RequestParam @ApiParam Long shopNo,
+                                                                         @RequestParam(required = false) @ApiParam String phoneLike,
+                                                                         @RequestParam(required = false) @ApiParam String nameLike,
+                                                                         @RequestParam @ApiParam Integer currentPage,
+                                                                         @RequestParam @ApiParam Integer pageSize){
+        try {
+            QueryCustomerCond cond = new QueryCustomerCond(shopNo, null, phoneLike, nameLike);
+            Integer total = customerBO.countCustomerByCond(cond);
+            if (total < 1){
+                return PagingResponseWrapper.success(new ArrayList<>(), 0);
+            }
+            Integer start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+            cond.setStart(start);
+            cond.setPageSize(pageSize);
+            List<CustomerInfo> infos = customerBO.pagingQueryCustomerByCond(cond);
+            return PagingResponseWrapper.success(infos, total);
+        } catch (Exception e) {
+            logger.error("分页查询本店顾客异常。", e);
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
     }
 

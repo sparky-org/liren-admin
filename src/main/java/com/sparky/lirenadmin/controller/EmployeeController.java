@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * @ClassName UserCenter
@@ -90,6 +91,24 @@ public class EmployeeController {
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
             logger.error("修改个人资料异常。", e);
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    /**
+     * 查询本店所有员工
+     * @param shopNo
+     * @return
+     */
+    @ApiOperation("查询本店所有员工")
+    @RequestMapping("/queryEmpOfShop")
+    @ResponseBody
+    public BaseResponseWrapper<List<ShopEmployee>> queryEmpOfShop(@RequestParam @ApiParam Long shopNo){
+        try {
+            List<ShopEmployee> employees = employeeBO.getEmployeeByShopNo(shopNo);
+            return BaseResponseWrapper.success(employees);
+        } catch (Exception e) {
+            logger.error("查询本店所有员工异常！",e);
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
     }

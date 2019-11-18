@@ -116,20 +116,20 @@
             <!--<columnOverride column="is_rewarded" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
             <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
         <!--</table>-->
-        <!--<table tableName="t_appointment" domainObjectName="Appointment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-            <!--<columnOverride column="is_rewarded" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
-            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
-        <!--</table>-->
+        <table tableName="t_appointment" domainObjectName="Appointment" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="is_rewarded" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
+            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
+        </table>
         <!--<table tableName="t_apply_dtl" domainObjectName="ApplyDtl" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
             <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
         <!--</table>-->
-        <table tableName="t_apply" domainObjectName="Apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>
-            <columnOverride column="apply_content" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </table>
+        <!--<table tableName="t_apply" domainObjectName="Apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->
+            <!--<columnOverride column="apply_content" jdbcType="VARCHAR" javaType="java.lang.String"/>-->
+        <!--</table>-->
         <!--<table tableName="t_service_item" domainObjectName="ServiceItem" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
             <!--<columnOverride column="is_valid" jdbcType="TINYINT" javaType="java.lang.Boolean"/>-->

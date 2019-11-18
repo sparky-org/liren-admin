@@ -2,11 +2,10 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.ServiceItem;
 import com.sparky.lirenadmin.entity.ServiceItemExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface ServiceItemMapper {
     long countByExample(ServiceItemExample example);
 

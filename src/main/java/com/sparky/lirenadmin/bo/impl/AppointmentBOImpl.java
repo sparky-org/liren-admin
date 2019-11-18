@@ -3,14 +3,18 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.AppointmentBO;
 import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.bo.cond.QueryAppointmentCond;
 import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.Appointment;
+import com.sparky.lirenadmin.entity.AppointmentExample;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.mapper.ext.AppointmentMapperExt;
+import com.sparky.lirenadmin.utils.PagingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class AppointmentBOImpl implements AppointmentBO {
@@ -36,6 +40,37 @@ public class AppointmentBOImpl implements AppointmentBO {
             total = appointmentMapper.countAppointCustomerByEmp(employee.getShopNo(), today);
         }
         return total;
+    }
+
+    @Override
+    public List<Appointment> queryAppointment(QueryAppointmentCond cond) {
+        AppointmentExample example = new AppointmentExample();
+        AppointmentExample.Criteria criteria = example.createCriteria();
+        criteria.andIsValidEqualTo(true).andShopNoEqualTo(cond.getShopNo());
+        if (cond.getEmpNo() != null){
+            criteria.andAppointEmpNoEqualTo(cond.getEmpNo());
+        }
+        if (cond.getBegin() != null && cond.getEnd() != null){
+            criteria.andAppointTimeBetween(cond.getBegin(), cond.getEnd());
+        }
+        if (cond.getBegin() != null && cond.getEnd() == null){
+            criteria.andAppointTimeGreaterThanOrEqualTo(cond.getBegin());
+        }
+        if (cond.getBegin() == null && cond.getEnd() != null){
+            criteria.andAppointTimeLessThanOrEqualTo(cond.getEnd());
+        }
+        return appointmentMapper.selectByExample(example);
+    }
+
+    @Override
+    public Integer countAppointCustomer(QueryAppointmentCond cond){
+        return appointmentMapper.countAppointCustomerByCond(cond);
+    }
+
+    @Override
+    public List<Appointment> pagingQueryAppointment(QueryAppointmentCond cond, Integer start, Integer pageSize) {
+        List<Appointment> aps = appointmentMapper.pagingQueryAppointment(cond, start, pageSize);
+        return aps;
     }
 
     private IncreasePointDO buildIncreasePointDO(Appointment appointment) {

@@ -1,5 +1,7 @@
 package com.sparky.lirenadmin.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -56,6 +58,94 @@ public class DateUtils {
             System.out.println("判断day2 - day1 : " + (day2-day1));
             return day2-day1;
         }
+    }
+
+    /**
+     * 获取指定月的第一天
+     * @param date
+     * @return
+     */
+    public static Date getMonthBegining(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return getDayBegining(calendar.getTime());
+    }
+
+    /**
+     * 获取指定月最后一天最后一秒
+     * @param date
+     * @return
+     */
+    public static Date getMonthEnding(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer day = calendar.getMaximum(Calendar.DAY_OF_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        return getDayEnding(calendar.getTime());
+    }
+
+    /**
+     * 获取指定日期的0点
+     * @param date
+     * @return
+     */
+    public static Date getDayBegining(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取指定日期的23点59分59秒
+     * @param date
+     * @return
+     */
+    public static Date getDayEnding(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,23);
+        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.SECOND,59);
+        calendar.set(Calendar.MILLISECOND,999);
+        return calendar.getTime();
+    }
+
+    public static int diff(Date begin, Date end){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(begin);
+        int beginDay = calendar.get(Calendar.DAY_OF_YEAR);
+        calendar.setTime(end);
+        int endDay = calendar.get(Calendar.DAY_OF_YEAR);
+        return endDay -  beginDay;
+    }
+
+    public static Date getMonth(String month){
+        Date thisMonth = null;
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+            thisMonth = df.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("日期格式转换失败.month:" + month);
+        }
+        return thisMonth;
+    }
+
+    public static Date getDate(String date) {
+        Date d = null;
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            d = df.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("日期格式转换失败.month:" + date);
+        }
+        return d;
     }
 
 }

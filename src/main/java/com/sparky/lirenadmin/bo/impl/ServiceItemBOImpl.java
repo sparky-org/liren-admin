@@ -2,17 +2,19 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.ServiceItemBO;
 import com.sparky.lirenadmin.entity.ServiceItem;
-import com.sparky.lirenadmin.mapper.ServiceItemMapper;
+import com.sparky.lirenadmin.entity.ServiceItemExample;
+import com.sparky.lirenadmin.mapper.ext.ServiceItemMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ServiceItemBOImpl implements ServiceItemBO {
 
     @Autowired
-    private ServiceItemMapper serviceItemMapper;
+    private ServiceItemMapperExt serviceItemMapper;
 
     @Override
     public void createUpdateServiceItem(ServiceItem serviceItem) {
@@ -29,6 +31,23 @@ public class ServiceItemBOImpl implements ServiceItemBO {
     @Override
     public ServiceItem getServiceItem(Long id) {
         return serviceItemMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<ServiceItem> getServiceItemByShopNo(Long shopNo) {
+        ServiceItemExample example = new ServiceItemExample();
+        example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
+        return serviceItemMapper.selectByExample(example);
+    }
+
+    @Override
+    public Integer countServiceItem(Long shopNo) {
+        return serviceItemMapper.countServiceItem(shopNo);
+    }
+
+    @Override
+    public List<ServiceItem> pagingQueryServiceItem(Long shopNo, Integer start, Integer pageSize) {
+        return serviceItemMapper.pagingQueryServiceItem(shopNo, start, pageSize);
     }
 
     private void doModify(ServiceItem serviceItem) {

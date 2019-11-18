@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.ServiceItemMapperExt">
+  <sql id="paging_query_service_by_cond">
+    <where>
+      id in (
+         select id
+           from t_service_item
+           where is_valid = 1
+             and shop_no = #{shopNo}
+      )
+    </where>
+  </sql>
+
+  <select id="countServiceItem" resultType="java.lang.Integer">
+    select count(*)
+      from t_service_item
+    <include refid="paging_query_service_by_cond"/>
+  </select>
+
+  <select id="pagingQueryServiceItem" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_service_item
+    <include refid="paging_query_service_by_cond"/>
+    order by id desc
+    limit #{start}, #{pageSize}
+  </select>
+</mapper>

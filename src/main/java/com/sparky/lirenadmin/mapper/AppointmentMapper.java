@@ -2,9 +2,8 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.Appointment;
 import com.sparky.lirenadmin.entity.AppointmentExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface AppointmentMapper {
     long countByExample(AppointmentExample example);

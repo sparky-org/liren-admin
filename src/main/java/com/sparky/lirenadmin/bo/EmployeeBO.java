@@ -2,6 +2,8 @@ package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.ShopEmployee;
 
+import java.util.List;
+
 public interface EmployeeBO {
 
     ShopEmployee getEmployee(Long empNo);
@@ -18,4 +20,6 @@ public interface EmployeeBO {
     * @Time: 2019/11/8
     */
     ShopEmployee getEmployeeByPrimaryPhone(String phone);
+
+    List<ShopEmployee> getEmployeeByShopNo(Long shopNo);
 }

@@ -18,4 +18,34 @@
         ) b on a.appoint_emp_no = b.id
         where STR_TO_DATE(DATE_FORMAT(a.gmt_create,'%Y-%m-%d'),'%Y-%m-%d')=STR_TO_DATE(#{today},'%Y-%m-%d')
     </select>
+
+    <sql id="query_by_cond_where_clause">
+        <where>
+            id in (
+             select id
+               from t_appointment
+              where t_appointment.is_valid = 1
+                and t_appointment.shop_no = #{cond.shopNo}
+                <if test="cond.empNo != null">
+                  and t_appointment.appoint_emp_no = #{cond.empNo}
+                </if>
+                and t_appointment.appoint_time between  #{cond.begin} and #{cond.end}
+            )
+        </where>
+    </sql>
+
+    <select id="countAppointCustomerByCond" resultType="java.lang.Integer">
+        select count(*)
+        from t_appointment
+        <include refid="query_by_cond_where_clause"/>
+    </select>
+
+    <select id="pagingQueryAppointment" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_appointment
+        <include refid="query_by_cond_where_clause"/>
+        order by appoint_time desc
+        limit #{start},#{pageSize}
+    </select>
 </mapper>

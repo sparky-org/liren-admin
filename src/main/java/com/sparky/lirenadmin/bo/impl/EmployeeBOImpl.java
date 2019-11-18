@@ -31,4 +31,12 @@ public class EmployeeBOImpl implements EmployeeBO {
         }
         return employees.iterator().next();
     }
+
+    @Override
+    public List<ShopEmployee> getEmployeeByShopNo(Long shopNo) {
+        ShopEmployeeExample example = new ShopEmployeeExample();
+        example.createCriteria().andShopNoEqualTo(shopNo).andIsValidEqualTo(true);
+        List<ShopEmployee> employees = employeeMapper.selectByExample(example);
+        return employees;
+    }
 }
