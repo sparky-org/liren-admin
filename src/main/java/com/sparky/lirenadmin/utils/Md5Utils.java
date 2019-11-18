@@ -9,6 +9,7 @@ public class Md5Utils {
     public static String md5(String password){
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            password = "<li"+password+"ren!";
             messageDigest.update(password.getBytes());
             String md5Pwd = new BigInteger(messageDigest.digest()).toString(16);
             if (password.equals(md5Pwd)){
