@@ -382,3 +382,54 @@ CREATE TABLE `t_shop_config` (
   `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_attendance_config`;
+CREATE TABLE `t_attendance_config` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `work_day` varchar(256) NOT NULL COMMENT '工作日',
+  `start_work` datetime NOT NULL COMMENT '上班时间',
+  `end_work`   datetime NOT NULL COMMENT '下班时间',
+  `longitude` decimal(25,4) NOT NULL COMMENT '经度',
+  `latitude`  decimal(25,4) NOT NULL COMMENT '维度',
+  `radius` int NOT NULL COMMENT '打卡半径',
+  `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
+  `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
+  `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
+  `gmt_create` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_attendance_record`;
+CREATE TABLE `t_attendance_record` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `emp_no` bigint(11) NOT NULL COMMENT '员工编号',
+  `attendance_date` datetime NOT NULL COMMENT '考勤日期',
+  `status`   varchar(16) NOT NULL COMMENT '出勤状态',
+  `start_work` date default NULL COMMENT '上班打卡时间',
+  `end_work`   date default NULL COMMENT '下班下班时间',
+  `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
+  `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
+  `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
+  `gmt_create` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_clock_in_log`;
+CREATE TABLE `t_clock_in_log` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `emp_no` bigint(11) NOT NULL COMMENT '打卡员工',
+  `clock_in_date` datetime NOT NULL COMMENT '打卡日期',
+  `clock_in_time` datetime NOT NULL COMMENT '打卡时间',
+  `longitude` decimal(25,4) NOT NULL COMMENT '经度',
+  `latitude`  decimal(25,4) NOT NULL COMMENT '维度',
+  `is_outside` tinyint(1) NOT NULL COMMENT '是否外勤',
+  `is_enable` tinyint(1) NOT NULL COMMENT '是否有效',
+  `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
+  `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
+  `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',
+  `gmt_create` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modify` timestamp NULL NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

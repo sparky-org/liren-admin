@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ClockInLogMapper">
+  <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.ClockInLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="emp_no" jdbcType="BIGINT" property="empNo" />
+    <result column="clock_in_date" jdbcType="TIMESTAMP" property="clockInDate" />
+    <result column="clock_in_time" jdbcType="TIMESTAMP" property="clockInTime" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="is_outside" jdbcType="TINYINT" property="isOutside" />
+    <result column="is_enable" jdbcType="TINYINT" property="isEnable" />
+    <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="is_valid" jdbcType="TINYINT" property="isValid" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, emp_no, clock_in_date, clock_in_time, longitude, latitude, is_outside, is_enable, 
+    shop_no, creator, is_valid, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.ClockInLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_clock_in_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_clock_in_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_clock_in_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sparky.lirenadmin.entity.ClockInLogExample">
+    delete from t_clock_in_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sparky.lirenadmin.entity.ClockInLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_clock_in_log (emp_no, clock_in_date, clock_in_time, 
+      longitude, latitude, is_outside, 
+      is_enable, shop_no, creator, 
+      is_valid, gmt_create, gmt_modify
+      )
+    values (#{empNo,jdbcType=BIGINT}, #{clockInDate,jdbcType=TIMESTAMP}, #{clockInTime,jdbcType=TIMESTAMP}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{isOutside,jdbcType=TINYINT}, 
+      #{isEnable,jdbcType=TINYINT}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
+      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.ClockInLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_clock_in_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empNo != null">
+        emp_no,
+      </if>
+      <if test="clockInDate != null">
+        clock_in_date,
+      </if>
+      <if test="clockInTime != null">
+        clock_in_time,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="isOutside != null">
+        is_outside,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empNo != null">
+        #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="clockInDate != null">
+        #{clockInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockInTime != null">
+        #{clockInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="isOutside != null">
+        #{isOutside,jdbcType=TINYINT},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=TINYINT},
+      </if>
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.ClockInLogExample" resultType="java.lang.Long">
+    select count(*) from t_clock_in_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_clock_in_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.empNo != null">
+        emp_no = #{record.empNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.clockInDate != null">
+        clock_in_date = #{record.clockInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.clockInTime != null">
+        clock_in_time = #{record.clockInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isOutside != null">
+        is_outside = #{record.isOutside,jdbcType=TINYINT},
+      </if>
+      <if test="record.isEnable != null">
+        is_enable = #{record.isEnable,jdbcType=TINYINT},
+      </if>
+      <if test="record.shopNo != null">
+        shop_no = #{record.shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=TINYINT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_clock_in_log
+    set id = #{record.id,jdbcType=BIGINT},
+      emp_no = #{record.empNo,jdbcType=BIGINT},
+      clock_in_date = #{record.clockInDate,jdbcType=TIMESTAMP},
+      clock_in_time = #{record.clockInTime,jdbcType=TIMESTAMP},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      is_outside = #{record.isOutside,jdbcType=TINYINT},
+      is_enable = #{record.isEnable,jdbcType=TINYINT},
+      shop_no = #{record.shopNo,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=BIGINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.ClockInLog">
+    update t_clock_in_log
+    <set>
+      <if test="empNo != null">
+        emp_no = #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="clockInDate != null">
+        clock_in_date = #{clockInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockInTime != null">
+        clock_in_time = #{clockInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="isOutside != null">
+        is_outside = #{isOutside,jdbcType=TINYINT},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=TINYINT},
+      </if>
+      <if test="shopNo != null">
+        shop_no = #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.ClockInLog">
+    update t_clock_in_log
+    set emp_no = #{empNo,jdbcType=BIGINT},
+      clock_in_date = #{clockInDate,jdbcType=TIMESTAMP},
+      clock_in_time = #{clockInTime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      is_outside = #{isOutside,jdbcType=TINYINT},
+      is_enable = #{isEnable,jdbcType=TINYINT},
+      shop_no = #{shopNo,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=BIGINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

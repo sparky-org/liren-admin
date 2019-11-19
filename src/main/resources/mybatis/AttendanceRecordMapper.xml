@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.AttendanceRecordMapperExt">
+  <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.AttendanceRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="emp_no" jdbcType="BIGINT" property="empNo" />
+    <result column="attendance_date" jdbcType="TIMESTAMP" property="attendanceDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="start_work" jdbcType="DATE" property="startWork" />
+    <result column="end_work" jdbcType="DATE" property="endWork" />
+    <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="is_valid" jdbcType="TINYINT" property="isValid" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, emp_no, attendance_date, status, start_work, end_work, shop_no, creator, is_valid, 
+    gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_attendance_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_attendance_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceRecordExample">
+    delete from t_attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sparky.lirenadmin.entity.AttendanceRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_attendance_record (emp_no, attendance_date, status, 
+      start_work, end_work, shop_no, 
+      creator, is_valid, gmt_create, 
+      gmt_modify)
+    values (#{empNo,jdbcType=BIGINT}, #{attendanceDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{startWork,jdbcType=DATE}, #{endWork,jdbcType=DATE}, #{shopNo,jdbcType=BIGINT}, 
+      #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.AttendanceRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_attendance_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empNo != null">
+        emp_no,
+      </if>
+      <if test="attendanceDate != null">
+        attendance_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="startWork != null">
+        start_work,
+      </if>
+      <if test="endWork != null">
+        end_work,
+      </if>
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empNo != null">
+        #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="attendanceDate != null">
+        #{attendanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startWork != null">
+        #{startWork,jdbcType=DATE},
+      </if>
+      <if test="endWork != null">
+        #{endWork,jdbcType=DATE},
+      </if>
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceRecordExample" resultType="java.lang.Long">
+    select count(*) from t_attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_attendance_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.empNo != null">
+        emp_no = #{record.empNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.attendanceDate != null">
+        attendance_date = #{record.attendanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startWork != null">
+        start_work = #{record.startWork,jdbcType=DATE},
+      </if>
+      <if test="record.endWork != null">
+        end_work = #{record.endWork,jdbcType=DATE},
+      </if>
+      <if test="record.shopNo != null">
+        shop_no = #{record.shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=TINYINT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_attendance_record
+    set id = #{record.id,jdbcType=BIGINT},
+      emp_no = #{record.empNo,jdbcType=BIGINT},
+      attendance_date = #{record.attendanceDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      start_work = #{record.startWork,jdbcType=DATE},
+      end_work = #{record.endWork,jdbcType=DATE},
+      shop_no = #{record.shopNo,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=BIGINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.AttendanceRecord">
+    update t_attendance_record
+    <set>
+      <if test="empNo != null">
+        emp_no = #{empNo,jdbcType=BIGINT},
+      </if>
+      <if test="attendanceDate != null">
+        attendance_date = #{attendanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startWork != null">
+        start_work = #{startWork,jdbcType=DATE},
+      </if>
+      <if test="endWork != null">
+        end_work = #{endWork,jdbcType=DATE},
+      </if>
+      <if test="shopNo != null">
+        shop_no = #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.AttendanceRecord">
+    update t_attendance_record
+    set emp_no = #{empNo,jdbcType=BIGINT},
+      attendance_date = #{attendanceDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      start_work = #{startWork,jdbcType=DATE},
+      end_work = #{endWork,jdbcType=DATE},
+      shop_no = #{shopNo,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=BIGINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

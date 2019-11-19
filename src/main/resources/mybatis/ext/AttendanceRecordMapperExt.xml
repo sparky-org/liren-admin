@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.AttendanceRecordMapperExt">
+  <resultMap id="StatisticsResultMap" type="com.sparky.lirenadmin.entity.po.AttendanceStatisticsPO">
+    <result column="late" jdbcType="BIGINT" property="late" />
+    <result column="leave_early" jdbcType="VARCHAR" property="leaveEarly" />
+    <result column="absenteeism" jdbcType="DATE" property="absenteeism" />
+  </resultMap>
+
+  <select id="getStatistics" resultMap="StatisticsResultMap">
+    select emp_no, sum(case when status='BE_LATE' then 1 else 0 end) as late
+    , sum(case when status='LEAVE_EARLY' then 1 else 0 end) as leave_early
+    , sum(case when status='ABSENTEEISM' then 1 else 0 end) as absenteeism
+    from t_attendance_record
+    where emp_no = #{empNo}
+      and attendance_date between #{begin} and #{end}
+      and is_valid = 1
+    group by emp_no
+  </select>
+
+</mapper>

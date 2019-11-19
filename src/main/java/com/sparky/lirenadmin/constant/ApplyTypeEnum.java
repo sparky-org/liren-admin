@@ -11,7 +11,8 @@ public enum ApplyTypeEnum {
     SAL_PERF("SAL_PERF", "业绩完成申请"),
     SERVICE_ITEM("SERVICE_ITEM", "项目完成申请"),
     VACATION("VACATION", "请假申请"),
-    NORMAL("NORMAL", "申请");
+    NORMAL("NORMAL", "申请"),
+    OUTSIDE_SIGN("OUTSIDE_SIGN", "外勤打卡申请");
 
     private String code;
     private String desc;

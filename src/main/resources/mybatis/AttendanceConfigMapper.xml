@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.AttendanceConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.AttendanceConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="work_day" jdbcType="VARCHAR" property="workDay" />
+    <result column="start_work" jdbcType="TIMESTAMP" property="startWork" />
+    <result column="end_work" jdbcType="TIMESTAMP" property="endWork" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="radius" jdbcType="INTEGER" property="radius" />
+    <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="is_valid" jdbcType="TINYINT" property="isValid" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, work_day, start_work, end_work, longitude, latitude, radius, shop_no, creator, 
+    is_valid, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_attendance_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_attendance_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_attendance_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceConfigExample">
+    delete from t_attendance_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sparky.lirenadmin.entity.AttendanceConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_attendance_config (work_day, start_work, end_work, 
+      longitude, latitude, radius, 
+      shop_no, creator, is_valid, 
+      gmt_create, gmt_modify)
+    values (#{workDay,jdbcType=VARCHAR}, #{startWork,jdbcType=TIMESTAMP}, #{endWork,jdbcType=TIMESTAMP}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{radius,jdbcType=INTEGER}, 
+      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.AttendanceConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_attendance_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workDay != null">
+        work_day,
+      </if>
+      <if test="startWork != null">
+        start_work,
+      </if>
+      <if test="endWork != null">
+        end_work,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="radius != null">
+        radius,
+      </if>
+      <if test="shopNo != null">
+        shop_no,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workDay != null">
+        #{workDay,jdbcType=VARCHAR},
+      </if>
+      <if test="startWork != null">
+        #{startWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endWork != null">
+        #{endWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="radius != null">
+        #{radius,jdbcType=INTEGER},
+      </if>
+      <if test="shopNo != null">
+        #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.AttendanceConfigExample" resultType="java.lang.Long">
+    select count(*) from t_attendance_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_attendance_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.workDay != null">
+        work_day = #{record.workDay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startWork != null">
+        start_work = #{record.startWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endWork != null">
+        end_work = #{record.endWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.radius != null">
+        radius = #{record.radius,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopNo != null">
+        shop_no = #{record.shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=BIGINT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=TINYINT},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModify != null">
+        gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_attendance_config
+    set id = #{record.id,jdbcType=BIGINT},
+      work_day = #{record.workDay,jdbcType=VARCHAR},
+      start_work = #{record.startWork,jdbcType=TIMESTAMP},
+      end_work = #{record.endWork,jdbcType=TIMESTAMP},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      radius = #{record.radius,jdbcType=INTEGER},
+      shop_no = #{record.shopNo,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=BIGINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.AttendanceConfig">
+    update t_attendance_config
+    <set>
+      <if test="workDay != null">
+        work_day = #{workDay,jdbcType=VARCHAR},
+      </if>
+      <if test="startWork != null">
+        start_work = #{startWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endWork != null">
+        end_work = #{endWork,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="radius != null">
+        radius = #{radius,jdbcType=INTEGER},
+      </if>
+      <if test="shopNo != null">
+        shop_no = #{shopNo,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.AttendanceConfig">
+    update t_attendance_config
+    set work_day = #{workDay,jdbcType=VARCHAR},
+      start_work = #{startWork,jdbcType=TIMESTAMP},
+      end_work = #{endWork,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      radius = #{radius,jdbcType=INTEGER},
+      shop_no = #{shopNo,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=BIGINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
