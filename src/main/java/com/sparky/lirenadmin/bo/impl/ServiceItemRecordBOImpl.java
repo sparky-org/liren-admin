@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
@@ -26,9 +27,9 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     private ServiceItemRecordMapperExt serviceItemRecordMapper;
 
     @Override
-    public void createServiceRecord(ServiceItemRecord record) {
+    public void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList) {
         doCreateServiceItem(record);
-        applyBO.createApply(buildApply(record), null);
+        applyBO.createApply(buildApply(record), applyDtlList);
         customerTraceBO.createCustomerTrace(buildTrace(record));
     }
 

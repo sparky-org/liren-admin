@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt;
@@ -88,7 +89,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     }
 
     private Apply buildApply(SalesPerformance salesPerformance) {
-        return applyBO.buildApply("SALES_PERF", salesPerformance.getId(),
+        return applyBO.buildApply(ApplyTypeEnum.SAL_PERF.getCode(), salesPerformance.getId(),
                 buildApplyContent(salesPerformance), salesPerformance.getEmpNo(),
                 salesPerformance.getCreator(), salesPerformance.getShopNo());
     }

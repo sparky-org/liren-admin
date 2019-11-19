@@ -58,7 +58,7 @@ public class SalesPerformanceBOTest {
         customerBO.createCustomer(customerInfo);
         //4. 初始化销售业绩
         SalesPerformance performance = initPerformance(employee, customerInfo);
-        salesPerformanceBO.createSalePerformance(performance);
+        salesPerformanceBO.createSalePerformance(performance, null);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
         for (Apply apply : approvalPending){
             applyBO.approve(apply);
@@ -88,6 +88,8 @@ public class SalesPerformanceBOTest {
         performance.setEmpNo(employee.getId());
         performance.setRewardPoint(120);
         performance.setShopNo(employee.getShopNo());
+        performance.setTitle("业绩标题");
+        performance.setContent("业绩内容");
         return performance;
     }
 

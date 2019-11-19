@@ -135,10 +135,23 @@ public class ApplyBOImpl implements ApplyBO {
         return applyMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 只有待审批状态的申请才可以撤回
+     *
+    * @MethodName:
+    * @Description: TODO
+    * @Param:
+    * @Return:
+    * @Author:
+    * @Time: 2019/11/19
+    */
     @Override
     public void revert(Apply apply) {
         if (apply.getId() == null){
             throw new RuntimeException("待撤回申请的id不存在");
+        }
+        if (!ApplyStatusEnum.NEW.getCode().equals(apply.getAuditStatus())){
+            throw new RuntimeException("撤销失败，业绩审批当前状态为：" + ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc());
         }
         apply.setAuditStatus(ApplyStatusEnum.REVERTED.getCode());
         apply.setGmtModify(new Date());

@@ -1,12 +1,24 @@
 package com.sparky.lirenadmin.controller.response;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class SalesPerfApplyVO {
+/**
+ * @ClassName ServiceRecordDetailVO
+ * @Description TODO
+ * @Author 86186
+ * @Date 2019/11/19
+ * @Version v0.0.1
+ */
+@ApiModel
+public class ServiceRecordDetailVO {
 
-    private Long salesPerfNo;
+    @ApiModelProperty("执行操作需要此字段")
+    private Long serviceRecordNo;
 
     private String status;
     private String auditor;
@@ -14,19 +26,19 @@ public class SalesPerfApplyVO {
 
     private String title;
     private String content;
-    private BigDecimal targetAmount;
+    private String serviceItemName;
     private String customerName;
     private String completeTime;
     private Integer applyPoint;
 
     private List<String> ccEmpNames;
 
-    public Long getSalesPerfNo() {
-        return salesPerfNo;
+    public Long getServiceRecordNo() {
+        return serviceRecordNo;
     }
 
-    public void setSalesPerfNo(Long salesPerfNo) {
-        this.salesPerfNo = salesPerfNo;
+    public void setServiceRecordNo(Long serviceRecordNo) {
+        this.serviceRecordNo = serviceRecordNo;
     }
 
     public String getStatus() {
@@ -69,12 +81,12 @@ public class SalesPerfApplyVO {
         this.content = content;
     }
 
-    public BigDecimal getTargetAmount() {
-        return targetAmount;
+    public String getServiceItemName() {
+        return serviceItemName;
     }
 
-    public void setTargetAmount(BigDecimal targetAmount) {
-        this.targetAmount = targetAmount;
+    public void setServiceItemName(String serviceItemName) {
+        this.serviceItemName = serviceItemName;
     }
 
     public String getCustomerName() {

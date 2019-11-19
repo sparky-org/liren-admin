@@ -132,12 +132,22 @@ public class ListApplyVO {
 
     @ApiModel
     public static class ServiceItem{
+        @ApiModelProperty("项目申请编号")
+        private Long serviceRecordNo;
         @ApiModelProperty("项目名称")
         private String itemName;
         @ApiModelProperty("项目日期")
         private Date itemDate;
         @ApiModelProperty("申报积分")
         private Integer applyPoint;
+
+        public Long getServiceRecordNo() {
+            return serviceRecordNo;
+        }
+
+        public void setServiceRecordNo(Long serviceRecordNo) {
+            this.serviceRecordNo = serviceRecordNo;
+        }
 
         public String getItemName() {
             return itemName;
@@ -166,12 +176,22 @@ public class ListApplyVO {
 
     @ApiModel
     public static class SalesPerformance{
+        @ApiModelProperty("业绩编号")
+        private Long salesPerfNo;
         @ApiModelProperty("业绩名称")
         private String name;
         @ApiModelProperty("业绩完成日期")
         private Date date;
         @ApiModelProperty("申报积分")
         private Integer applyPoint;
+
+        public Long getSalesPerfNo() {
+            return salesPerfNo;
+        }
+
+        public void setSalesPerfNo(Long salesPerfNo) {
+            this.salesPerfNo = salesPerfNo;
+        }
 
         public String getName() {
             return name;

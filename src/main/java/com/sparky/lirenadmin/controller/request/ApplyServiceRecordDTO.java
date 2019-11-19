@@ -15,8 +15,8 @@ public class ApplyServiceRecordDTO {
     private String title;
     @ApiModelProperty("申报内容")
     private String content;
-    @ApiModelProperty("业绩金额")
-    private BigDecimal targetAmount;
+    @ApiModelProperty("项目编号")
+    private Long serviceItemNo;
     @ApiModelProperty("顾客编号")
     private Long customerNo;
     @ApiModelProperty("完成时间")
@@ -52,12 +52,12 @@ public class ApplyServiceRecordDTO {
         this.content = content;
     }
 
-    public BigDecimal getTargetAmount() {
-        return targetAmount;
+    public Long getServiceItemNo() {
+        return serviceItemNo;
     }
 
-    public void setTargetAmount(BigDecimal targetAmount) {
-        this.targetAmount = targetAmount;
+    public void setServiceItemNo(Long serviceItemNo) {
+        this.serviceItemNo = serviceItemNo;
     }
 
     public Long getCustomerNo() {

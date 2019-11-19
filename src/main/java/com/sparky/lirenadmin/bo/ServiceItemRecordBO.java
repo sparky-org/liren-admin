@@ -1,13 +1,15 @@
 package com.sparky.lirenadmin.bo;
 
+import com.sparky.lirenadmin.entity.ApplyDtl;
 import com.sparky.lirenadmin.entity.ServiceItemRecord;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 
 import java.util.Date;
+import java.util.List;
 
 public interface ServiceItemRecordBO {
 
-    void createServiceRecord(ServiceItemRecord record);
+    void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList);
 
     void reward(Long salesNo);
 

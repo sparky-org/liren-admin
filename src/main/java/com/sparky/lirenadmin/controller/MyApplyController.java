@@ -402,6 +402,7 @@ public class MyApplyController {
         ListApplyVO.ServiceItem item = new ListApplyVO.ServiceItem();
         ServiceItemRecord serviceItem = serviceItemBO.getServiceItemRecord(apply.getOriginNo());
         if (serviceItem != null){
+            item.setServiceRecordNo(serviceItem.getId());
             item.setItemName(serviceItem.getTitle());
             item.setItemDate(serviceItem.getGmtCreate());
             item.setApplyPoint(serviceItem.getRewardPoint());
@@ -416,6 +417,7 @@ public class MyApplyController {
         ListApplyVO.SalesPerformance perf = new ListApplyVO.SalesPerformance();
         SalesPerformance salesPerformance = salesPerformanceBO.getSalesPerf(apply.getOriginNo());
         if (salesPerformance != null){
+            perf.setSalesPerfNo(salesPerformance.getId());
             perf.setName(salesPerformance.getTitle());
             perf.setDate(salesPerformance.getCompleteTime());
             perf.setApplyPoint(salesPerformance.getRewardPoint());
