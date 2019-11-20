@@ -3,14 +3,15 @@
 <mapper namespace="com.sparky.lirenadmin.mapper.PointConfigMapper">
   <resultMap id="BaseResultMap" type="com.sparky.lirenadmin.entity.PointConfig">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="point_type" jdbcType="VARCHAR" property="pointType" />
     <result column="point_name" jdbcType="VARCHAR" property="pointName" />
     <result column="point" jdbcType="INTEGER" property="point" />
+    <result column="point_desc" jdbcType="VARCHAR" property="pointDesc" />
     <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
     <result column="creator" jdbcType="BIGINT" property="creator" />
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
-    <result column="point_desc" jdbcType="VARCHAR" property="pointDesc" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, point_name, point, shop_no, creator, is_valid, gmt_create, gmt_modify, point_desc
+    id, point_type, point_name, point, point_desc, shop_no, creator, is_valid, gmt_create, 
+    gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.PointConfigExample" resultMap="BaseResultMap">
     select
@@ -108,12 +110,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_point_config (point_name, point, shop_no, 
-      creator, is_valid, gmt_create, 
-      gmt_modify, point_desc)
-    values (#{pointName,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, #{shopNo,jdbcType=BIGINT}, 
-      #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP}, #{pointDesc,jdbcType=VARCHAR})
+    insert into t_point_config (point_type, point_name, point, 
+      point_desc, shop_no, creator, 
+      is_valid, gmt_create, gmt_modify
+      )
+    values (#{pointType,jdbcType=VARCHAR}, #{pointName,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, 
+      #{pointDesc,jdbcType=VARCHAR}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
+      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.PointConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -121,11 +125,17 @@
     </selectKey>
     insert into t_point_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointType != null">
+        point_type,
+      </if>
       <if test="pointName != null">
         point_name,
       </if>
       <if test="point != null">
         point,
+      </if>
+      <if test="pointDesc != null">
+        point_desc,
       </if>
       <if test="shopNo != null">
         shop_no,
@@ -142,16 +152,19 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
-      <if test="pointDesc != null">
-        point_desc,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointType != null">
+        #{pointType,jdbcType=VARCHAR},
+      </if>
       <if test="pointName != null">
         #{pointName,jdbcType=VARCHAR},
       </if>
       <if test="point != null">
         #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pointDesc != null">
+        #{pointDesc,jdbcType=VARCHAR},
       </if>
       <if test="shopNo != null">
         #{shopNo,jdbcType=BIGINT},
@@ -168,9 +181,6 @@
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=TIMESTAMP},
       </if>
-      <if test="pointDesc != null">
-        #{pointDesc,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.sparky.lirenadmin.entity.PointConfigExample" resultType="java.lang.Long">
@@ -185,11 +195,17 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.pointType != null">
+        point_type = #{record.pointType,jdbcType=VARCHAR},
+      </if>
       <if test="record.pointName != null">
         point_name = #{record.pointName,jdbcType=VARCHAR},
       </if>
       <if test="record.point != null">
         point = #{record.point,jdbcType=INTEGER},
+      </if>
+      <if test="record.pointDesc != null">
+        point_desc = #{record.pointDesc,jdbcType=VARCHAR},
       </if>
       <if test="record.shopNo != null">
         shop_no = #{record.shopNo,jdbcType=BIGINT},
@@ -206,9 +222,6 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.pointDesc != null">
-        point_desc = #{record.pointDesc,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -217,14 +230,15 @@
   <update id="updateByExample" parameterType="map">
     update t_point_config
     set id = #{record.id,jdbcType=BIGINT},
+      point_type = #{record.pointType,jdbcType=VARCHAR},
       point_name = #{record.pointName,jdbcType=VARCHAR},
       point = #{record.point,jdbcType=INTEGER},
+      point_desc = #{record.pointDesc,jdbcType=VARCHAR},
       shop_no = #{record.shopNo,jdbcType=BIGINT},
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
-      point_desc = #{record.pointDesc,jdbcType=VARCHAR}
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -232,11 +246,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sparky.lirenadmin.entity.PointConfig">
     update t_point_config
     <set>
+      <if test="pointType != null">
+        point_type = #{pointType,jdbcType=VARCHAR},
+      </if>
       <if test="pointName != null">
         point_name = #{pointName,jdbcType=VARCHAR},
       </if>
       <if test="point != null">
         point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pointDesc != null">
+        point_desc = #{pointDesc,jdbcType=VARCHAR},
       </if>
       <if test="shopNo != null">
         shop_no = #{shopNo,jdbcType=BIGINT},
@@ -253,22 +273,20 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       </if>
-      <if test="pointDesc != null">
-        point_desc = #{pointDesc,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sparky.lirenadmin.entity.PointConfig">
     update t_point_config
-    set point_name = #{pointName,jdbcType=VARCHAR},
+    set point_type = #{pointType,jdbcType=VARCHAR},
+      point_name = #{pointName,jdbcType=VARCHAR},
       point = #{point,jdbcType=INTEGER},
+      point_desc = #{pointDesc,jdbcType=VARCHAR},
       shop_no = #{shopNo,jdbcType=BIGINT},
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
-      point_desc = #{pointDesc,jdbcType=VARCHAR}
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

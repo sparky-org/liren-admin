@@ -5,9 +5,13 @@ import java.util.Date;
 public class PointConfig {
     private Long id;
 
+    private String pointType;
+
     private String pointName;
 
     private Integer point;
+
+    private String pointDesc;
 
     private Long shopNo;
 
@@ -19,14 +23,20 @@ public class PointConfig {
 
     private Date gmtModify;
 
-    private String pointDesc;
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPointType() {
+        return pointType;
+    }
+
+    public void setPointType(String pointType) {
+        this.pointType = pointType == null ? null : pointType.trim();
     }
 
     public String getPointName() {
@@ -43,6 +53,14 @@ public class PointConfig {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public String getPointDesc() {
+        return pointDesc;
+    }
+
+    public void setPointDesc(String pointDesc) {
+        this.pointDesc = pointDesc == null ? null : pointDesc.trim();
     }
 
     public Long getShopNo() {
@@ -83,13 +101,5 @@ public class PointConfig {
 
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
-    }
-
-    public String getPointDesc() {
-        return pointDesc;
-    }
-
-    public void setPointDesc(String pointDesc) {
-        this.pointDesc = pointDesc == null ? null : pointDesc.trim();
     }
 }

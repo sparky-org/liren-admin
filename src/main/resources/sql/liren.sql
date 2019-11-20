@@ -308,7 +308,8 @@ CREATE TABLE `t_task_dtl` (
 DROP TABLE IF EXISTS `t_point_config`;
 CREATE TABLE `t_point_config` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `point_name` varchar(128) NOT NULL COMMENT '积分类型名称',
+  `point_type` varchar(128) NOT NULL COMMENT '积分类型',
+  `point_name` varchar(128) NOT NULL COMMENT '积分名称',
   `point` int NOT NULL COMMENT '奖励分',
   `point_desc` text NOT NULL COMMENT '积分描述',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',

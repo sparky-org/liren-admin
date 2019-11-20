@@ -81,7 +81,8 @@ public class PointController {
         }
         point.setShopNo(employee.getShopNo());
         point.setCreator(dto.getEmpNo());
-        point.setPointName(dto.getPointType());
+        point.setPointType(dto.getPointType());
+        point.setPointName(dto.getPointName());
         point.setPoint(dto.getValue());
         point.setPointDesc(dto.getContent());
         return point;
