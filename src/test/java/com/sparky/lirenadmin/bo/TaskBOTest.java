@@ -2,12 +2,9 @@ package com.sparky.lirenadmin.bo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sparky.App;
 import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
-import com.sparky.lirenadmin.component.ApplyApprovedHandler;
 import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
-import com.sparky.lirenadmin.invoker.NotifyInvoker;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -52,20 +49,44 @@ public class TaskBOTest {
 
     @Test
     public void testCreate(){
-        Task task = initTask();
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+
+        Task task = initTask(admin);
         List<TaskDtl> taskDtls = initTaskDtls();
         taskBO.createTask(task, taskDtls);
     }
 
     @Test
     public void testPagingQueryCond(){
-        QueryTaskCond cond = initQueryCond(null);
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+        //初始化一名普通员工
+        ShopEmployee employee = initEmployee(shop);
+        employee.setName("美容师");
+        employee.setPhone("13000000001");
+        employee.setShopNo(shop.getId());
+        employee.setManagerNo(admin.getId());
+        employee.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(employee);
+
+        Task task = initTask(admin);
+        List<TaskDtl> taskDtls = initTaskDtls();
+        taskBO.createTask(task, taskDtls);
+
+        QueryTaskCond cond = initQueryCond(employee);
         int total = taskBO.countTask(cond);
-        int start = PagingUtils.getStartIndex(total, 1,1);
+        int start = PagingUtils.getStartIndex(total, 1,10);
         cond.setStart(start);
-        cond.setLength(1);
+        cond.setLength(10);
         List<MyTaskPO> taskPOS = taskBO.queryTask(cond);
-        Assert.assertTrue(taskPOS.size() == 0);
+        Assert.assertTrue( "任务个数"+ taskPOS.size(),taskPOS.size() == 1);
     }
 
     @Test
@@ -73,17 +94,17 @@ public class TaskBOTest {
         //1. 初始化管理员
         BeautyShop shop = initShop();
         beautyShopBO.createShop(shop);
-        ShopEmployee admin = initEmployee();
+        ShopEmployee admin = initEmployee(shop);
         admin.setShopNo(shop.getId());
         shopEmployeeBO.createEmployee(admin);
         //初始化一名普通员工
-        ShopEmployee employee = initEmployee();
+        ShopEmployee employee = initEmployee(shop);
         employee.setName("美容师");
         employee.setPhone("13000000001");
         employee.setShopNo(shop.getId());
         employee.setManagerNo(admin.getId());
         shopEmployeeBO.createEmployee(employee);
-        Task task = initTask();
+        Task task = initTask(admin);
         List<TaskDtl> dtls = initTaskDtls();
         taskBO.createTask(task, dtls);
         QueryTaskCond cond = initQueryCond(employee);
@@ -124,14 +145,14 @@ public class TaskBOTest {
         return shop;
     }
 
-    private ShopEmployee initEmployee() {
+    private ShopEmployee initEmployee(BeautyShop shop) {
         ShopEmployee admin = new ShopEmployee();
         admin.setIsAdmin(true);
         admin.setJobNo(1l);
-        admin.setShopNo(1l);
+        admin.setShopNo(shop.getId());
         admin.setPassword("1111");
         admin.setName("张三");
-        admin.setManagerNo(1l);
+        admin.setManagerNo(0l);
         admin.setPhone("13011111111");
         return admin;
     }
@@ -151,15 +172,15 @@ public class TaskBOTest {
         return dtls;
     }
 
-    private Task initTask() {
+    private Task initTask(ShopEmployee admin) {
         Task task = new Task();
         task.setTitle("测试任务");
         task.setContent("测试任务");
-        task.setCreator(1L);
+        task.setCreator(admin.getId());
         task.setJoinLimit(0);
         task.setPointNo(1l);
         task.setScope("ALL");
-        task.setShopNo(1l);
+        task.setShopNo(admin.getShopNo());
         return task;
     }
 

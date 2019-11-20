@@ -39,24 +39,28 @@ public class AppointmentBOTest {
 
     @Test
     public void testCreateAppointment(){
-        //1. 初始化管理员
-//        BeautyShop shop = initShop();
-//        beautyShopBO.createShop(shop);
-//        ShopEmployee admin = initEmployee();
-//        admin.setShopNo(shop.getId());
-//        shopEmployeeBO.createEmployee(admin);
-//        //初始化一名普通员工
-//        ShopEmployee employee = initEmployee();
-//        employee.setName("美容师");
-//        employee.setPhone("13000000001");
-//        employee.setShopNo(shop.getId());
-//        employee.setManagerNo(admin.getId());
-//        employee.setIsAdmin(false);
-//        shopEmployeeBO.createEmployee(employee);
-        //****
-        ShopEmployee employee = shopEmployeeBO.getEmployee(6l);
-        ShopEmployee admin = shopEmployeeBO.getEmployee(5l);
-        //****
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+        //初始化一名普通员工
+        ShopEmployee employee = initEmployee(shop);
+        employee.setName("美容师");
+        employee.setPhone("13000000001");
+        employee.setShopNo(shop.getId());
+        employee.setManagerNo(admin.getId());
+        employee.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(employee);
+        //初始化一名普通员工
+        ShopEmployee cc = initEmployee(shop);
+        cc.setName("美容师");
+        cc.setPhone("13000000001");
+        cc.setShopNo(shop.getId());
+        cc.setManagerNo(admin.getId());
+        cc.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(cc);
+
         Appointment performance = initAppointment(employee);
         appointmentBO.createAppointment(performance);
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
@@ -89,14 +93,14 @@ public class AppointmentBOTest {
         return shop;
     }
 
-    private ShopEmployee initEmployee() {
+    private ShopEmployee initEmployee(BeautyShop shop) {
         ShopEmployee admin = new ShopEmployee();
         admin.setIsAdmin(true);
         admin.setJobNo(1l);
-        admin.setShopNo(1l);
+        admin.setShopNo(shop.getId());
         admin.setPassword("1111");
         admin.setName("张三");
-        admin.setManagerNo(1l);
+        admin.setManagerNo(0l);
         admin.setPhone("13011111111");
         return admin;
     }
