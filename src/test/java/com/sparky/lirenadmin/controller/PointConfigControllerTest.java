@@ -71,6 +71,7 @@ public class PointConfigControllerTest {
         dto.setEmpNo(boss.getId());
         dto.setPointType(PointTypeEnum.ATTENDANCE.getCode());
         dto.setValue(102);
+        dto.setPointName("考勤");
         return dto;
     }
 
