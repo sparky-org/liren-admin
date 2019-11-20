@@ -35,11 +35,11 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
 
     @Override
     public void reward(Long serviceItemRecordId) {
-        ServiceItemRecord sales = getServiceItem(serviceItemRecordId);
-        if (null == sales){
-            throw new RuntimeException("增加业绩完成积分失败，业绩不存在");
+        ServiceItemRecord itemRecord = getServiceItem(serviceItemRecordId);
+        if (null == itemRecord){
+            throw new RuntimeException("增加项目完成积分失败，项目完成记录不存在");
         }
-        pointBO.increasePoint(buildIncreasePointDO(sales), this::doReward);
+        pointBO.increasePoint(buildIncreasePointDO(itemRecord), this::doReward);
     }
 
     @Override
