@@ -36,7 +36,7 @@ CREATE TABLE `t_shop_employee` (
   `job_no` bigint(11) NOT NULL COMMENT '岗位编号',
   `name` varchar(16) NOT NULL COMMENT '姓名',
   `phone` varchar(16) NOT NULL COMMENT '手机号',
-  `password` varchar(16) NOT NULL COMMENT '登录密码',
+  `password` varchar(255) NOT NULL COMMENT '登录密码',
   `avatar` varchar(255) NOT NULL COMMENT '头像',
   `age` int DEFAULT NULL COMMENT '年龄',
   `birthday` DATETIME DEFAULT NULL COMMENT '生日',
