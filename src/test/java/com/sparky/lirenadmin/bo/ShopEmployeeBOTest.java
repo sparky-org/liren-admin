@@ -17,7 +17,7 @@ import java.util.Date;
 @MapperScan("com.sparky.lirenadmin.mapper")
 @RunWith(SpringRunner.class)
 @Transactional
-@Rollback(false)
+@Rollback(true)
 public class ShopEmployeeBOTest {
 
     @Autowired
