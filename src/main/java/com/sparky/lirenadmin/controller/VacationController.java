@@ -133,7 +133,7 @@ public class VacationController {
     }
 
     @ApiOperation("上下班打卡")
-    @RequestMapping("/clockIn")
+    @RequestMapping(value = "/clockIn", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper clockIn(@RequestParam @ApiParam Long empNo,
                                        @RequestParam @ApiParam Double longitude,

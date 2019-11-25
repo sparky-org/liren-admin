@@ -38,7 +38,8 @@ public class VacationScheduleTask {
     private BeautyShopBO beautyShopBO;
 
     //正常考勤申请奖励
-    @Scheduled(cron = "0/5 * * * * ?")
+//    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0 1 0 * * ?")
     private void configureTask(){
         System.out.println("执行定任务=========");
         List<BeautyShop> shops = beautyShopBO.getAllShop();

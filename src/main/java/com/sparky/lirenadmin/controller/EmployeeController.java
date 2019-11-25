@@ -10,7 +10,6 @@ import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.QueryEmpGroupJob;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
-import com.sparky.lirenadmin.utils.Md5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,14 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +48,7 @@ public class EmployeeController {
     private ShopJobBO shopJobBO;
 
     @ApiOperation("个人资料")
-    @RequestMapping("/getEmployeeInfo")
+    @RequestMapping(value = "/getEmployeeInfo", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper<ShopEmployee> getEmployeeInfo(@RequestParam @ApiParam Long empNo){
         try {
@@ -68,7 +61,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("修改资料")
-    @RequestMapping("/modifyEmployee")
+    @RequestMapping(value = "/modifyEmployee",method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper modifyEmployee(@RequestParam @ApiParam ShopEmployee shopEmployee){
         try {
@@ -84,7 +77,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("修改密码")
-    @RequestMapping("/modifyPassword")
+    @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper modifyPassword(@RequestParam @ApiParam Long empNo,
                                               @RequestParam @ApiParam String newPassword,
@@ -117,7 +110,7 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("查询本店所有员工")
-    @RequestMapping("/queryEmpOfShop")
+    @RequestMapping(value = "/queryEmpOfShop", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper<List<ShopEmployee>> queryEmpOfShop(@RequestParam @ApiParam Long shopNo){
         try {
@@ -130,7 +123,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("创建岗位")
-    @RequestMapping("/createShopJob")
+    @RequestMapping(value = "/createShopJob", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper createShopJob(CreateShopJobDTO dto){
         try {
@@ -143,7 +136,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("查询岗位")
-    @RequestMapping("/getShopJob")
+    @RequestMapping(value = "/getShopJob", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper<List<ShopJob>> getShopJob(Long shopNo){
         try {
@@ -157,7 +150,7 @@ public class EmployeeController {
 
 
     @ApiOperation("创建员工")
-    @RequestMapping("/createEmployee")
+    @RequestMapping(value = "/createEmployee", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper createEmployee(@RequestBody CreateShopEmployeeDTO dto){
         try {
@@ -170,7 +163,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("删除员工")
-    @RequestMapping("/deleteEmployee")
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper deleteEmployee(@RequestParam @ApiParam Long empNo,
                                               @RequestParam @ApiParam Long operator) {
@@ -199,7 +192,7 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("按岗位分组查询本店所有员工")
-    @RequestMapping("/queryEmpGroupByJob")
+    @RequestMapping(value = "/queryEmpGroupByJob",method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper<List<QueryEmpGroupJob>> queryEmpGroupByJob(@RequestParam @ApiParam Long shopNo){
         try {
