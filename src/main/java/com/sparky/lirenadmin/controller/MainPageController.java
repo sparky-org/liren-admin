@@ -109,16 +109,16 @@ public class MainPageController {
     @RequestMapping(value = "/pagingQueryPointTrace",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation("积分动态")
-    public PagingResponseWrapper<List<PointTraceVO>> pagingQueryPointTrace(@RequestParam @ApiParam String shopNo,
+    public PagingResponseWrapper<List<PointTraceVO>> pagingQueryPointTrace(@RequestParam @ApiParam Long shopNo,
                                                                            @RequestParam @ApiParam Integer currentPage,
                                                                            @RequestParam @ApiParam Integer pageSize){
         try {
-            int total = rewardRecordBO.countRewardRecord(shopNo);
+            int total = rewardRecordBO.countRewardRecord(shopNo.toString());
             if (total < 1){
                 return PagingResponseWrapper.success(new ArrayList(), total);
             }
             int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
-            List<RewardRecord> records = rewardRecordBO.pagingQueryRewardRecord(shopNo, start, pageSize);
+            List<RewardRecord> records = rewardRecordBO.pagingQueryRewardRecord(shopNo.toString(), start, pageSize);
             List<PointTraceVO> result = new ArrayList<>();
             for (RewardRecord record : records){
                 PointTraceVO vo = new PointTraceVO();
@@ -126,7 +126,7 @@ public class MainPageController {
                 vo.setEmpName(employee.getName());
                 vo.setEmpIcon(employee.getAvatar());
                 vo.setPoint(record.getPoint());
-                vo.setRewardTime(DateUtils.formatDate(record.getRewardTime(), "yyyy-mm-dd HH:mi:ss"));
+                vo.setRewardTime(DateUtils.formatDate(record.getRewardTime(), "yyyy-mm-dd HH:mm:ss"));
                 vo.setTitle(RewardTypeEnum.valueOf(record.getOrigin()).getDesc());
             }
             return PagingResponseWrapper.success(result, total);
