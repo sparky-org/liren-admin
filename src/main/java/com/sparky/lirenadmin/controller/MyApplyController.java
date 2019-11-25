@@ -134,7 +134,7 @@ public class MyApplyController {
             if(apply == null){
                 throw new RuntimeException(String.format("申请[%d]不存在", applyNo));
             }
-            if (apply.getApplyEmpNo() != empNo){
+            if (apply.getApplyEmpNo() != empNo.longValue()){
                 throw new RuntimeException(String.format("操作者[%d]只能撤回自己的申请", applyNo));
             }
             if (!canRevert(apply.getCreator(), apply.getAuditStatus())){
@@ -209,7 +209,7 @@ public class MyApplyController {
             if (!ApplyStatusEnum.NEW.getCode().equals(apply.getAuditStatus())){
                 throw new RuntimeException(String.format("[%s]状态的申请单不允许再次审批", ApplyStatusEnum.valueOf(apply.getAuditStatus()).getDesc()));
             }
-            if (apply.getAuditEmpNo() != auditEmpNo){
+            if (apply.getAuditEmpNo() != auditEmpNo.longValue()){
                 throw new RuntimeException(String.format("[%d]无权审批", auditEmpNo));
             }
             if (result){

@@ -42,7 +42,7 @@ public class PointConfigControllerTest {
     private LoginController loginController;
 
     @Test
-    public void testPointConfig() throws ParseException {
+    public void testPointConfig() {
         //初始化店铺
         BeautyShop shop = initShop();
         beautyShopBO.createShop(shop);

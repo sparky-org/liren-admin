@@ -2,14 +2,11 @@ package com.sparky.lirenadmin.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.internal.org.apache.commons.lang3.time.DateUtils;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
-import com.sparky.lirenadmin.constant.ApplyStatusEnum;
-import com.sparky.lirenadmin.constant.ApplyTypeEnum;
-import com.sparky.lirenadmin.controller.request.NewNormalApplyDTO;
-import com.sparky.lirenadmin.controller.request.NewVacationApplyDTO;
-import com.sparky.lirenadmin.controller.response.*;
+import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.controller.response.ListMyShopVO;
+import com.sparky.lirenadmin.controller.response.LoginVO;
 import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.utils.Md5Utils;
@@ -24,7 +21,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -73,28 +69,6 @@ public class LoginControllerTest {
         BaseResponseWrapper<LoginVO> loginVOWrapper = loginController.login(phone, vos.get(0).getShopNo(), "123456");
         Assert.isTrue(loginVOWrapper.isSuccess());
         System.out.println(JSONObject.toJSONString(loginVOWrapper.getResult()));
-    }
-
-    private NewVacationApplyDTO initNewVacationApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewVacationApplyDTO dto = new NewVacationApplyDTO();
-        dto.setApplyEmpNo(employee.getId());
-        dto.setAttachemntPicList("");
-        dto.setAuditEmpNo(admin.getId());
-        dto.setBegin(new Date());
-        dto.setEnd(new Date());
-        dto.setCcList("");
-        dto.setReason("请假请假请假");
-        return dto;
-    }
-
-    private NewNormalApplyDTO initNewNormalApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewNormalApplyDTO dto = new NewNormalApplyDTO();
-        dto.setEmpNo(employee.getId());
-        dto.setAuditEmpNo(admin.getId());
-        dto.setAttachmentPicList("");
-        dto.setCcEmpList("");
-        dto.setContent("测试测试测试");
-        return dto;
     }
 
     private BeautyShop initShop() {
