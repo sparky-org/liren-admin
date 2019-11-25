@@ -19,16 +19,16 @@
   <select id="countRewardRecord" resultType="java.lang.Integer">
     select count(*)
       from t_reward_record
-     where shopNo = #{shopNo}
+     where shop_no = #{shopNo}
        and is_valid = 1
   </select>
 
   <select id="pagingQueryRewardRecord" resultMap="BaseResultMap">
     select *
       from t_reward_record
-     where shopNo = #{shopNo}
+     where shop_no = #{shopNo}
        and is_valid = 1
-     order by gmt_create
+     order by id desc
      limit #{start}, #{pageSize}
   </select>
 </mapper>
