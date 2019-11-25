@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
+import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.mapper.ext.ServiceItemRecordMapperExt;
@@ -93,14 +94,13 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     }
 
     private Apply buildApply(ServiceItemRecord record) {
-        return applyBO.buildApply("SERVICE_ITEM", record.getId(), "项目内容申请",
+        return applyBO.buildApply(ApplyTypeEnum.SERVICE_ITEM.getCode(), record.getId(), buildApplyContent(record),
                 record.getEmpNo(), record.getCreator(), record.getShopNo());
     }
 
     private String buildApplyContent(ServiceItemRecord record) {
-//        Task task = taskBO.getTask(record.getTaskNo());
         StringBuilder builder = new StringBuilder();
-//        builder.append(String.format("任务名称：%s \n任务内容：%s \n申请奖励：%d 积分", task.getTitle(), task.getContent(), record.getRewardPoint()));
+        builder.append(String.format("任务名称：%s \n任务内容：%s \n申请奖励：%d 积分", record.getTitle(), record.getContent(), record.getRewardPoint()));
         return builder.toString();
     }
 }
