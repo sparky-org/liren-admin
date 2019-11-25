@@ -41,9 +41,9 @@ public class LoginController {
     @ApiOperation("login")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<LoginVO> login(@RequestParam @ApiParam String phone,
-                                              @RequestParam @ApiParam Long shopNo,
-                                             @RequestParam @ApiParam String password){
+    public BaseResponseWrapper<LoginVO> login(@RequestParam("phone") @ApiParam String phone,
+                                              @RequestParam("shopNo") @ApiParam Long shopNo,
+                                             @RequestParam("password") @ApiParam String password){
         try {
             ShopEmployee employee = employeeBO.getEmployeeByPrimaryPhone(phone, shopNo);
             if (null == employee){
