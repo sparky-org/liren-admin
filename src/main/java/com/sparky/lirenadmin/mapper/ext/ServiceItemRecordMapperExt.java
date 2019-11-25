@@ -10,5 +10,5 @@ public interface ServiceItemRecordMapperExt extends ServiceItemRecordMapper {
 
     int sumServiceItemRecordNumByShop(Long shopNo, Date today);
 
-    int sumServiceItemRecordNumByEmp(Long shopNo, Date today);
+    int sumServiceItemRecordNumByEmp(Long empNo, Date today);
 }
