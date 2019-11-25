@@ -128,6 +128,7 @@ public class MainPageController {
                 vo.setPoint(record.getPoint());
                 vo.setRewardTime(DateUtils.formatDate(record.getRewardTime(), "yyyy-mm-dd HH:mm:ss"));
                 vo.setTitle(RewardTypeEnum.valueOf(record.getOrigin()).getDesc());
+                result.add(vo);
             }
             return PagingResponseWrapper.success(result, total);
         } catch (IllegalArgumentException e) {
