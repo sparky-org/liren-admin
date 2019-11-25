@@ -22,9 +22,9 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public ShopEmployee getEmployeeByPrimaryPhone(String phone) {
+    public ShopEmployee getEmployeeByPrimaryPhone(String phone, Long shopNo) {
         ShopEmployeeExample example = new ShopEmployeeExample();
-        example.createCriteria().andPhoneEqualTo(phone).andIsValidEqualTo(true);
+        example.createCriteria().andPhoneEqualTo(phone).andShopNoEqualTo(shopNo).andIsValidEqualTo(true);
         List<ShopEmployee> employees = employeeMapper.selectByExample(example);
         if (CollectionUtils.isEmpty(employees)){
             return null;
@@ -36,6 +36,14 @@ public class EmployeeBOImpl implements EmployeeBO {
     public List<ShopEmployee> getEmployeeByShopNo(Long shopNo) {
         ShopEmployeeExample example = new ShopEmployeeExample();
         example.createCriteria().andShopNoEqualTo(shopNo).andIsValidEqualTo(true);
+        List<ShopEmployee> employees = employeeMapper.selectByExample(example);
+        return employees;
+    }
+
+    @Override
+    public List<ShopEmployee> getEmployeeByPhone(String phone) {
+        ShopEmployeeExample example = new ShopEmployeeExample();
+        example.createCriteria().andPhoneEqualTo(phone).andIsValidEqualTo(true);
         List<ShopEmployee> employees = employeeMapper.selectByExample(example);
         return employees;
     }

@@ -30,4 +30,11 @@ public class BeautyShopBOImpl implements BeautyShopBO {
         example.createCriteria().andIsValidEqualTo(true);
         return beautyShopMapper.selectByExample(example);
     }
+
+    @Override
+    public List<BeautyShop> getShopByIdList(List<Long> shopNoList) {
+        BeautyShopExample example = new BeautyShopExample();
+        example.createCriteria().andIsValidEqualTo(true).andIdIn(shopNoList);
+        return beautyShopMapper.selectByExample(example);
+    }
 }

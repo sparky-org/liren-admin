@@ -19,7 +19,9 @@ public interface EmployeeBO {
     * @Author:
     * @Time: 2019/11/8
     */
-    ShopEmployee getEmployeeByPrimaryPhone(String phone);
+    ShopEmployee getEmployeeByPrimaryPhone(String phone, Long shopNo);
 
     List<ShopEmployee> getEmployeeByShopNo(Long shopNo);
+
+    List<ShopEmployee> getEmployeeByPhone(String phone);
 }

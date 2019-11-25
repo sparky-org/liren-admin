@@ -8,4 +8,6 @@ public interface BeautyShopBO {
     void createShop(BeautyShop shop);
 
     List<BeautyShop> getAllShop();
+
+    List<BeautyShop> getShopByIdList(List<Long> shopNoList);
 }

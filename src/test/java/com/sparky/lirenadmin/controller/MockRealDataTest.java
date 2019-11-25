@@ -5,8 +5,8 @@ import com.sparky.lirenadmin.bo.BeautyShopBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.ShopJobBO;
 import com.sparky.lirenadmin.constant.PointTypeEnum;
-import com.sparky.lirenadmin.controller.request.CreateShopJobDTO;
 import com.sparky.lirenadmin.entity.*;
+import com.sparky.lirenadmin.utils.Md5Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -43,6 +43,12 @@ public class MockRealDataTest {
     private BeautyShopBO beautyShopBO;
     @Autowired
     private ShopJobBO shopJobBO;
+
+    private Integer seq = 1;
+
+    private Integer getNext(){
+        return seq ++;
+    }
 
     @Test
     public void test(){
@@ -162,10 +168,10 @@ public class MockRealDataTest {
         emp.setIsAdmin(false);
         emp.setJobNo(job.getId());
         emp.setShopNo(admin.getShopNo());
-        emp.setPassword("1111");
+        emp.setPassword(Md5Utils.md5("123456"));
         emp.setName("张三");
         emp.setManagerNo(0l);
-        emp.setPhone("13011111111");
+        emp.setPhone("130111111" + (getNext() > 9 ? getNext().toString() : "0"+getNext().toString()));
         return emp;
     }
 
@@ -193,10 +199,10 @@ public class MockRealDataTest {
         admin.setIsAdmin(true);
         admin.setJobNo(0l);
         admin.setShopNo(shop.getId());
-        admin.setPassword("1111");
+        admin.setPassword(Md5Utils.md5("123456"));
         admin.setName("张三");
         admin.setManagerNo(0l);
-        admin.setPhone("13011111111");
+        admin.setPhone("130111111" + (getNext() > 9 ? getNext().toString() : "0"+getNext().toString()));
         return admin;
     }
 

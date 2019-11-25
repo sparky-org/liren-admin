@@ -53,7 +53,7 @@ public class EmployeeControllerTest {
         BaseResponseWrapper result = employeeController.createEmployee(boss);
         Assert.isTrue(result.isSuccess(), "createEmployee异常");
         //模拟老板登录
-        BaseResponseWrapper<LoginVO> loginWrapper = loginController.login("13000001111","123456");
+        BaseResponseWrapper<LoginVO> loginWrapper = loginController.login("13000001111",shop.getId(),"123456");
         Assert.isTrue(loginWrapper.isSuccess(), "Boss 登录异常");
         LoginVO loginVO = loginWrapper.getResult();
 
