@@ -15,7 +15,7 @@
         select * from t_vacation_apply where is_valid = 1
     ) a inner join (
         select * from t_shop_employee where is_valid = 1 and (id = #{empNo} or manager_no = #{empNo})
-    ) b on a.apply_emp_no = b.id;
+    ) b on a.apply_emp_no = b.id
     where a.audit_status='APPROVED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
   </select>
 </mapper>
