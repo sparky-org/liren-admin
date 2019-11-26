@@ -41,4 +41,13 @@ public class ShopJobBOImpl implements ShopJobBO {
         example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
         return shopJobMapper.selectByExample(example);
     }
+
+    @Override
+    public void deleteJob(Long jobNo) {
+        ShopJob job = new ShopJob();
+        job.setId(jobNo);
+        job.setIsValid(false);
+        job.setGmtModify(new Date());
+        shopJobMapper.updateByPrimaryKeySelective(job);
+    }
 }

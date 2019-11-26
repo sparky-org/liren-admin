@@ -11,4 +11,6 @@ public interface ShopJobBO {
     ShopJob getShopJob(Long jobNo);
 
     List<ShopJob> getShopJobByShop(Long shopNo);
+
+    void deleteJob(Long jobNo);
 }

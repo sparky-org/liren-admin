@@ -148,6 +148,35 @@ public class EmployeeController {
         }
     }
 
+    @ApiOperation("删除岗位")
+    @RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper deleteJob(@RequestParam @ApiParam Long shopNo,
+                                         @RequestParam @ApiParam Long jobNo,
+                                         @RequestParam @ApiParam Long empNo){
+        try {
+            ShopJob job = shopJobBO.getShopJob(jobNo);
+            if (job == null){
+                return BaseResponseWrapper.success(null);
+            }
+            if (shopNo.longValue() != job.getShopNo()){
+                throw new RuntimeException("店铺无此职业");
+            }
+            ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
+            if (employee == null){
+                throw new RuntimeException("无此管理者");
+            }
+            if (employee.getShopNo().longValue() != shopNo){
+                throw new RuntimeException("无此管理者");
+            }
+            shopJobBO.deleteJob(jobNo);
+            return BaseResponseWrapper.success(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
 
     @ApiOperation("创建员工")
     @RequestMapping(value = "/createEmployee", method = RequestMethod.POST)
