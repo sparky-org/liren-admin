@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.ShopConfig;
 import com.sparky.lirenadmin.entity.ShopConfigExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ShopConfigMapper {
     long countByExample(ShopConfigExample example);
 
