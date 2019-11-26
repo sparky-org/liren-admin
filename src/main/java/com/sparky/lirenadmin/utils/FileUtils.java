@@ -10,9 +10,9 @@ public final class FileUtils {
 
 	private static final String WEB_ROOT_PATH = "/var/www/html/";
 	
-	private static final String WEB_APP_PATH = "c:\\workspace\\file\\repo\\";
+//	private static final String WEB_APP_PATH = "c:\\workspace\\file\\repo\\";
 
-//	private static final String WEB_APP_PATH = "lr-resource/";
+	private static final String WEB_APP_PATH = "lr-resource/";
 
 	public static String saveFiles(MultipartFile file) throws IllegalStateException, IOException {
 		String fileNameMD5 = DigestUtils.md5DigestAsHex(file.getOriginalFilename().getBytes());
