@@ -125,7 +125,7 @@ public class EmployeeController {
     @ApiOperation("创建岗位")
     @RequestMapping(value = "/createShopJob", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper createShopJob(CreateShopJobDTO dto){
+    public BaseResponseWrapper createShopJob(@RequestBody CreateShopJobDTO dto){
         try {
             shopJobBO.createShopJob(buildShopJob(dto));
             return BaseResponseWrapper.success(null);
