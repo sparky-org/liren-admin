@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.DailyRecordMapperExt">
+
+    <sql id="paging_query_where_clause">
+        <where>
+            is_valid = 1
+            <if test="reporter != null">
+                and creator = #{reporter}
+            </if>
+            <if test="auditor != null">
+                and manager_no = #{auditor}
+            </if>
+        </where>
+    </sql>
+
+    <select id="countDailyRecord" resultType="java.lang.Integer">
+        select count(*)
+         from t_daily_record
+         <include refid="paging_query_where_clause"/>
+    </select>
+
+    <select id="queryDailyRecord" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_daily_record
+        <include refid="paging_query_where_clause"/>
+        order by record_date desc
+        limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

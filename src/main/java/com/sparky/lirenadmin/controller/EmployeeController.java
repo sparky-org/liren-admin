@@ -1,6 +1,5 @@
 package com.sparky.lirenadmin.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.ShopJobBO;
@@ -256,9 +255,17 @@ public class EmployeeController {
     }
 
     private ShopEmployee buildShopEmployee(CreateShopEmployeeDTO dto) {
-        ShopEmployee employee = JSONObject.parseObject(JSONObject.toJSONString(dto), ShopEmployee.class);
+        ShopEmployee employee = new ShopEmployee();
         employee.setPassword(md5("123456"));
+        employee.setBirthday(dto.getBirthday());
         employee.setIsAdmin(dto.getAdmin());
+        employee.setShopNo(dto.getShopNo());
+        employee.setPhone(dto.getPhone());
+        employee.setName(dto.getName());
+        employee.setManagerNo(dto.getManagerNo());
+        employee.setJobNo(dto.getJobNo());
+        employee.setAge(dto.getAge());
+        employee.setCreator(dto.getCreator());
         return employee;
     }
 

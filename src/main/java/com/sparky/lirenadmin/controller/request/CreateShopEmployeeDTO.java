@@ -21,13 +21,16 @@ public class CreateShopEmployeeDTO {
     @ApiModelProperty("姓名")
     private String name;
 
+    @ApiModelProperty("性别：MALE/FEMALE")
+    private String sex;
+
     @ApiModelProperty("手机号")
     private String phone;
 
     @ApiModelProperty("年龄")
     private Integer age;
 
-    @ApiModelProperty("生日")
+    @ApiModelProperty("生日:yyyy-MM-dd")
     private Date birthday;
 
     @ApiModelProperty("是否管理员")
@@ -41,6 +44,14 @@ public class CreateShopEmployeeDTO {
 
     @ApiModelProperty("店铺编号")
     private Long shopNo;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public Long getJobNo() {
         return jobNo;

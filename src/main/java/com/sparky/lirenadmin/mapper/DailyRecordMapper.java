@@ -2,11 +2,10 @@ package com.sparky.lirenadmin.mapper;
 
 import com.sparky.lirenadmin.entity.DailyRecord;
 import com.sparky.lirenadmin.entity.DailyRecordExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface DailyRecordMapper {
     long countByExample(DailyRecordExample example);
 
