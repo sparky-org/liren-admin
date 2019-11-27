@@ -63,7 +63,7 @@ public class EmployeeController {
     @ApiOperation("修改资料")
     @RequestMapping(value = "/modifyEmployee",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper modifyEmployee(@RequestParam @ApiParam ShopEmployee shopEmployee){
+    public BaseResponseWrapper modifyEmployee(@RequestBody ShopEmployee shopEmployee){
         try {
             if (shopEmployee.getId() == null){
                 return BaseResponseWrapper.fail(null, "待修改用户编号为空");
