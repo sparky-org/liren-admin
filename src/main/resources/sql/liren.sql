@@ -35,6 +35,7 @@ CREATE TABLE `t_shop_employee` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `job_no` bigint(11) NOT NULL COMMENT '岗位编号',
   `name` varchar(16) NOT NULL COMMENT '姓名',
+  `sex` varchar(16) NOT NULL COMMENT '性别',
   `phone` varchar(16) NOT NULL COMMENT '手机号',
   `password` varchar(255) NOT NULL COMMENT '登录密码',
   `avatar` varchar(255) NOT NULL COMMENT '头像',

@@ -1,8 +1,10 @@
 package com.sparky.lirenadmin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.EmployeeBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.ShopJobBO;
+import com.sparky.lirenadmin.controller.request.CreateOrModifyShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopJobDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
@@ -63,12 +65,13 @@ public class EmployeeController {
     @ApiOperation("修改资料")
     @RequestMapping(value = "/modifyEmployee",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper modifyEmployee(@RequestBody ShopEmployee shopEmployee){
+    public BaseResponseWrapper modifyEmployee(@RequestBody CreateOrModifyShopEmployeeDTO dto){
         try {
-            if (shopEmployee.getId() == null){
+            if (dto.getId() == null){
                 return BaseResponseWrapper.fail(null, "待修改用户编号为空");
             }
-            shopEmployeeBO.modify(shopEmployee);
+            ShopEmployee employee = convertFrom(dto);
+            shopEmployeeBO.modify(employee);
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
             logger.error("修改个人资料异常。", e);
@@ -255,6 +258,14 @@ public class EmployeeController {
         }
     }
 
+    private ShopEmployee convertFrom(CreateOrModifyShopEmployeeDTO dto) {
+        ShopEmployee employee = JSONObject.parseObject(JSONObject.toJSONString(dto), ShopEmployee.class);
+        if (dto.getBirthday() != null) {
+            employee.setBirthday(DateUtils.getDateTime(dto.getBirthday()));
+        }
+        return employee;
+    }
+
     private ShopEmployee buildShopEmployee(CreateShopEmployeeDTO dto) {
         ShopEmployee employee = new ShopEmployee();
         employee.setPassword(md5("123456"));
@@ -267,6 +278,7 @@ public class EmployeeController {
         employee.setJobNo(dto.getJobNo());
         employee.setAge(dto.getAge());
         employee.setCreator(dto.getCreator());
+        employee.setSex(dto.getSex());
         return employee;
     }
 

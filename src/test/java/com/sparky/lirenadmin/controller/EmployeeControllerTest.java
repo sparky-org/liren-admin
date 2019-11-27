@@ -1,7 +1,9 @@
 package com.sparky.lirenadmin.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
+import com.sparky.lirenadmin.controller.request.CreateOrModifyShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopJobDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
@@ -78,6 +80,25 @@ public class EmployeeControllerTest {
         result = employeeController.queryEmpGroupByJob(shop.getId());
         Assert.isTrue(result.isSuccess(), "分组查询异常");
         System.out.println(JSONArray.toJSONString(result.getResult()));
+
+        result = employeeController.deleteJob(shop.getId(), jobs.iterator().next().getId(), loginVO.getShopEmployee().getId());
+        System.out.println(JSONObject.toJSONString(result));
+
+        CreateOrModifyShopEmployeeDTO dto = initCreateOrModifyShopEmployeeDTO(shop, loginVO.getShopEmployee());
+        result = employeeController.modifyEmployee(dto);
+        Assert.isTrue(result.isSuccess());
+        System.out.println(JSONObject.toJSONString(result));
+    }
+
+    private CreateOrModifyShopEmployeeDTO initCreateOrModifyShopEmployeeDTO(BeautyShop shop, ShopEmployee shopEmployee) {
+        CreateOrModifyShopEmployeeDTO dto = new CreateOrModifyShopEmployeeDTO();
+        dto.setId(shopEmployee.getId());
+        dto.setAdmin(false);
+        dto.setAge(33);
+        dto.setBirthday("2000-11-01");
+        dto.setName("张翠三");
+        dto.setPhone("13000001112");
+        return dto;
     }
 
     private CreateShopEmployeeDTO initNormalEmployee(BeautyShop shop, ShopEmployee boss, ShopJob job) {
@@ -90,6 +111,7 @@ public class EmployeeControllerTest {
         dto.setManagerNo(boss.getId());
         dto.setName("张翠三");
         dto.setPhone("13000001112");
+        dto.setSex("MALE");
         return dto;
     }
 
@@ -104,6 +126,7 @@ public class EmployeeControllerTest {
         dto.setName("张翠三"+job.getId());
         dto.setPhone("13000001112");
         dto.setAdmin(false);
+        dto.setSex("MALE");
         dto.setShopNo(shop.getId());
         return dto;
     }
@@ -134,6 +157,7 @@ public class EmployeeControllerTest {
         dto.setPhone("13000001111");
         dto.setAdmin(true);
         dto.setShopNo(shop.getId());
+        dto.setSex("MALE");
         return dto;
     }
 

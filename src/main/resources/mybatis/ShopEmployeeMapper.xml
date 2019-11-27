@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="job_no" jdbcType="BIGINT" property="jobNo" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, job_no, name, phone, password, avatar, age, birthday, is_admin, manager_no, shop_no, 
-    creator, is_valid, gmt_create, gmt_modify
+    id, job_no, name, sex, phone, password, avatar, age, birthday, is_admin, manager_no, 
+    shop_no, creator, is_valid, gmt_create, gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.ShopEmployeeExample" resultMap="BaseResultMap">
     select
@@ -115,16 +116,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_shop_employee (job_no, name, phone, 
-      password, avatar, age, 
-      birthday, is_admin, manager_no, 
-      shop_no, creator, is_valid, 
-      gmt_create, gmt_modify)
-    values (#{jobNo,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=TINYINT}, #{managerNo,jdbcType=BIGINT}, 
-      #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
+    insert into t_shop_employee (job_no, name, sex, 
+      phone, password, avatar, 
+      age, birthday, is_admin, 
+      manager_no, shop_no, creator, 
+      is_valid, gmt_create, gmt_modify
+      )
+    values (#{jobNo,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=TINYINT}, 
+      #{managerNo,jdbcType=BIGINT}, #{shopNo,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
+      #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.ShopEmployee">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -137,6 +140,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="sex != null">
+        sex,
       </if>
       <if test="phone != null">
         phone,
@@ -181,6 +187,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -238,6 +247,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -284,6 +296,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       job_no = #{record.jobNo,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       avatar = #{record.avatar,jdbcType=VARCHAR},
@@ -308,6 +321,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -352,6 +368,7 @@
     update t_shop_employee
     set job_no = #{jobNo,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
