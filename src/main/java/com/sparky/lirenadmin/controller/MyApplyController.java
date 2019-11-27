@@ -304,9 +304,9 @@ public class MyApplyController {
         VacationApply vacationApply = new VacationApply();
         vacationApply.setApplyEmpNo(newVacationApplyDTO.getApplyEmpNo());
         vacationApply.setAuditEmpNo(newVacationApplyDTO.getAuditEmpNo());
-        vacationApply.setBeginDate(newVacationApplyDTO.getBegin());
-        vacationApply.setEndDate(newVacationApplyDTO.getEnd());
-        vacationApply.setPicList(newVacationApplyDTO.getAttachemntPicList());
+        vacationApply.setBeginDate(DateUtils.getDateTime(newVacationApplyDTO.getBegin()));
+        vacationApply.setEndDate(DateUtils.getDateTime(newVacationApplyDTO.getEnd()));
+        vacationApply.setPicList(newVacationApplyDTO.getAttachmentPicList());
         vacationApply.setReason(newVacationApplyDTO.getReason());
         vacationApply.setShopNo(employee.getShopNo());
         vacationApply.setCreator(newVacationApplyDTO.getApplyEmpNo());

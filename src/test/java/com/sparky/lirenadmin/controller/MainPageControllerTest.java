@@ -1,18 +1,13 @@
 package com.sparky.lirenadmin.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
-import com.sparky.lirenadmin.constant.ApplyStatusEnum;
-import com.sparky.lirenadmin.constant.ApplyTypeEnum;
-import com.sparky.lirenadmin.controller.request.NewNormalApplyDTO;
-import com.sparky.lirenadmin.controller.request.NewVacationApplyDTO;
-import com.sparky.lirenadmin.controller.response.*;
+import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
+import com.sparky.lirenadmin.controller.response.PointTraceVO;
 import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import org.apache.http.client.utils.DateUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -68,28 +63,6 @@ public class MainPageControllerTest {
         PagingResponseWrapper<List<PointTraceVO>>  wrapper = mainPageController.pagingQueryPointTrace(66l, 1, 10);
         Assert.isTrue(wrapper.isSuccess());
         System.out.println(DateUtils.formatDate(new Date(), "yyyy-mm-dd HH:mm:ss"));
-    }
-
-    private NewVacationApplyDTO initNewVacationApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewVacationApplyDTO dto = new NewVacationApplyDTO();
-        dto.setApplyEmpNo(employee.getId());
-        dto.setAttachemntPicList("");
-        dto.setAuditEmpNo(admin.getId());
-        dto.setBegin(new Date());
-        dto.setEnd(new Date());
-        dto.setCcList("");
-        dto.setReason("请假请假请假");
-        return dto;
-    }
-
-    private NewNormalApplyDTO initNewNormalApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewNormalApplyDTO dto = new NewNormalApplyDTO();
-        dto.setEmpNo(employee.getId());
-        dto.setAuditEmpNo(admin.getId());
-        dto.setAttachmentPicList("");
-        dto.setCcEmpList("");
-        dto.setContent("测试测试测试");
-        return dto;
     }
 
     private BeautyShop initShop() {

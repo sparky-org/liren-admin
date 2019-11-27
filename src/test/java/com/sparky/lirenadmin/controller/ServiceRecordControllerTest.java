@@ -8,10 +8,7 @@ import com.sparky.lirenadmin.bo.ServiceItemBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.constant.ApplyTypeEnum;
-import com.sparky.lirenadmin.controller.request.ApplySalesPerfDTO;
 import com.sparky.lirenadmin.controller.request.ApplyServiceRecordDTO;
-import com.sparky.lirenadmin.controller.request.NewNormalApplyDTO;
-import com.sparky.lirenadmin.controller.request.NewVacationApplyDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.ListApplyVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
@@ -30,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -179,7 +175,7 @@ public class ServiceRecordControllerTest {
         ApplyServiceRecordDTO dto = new ApplyServiceRecordDTO();
         dto.setAuditor(admin.getId());
         dto.setCcEmpList(cc.getId().toString());
-        dto.setCompleteTime(new Date());
+        dto.setCompleteTime("2019-11-01");
         dto.setContent("测试业绩内容弄个");
         dto.setTitle("测试业绩申请标题");
         dto.setCustomerNo(info.getId());
@@ -197,42 +193,6 @@ public class ServiceRecordControllerTest {
         info.setShopNo(employee.getShopNo());
         info.setCreator(employee.getId());
         return info;
-    }
-
-    private ApplySalesPerfDTO initApplySalesPerfDTO(ShopEmployee employee, ShopEmployee admin, ShopEmployee cc, CustomerInfo info) {
-        ApplySalesPerfDTO dto = new ApplySalesPerfDTO();
-        dto.setAuditor(admin.getId());
-        dto.setCcEmpList(cc.getId().toString());
-        dto.setCompleteTime(new Date());
-        dto.setContent("测试业绩内容弄个");
-        dto.setTitle("测试业绩申请标题");
-        dto.setCustomerNo(info.getId());
-        dto.setEmpNo(employee.getId());
-        dto.setPoint(30);
-        dto.setTargetAmount(new BigDecimal(1000));
-        return dto;
-    }
-
-    private NewVacationApplyDTO initNewVacationApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewVacationApplyDTO dto = new NewVacationApplyDTO();
-        dto.setApplyEmpNo(employee.getId());
-        dto.setAttachemntPicList("");
-        dto.setAuditEmpNo(admin.getId());
-        dto.setBegin(new Date());
-        dto.setEnd(new Date());
-        dto.setCcList("");
-        dto.setReason("请假请假请假");
-        return dto;
-    }
-
-    private NewNormalApplyDTO initNewNormalApplyDTO(ShopEmployee employee, ShopEmployee admin) {
-        NewNormalApplyDTO dto = new NewNormalApplyDTO();
-        dto.setEmpNo(employee.getId());
-        dto.setAuditEmpNo(admin.getId());
-        dto.setAttachmentPicList("");
-        dto.setCcEmpList("");
-        dto.setContent("测试测试测试");
-        return dto;
     }
 
     private BeautyShop initShop() {

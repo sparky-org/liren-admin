@@ -142,7 +142,7 @@ public class SalesPerformanceController {
         performance.setAmount(dto.getTargetAmount());
         performance.setTitle(dto.getTitle());
         performance.setContent(dto.getContent());
-        performance.setCompleteTime(dto.getCompleteTime());
+        performance.setCompleteTime(com.sparky.lirenadmin.utils.DateUtils.getDateTime(dto.getCompleteTime()));
         return performance;
     }
 }

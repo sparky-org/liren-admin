@@ -140,7 +140,7 @@ public class ServiceItemRecordController {
         record.setCustomerPhone(customerInfo.getPhone());
         record.setServiceNo(dto.getServiceItemNo());
         record.setTitle(dto.getTitle());
-        record.setCompleteTime(dto.getCompleteTime());
+        record.setCompleteTime(com.sparky.lirenadmin.utils.DateUtils.getDateTime(dto.getCompleteTime()));
         record.setContent(dto.getContent());
         return record;
     }

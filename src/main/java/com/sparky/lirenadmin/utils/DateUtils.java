@@ -148,6 +148,31 @@ public class DateUtils {
         return d;
     }
 
+    public static Date getDateTime(String date) {
+        String pattern1 = "yyyy-MM";
+        String pattern2 = "yyyy-MM-dd";
+        String pattern3 = "yyyy-MM-dd HH:mm:ss";
+        Date d = null;
+        try {
+            if (date.length() == pattern1.length()){
+                SimpleDateFormat df = new SimpleDateFormat(pattern1);
+                d = df.parse(date);
+            }else if(date.length() == pattern2.length()){
+                SimpleDateFormat df = new SimpleDateFormat(pattern2);
+                d = df.parse(date);
+            }else if(date.length() == pattern3.length()){
+                SimpleDateFormat df = new SimpleDateFormat(pattern3);
+                d = df.parse(date);
+            }else{
+                return null;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("日期格式转换失败.month:" + date);
+        }
+        return d;
+    }
+
     /**
      * 获取当前日期是星期几<br>
      *

@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @ApiModel("业绩申报内容")
 public class ApplySalesPerfDTO {
@@ -19,8 +18,8 @@ public class ApplySalesPerfDTO {
     private BigDecimal targetAmount;
     @ApiModelProperty("顾客编号")
     private Long customerNo;
-    @ApiModelProperty("完成时间")
-    private Date completeTime;
+    @ApiModelProperty("完成时间: yyyy-mm-dd")
+    private String completeTime;
     @ApiModelProperty("申请奖励")
     private Integer point;
     @ApiModelProperty("审批人")
@@ -68,11 +67,11 @@ public class ApplySalesPerfDTO {
         this.customerNo = customerNo;
     }
 
-    public Date getCompleteTime() {
+    public String getCompleteTime() {
         return completeTime;
     }
 
-    public void setCompleteTime(Date completeTime) {
+    public void setCompleteTime(String completeTime) {
         this.completeTime = completeTime;
     }
 

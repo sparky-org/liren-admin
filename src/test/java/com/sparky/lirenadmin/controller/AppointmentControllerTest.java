@@ -111,7 +111,7 @@ public class AppointmentControllerTest {
 
     private CreateAppointmentDTO initCreateAppointmentDTO(ShopEmployee employee, CustomerInfo customer, ServiceItem serviceItem) {
         CreateAppointmentDTO dto = new CreateAppointmentDTO();
-        dto.setAppointDate(new Date());
+        dto.setAppointDate("2000-11-01");
         dto.setCustomerPhone(customer.getPhone());
         dto.setEmpNo(employee.getId());
         dto.setServiceItemNo(serviceItem.getId());

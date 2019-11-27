@@ -3,8 +3,6 @@ package com.sparky.lirenadmin.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 /**
  * @ClassName AddCustomerDTO
  * @Description TODO
@@ -25,7 +23,7 @@ public class AddCustomerDTO {
     @ApiModelProperty("爱好，逗号隔开的字符串")
     private String favor;
     @ApiModelProperty("生日")
-    private Date birthDay;
+    private String birthDay;
     @ApiModelProperty("备注")
     private String remark;
     @ApiModelProperty("年度计划")
@@ -55,11 +53,11 @@ public class AddCustomerDTO {
         this.sex = sex;
     }
 
-    public Date getBirthDay() {
+    public String getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
     }
 

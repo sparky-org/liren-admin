@@ -3,8 +3,6 @@ package com.sparky.lirenadmin.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 /**
  * @ClassName AddCustomerDTO
  * @Description TODO

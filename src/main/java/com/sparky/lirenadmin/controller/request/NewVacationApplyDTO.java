@@ -3,8 +3,6 @@ package com.sparky.lirenadmin.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 /**
  * @ClassName NewVacationApplyDTO
  * @Description TODO
@@ -17,10 +15,10 @@ public class NewVacationApplyDTO {
 
     @ApiModelProperty("申请人ID")
     private Long applyEmpNo;
-    @ApiModelProperty("开始日期")
-    private Date begin;
-    @ApiModelProperty("结束日期")
-    private Date end;
+    @ApiModelProperty("开始日期:yyyy-MM-dd hh:mm:ss")
+    private String begin;
+    @ApiModelProperty("结束日期: yyyy-MM-dd hh:mm:ss")
+    private String end;
     @ApiModelProperty("审批人id")
     private Long auditEmpNo;
     @ApiModelProperty("抄送人id，多个，逗号隔开")
@@ -28,7 +26,7 @@ public class NewVacationApplyDTO {
     @ApiModelProperty("请假原因")
     private String reason;
     @ApiModelProperty("附件图片，地址逗号隔开。上传地址：/file/upload")
-    private String attachemntPicList;
+    private String attachmentPicList;
 
     public Long getApplyEmpNo() {
         return applyEmpNo;
@@ -38,19 +36,19 @@ public class NewVacationApplyDTO {
         this.applyEmpNo = applyEmpNo;
     }
 
-    public Date getBegin() {
+    public String getBegin() {
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(String begin) {
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
@@ -78,11 +76,11 @@ public class NewVacationApplyDTO {
         this.reason = reason;
     }
 
-    public String getAttachemntPicList() {
-        return attachemntPicList;
+    public String getAttachmentPicList() {
+        return attachmentPicList;
     }
 
-    public void setAttachemntPicList(String attachemntPicList) {
-        this.attachemntPicList = attachemntPicList;
+    public void setAttachmentPicList(String attachmentPicList) {
+        this.attachmentPicList = attachmentPicList;
     }
 }

@@ -248,7 +248,7 @@ public class MyCustomerController {
 
     private CustomerInfo buildCustomer(AddCustomerDTO addCustomerDTO, Long shopNo) {
         CustomerInfo customerInfo = new CustomerInfo();
-        customerInfo.setBirthday(addCustomerDTO.getBirthDay());
+        customerInfo.setBirthday(com.sparky.lirenadmin.utils.DateUtils.getDate(addCustomerDTO.getBirthDay()));
         customerInfo.setCreator(addCustomerDTO.getEmpNo());
         customerInfo.setFavor(addCustomerDTO.getFavor());
         customerInfo.setName(addCustomerDTO.getCustomerName());

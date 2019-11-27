@@ -175,17 +175,6 @@ public class MockRealDataTest {
         return emp;
     }
 
-    private List<ShopJob> createJob(ShopEmployee admin) {
-        List<ShopJob> jobs = new ArrayList<>();
-        ShopJob managerJob = initJob("店长", admin);
-        ShopJob guwenJob = initJob("顾问", admin);
-        ShopJob empJob = initJob("员工", admin);
-        jobs.add(managerJob);
-        jobs.add(guwenJob);
-        jobs.add(empJob);
-        return jobs;
-    }
-
     private ShopJob initJob(String level, ShopEmployee admin) {
         ShopJob dto = new ShopJob();
         dto.setCreator(admin.getId());

@@ -5,6 +5,7 @@ import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.ServiceItem;
 import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -89,7 +90,7 @@ public class CustomerBOTest {
 
     private CreateAppointmentDTO initCreateAppointmentDTO(ShopEmployee employee, CustomerInfo customer, ServiceItem serviceItem) {
         CreateAppointmentDTO dto = new CreateAppointmentDTO();
-        dto.setAppointDate(new Date());
+        dto.setAppointDate("2019-09-11");
         dto.setCustomerPhone(customer.getPhone());
         dto.setEmpNo(employee.getId());
         dto.setServiceItemNo(serviceItem.getId());

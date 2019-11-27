@@ -3,8 +3,6 @@ package com.sparky.lirenadmin.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 /**
  * @ClassName CreateAppointmentDTO
  * @Description TODO
@@ -18,8 +16,8 @@ public class CreateAppointmentDTO {
     private String customerPhone;
     @ApiModelProperty("服务项目编号")
     private Long serviceItemNo;
-    @ApiModelProperty("预约到店日期")
-    private Date appointDate;
+    @ApiModelProperty("预约到店时间：yyyy-mm-dd hh:mm:ss")
+    private String appointDate;
     @ApiModelProperty("备注")
     private String remark;
     @ApiModelProperty("美容师编号")
@@ -43,11 +41,11 @@ public class CreateAppointmentDTO {
         this.serviceItemNo = serviceItemNo;
     }
 
-    public Date getAppointDate() {
+    public String getAppointDate() {
         return appointDate;
     }
 
-    public void setAppointDate(Date appointDate) {
+    public void setAppointDate(String appointDate) {
         this.appointDate = appointDate;
     }
 

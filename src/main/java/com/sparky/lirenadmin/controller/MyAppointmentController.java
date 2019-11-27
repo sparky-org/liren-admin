@@ -172,7 +172,7 @@ public class MyAppointmentController {
         Appointment appointment = new Appointment();
         appointment.setCustomerPhone(dto.getCustomerPhone());
         appointment.setServiceNo(dto.getServiceItemNo());
-        appointment.setAppointTime(dto.getAppointDate());
+        appointment.setAppointTime(DateUtils.getDateTime(dto.getAppointDate()));
         appointment.setRemark(dto.getRemark());
         appointment.setServiceEmpNo(dto.getEmpNo());
         appointment.setIsRewarded(false);

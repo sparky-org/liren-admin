@@ -80,7 +80,7 @@ public class DailyRecordControllerTest {
     private CreateDailyRecordDTO initCreateDailyRecordDTO(ShopEmployee employee, ShopEmployee admin) {
         CreateDailyRecordDTO dto = new CreateDailyRecordDTO();
         dto.setAuditor(admin.getId());
-        dto.setDate(new Date());
+        dto.setDate("2000-11-01");
         dto.setEmpNo(employee.getId());
         dto.setTodayConlude("测试今天日志测试今天日志测试今天日志测试今天日志测试今天日志测试今天日志测试今天日志");
         dto.setTomorrowPlan("测试明日计划测试明日计划测试明日计划测试明日计划测试明日计划测试明日计划测试明日计划");

@@ -16,6 +16,7 @@ import com.sparky.lirenadmin.entity.DailyRecord;
 import com.sparky.lirenadmin.entity.ShopConfig;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
+import com.sparky.lirenadmin.utils.DateUtils;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -116,7 +117,7 @@ public class DailyRecordController {
             throw new RuntimeException(String.format("员工[%d]不存在。", dto.getEmpNo()));
         }
         record.setShopNo(employee.getShopNo());
-        record.setRecordDate(dto.getDate());
+        record.setRecordDate(DateUtils.getDateTime(dto.getDate()));
         record.setToday(dto.getTodayConlude());
         record.setTomorrow(dto.getTomorrowPlan());
         record.setManagerNo(dto.getAuditor());

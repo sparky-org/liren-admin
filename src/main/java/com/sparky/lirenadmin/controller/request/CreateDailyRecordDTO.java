@@ -3,15 +3,13 @@ package com.sparky.lirenadmin.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 @ApiModel
 public class CreateDailyRecordDTO {
 
     @ApiModelProperty("写日志人")
     private Long empNo;
-    @ApiModelProperty("写日志日期")
-    private Date date;
+    @ApiModelProperty("写日志时间：yyyy-mm-dd hh:mm:ss")
+    private String date;
     @ApiModelProperty("今日总结")
     private String todayConlude;
     @ApiModelProperty("明日计划")
@@ -19,11 +17,11 @@ public class CreateDailyRecordDTO {
     @ApiModelProperty("汇报人")
     private Long auditor;
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
