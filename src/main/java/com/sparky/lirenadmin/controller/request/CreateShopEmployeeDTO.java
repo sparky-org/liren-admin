@@ -31,7 +31,7 @@ public class CreateShopEmployeeDTO {
     private Integer age;
 
     @ApiModelProperty("生日:yyyy-MM-dd")
-    private Date birthday;
+    private String birthday;
 
     @ApiModelProperty("是否管理员")
     private Boolean isAdmin;
@@ -85,11 +85,11 @@ public class CreateShopEmployeeDTO {
         this.age = age;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

@@ -9,6 +9,7 @@ import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.QueryEmpGroupJob;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
+import com.sparky.lirenadmin.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -257,7 +258,7 @@ public class EmployeeController {
     private ShopEmployee buildShopEmployee(CreateShopEmployeeDTO dto) {
         ShopEmployee employee = new ShopEmployee();
         employee.setPassword(md5("123456"));
-        employee.setBirthday(dto.getBirthday());
+        employee.setBirthday(DateUtils.getDate(dto.getBirthday()));
         employee.setIsAdmin(dto.getAdmin());
         employee.setShopNo(dto.getShopNo());
         employee.setPhone(dto.getPhone());

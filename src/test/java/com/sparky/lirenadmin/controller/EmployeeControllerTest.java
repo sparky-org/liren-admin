@@ -84,7 +84,7 @@ public class EmployeeControllerTest {
         CreateShopEmployeeDTO dto = new CreateShopEmployeeDTO();
         dto.setAdmin(false);
         dto.setAge(33);
-        dto.setBirthday(new Date());
+        dto.setBirthday("2000-11-01");
         dto.setCreator(boss.getId());
         dto.setJobNo(job.getId());
         dto.setManagerNo(boss.getId());
@@ -97,7 +97,7 @@ public class EmployeeControllerTest {
         CreateShopEmployeeDTO dto = new CreateShopEmployeeDTO();
         dto.setAdmin(false);
         dto.setAge(33);
-        dto.setBirthday(new Date());
+        dto.setBirthday("2000-11-01");
         dto.setCreator(boss.getId());
         dto.setJobNo(job.getId());
         dto.setManagerNo(boss.getId());
@@ -126,7 +126,7 @@ public class EmployeeControllerTest {
         CreateShopEmployeeDTO dto = new CreateShopEmployeeDTO();
         dto.setAdmin(true);
         dto.setAge(33);
-        dto.setBirthday(new Date());
+        dto.setBirthday("2000-11-01");
         dto.setCreator(0l);
         dto.setJobNo(0l);
         dto.setManagerNo(0l);

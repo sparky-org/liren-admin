@@ -79,7 +79,7 @@ public class PointConfigControllerTest {
         CreateShopEmployeeDTO dto = new CreateShopEmployeeDTO();
         dto.setAdmin(true);
         dto.setAge(33);
-        dto.setBirthday(new Date());
+        dto.setBirthday("2000-11-01");
         dto.setCreator(0l);
         dto.setJobNo(0l);
         dto.setManagerNo(0l);
