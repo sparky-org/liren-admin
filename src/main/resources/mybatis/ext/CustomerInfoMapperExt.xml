@@ -63,7 +63,7 @@
     <include refid="paging_query_customer_by_cond"/>
   </select>
 
-  <select id="pagingQueryCustomerByCond" resultType="java.lang.Integer">
+  <select id="pagingQueryCustomerByCond" resultType="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from t_customer_info
