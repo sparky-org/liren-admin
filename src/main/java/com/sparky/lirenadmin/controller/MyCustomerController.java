@@ -173,21 +173,28 @@ public class MyCustomerController {
     @ApiOperation("我的客户")
     @RequestMapping(value = "/myCustomers",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<List<SimpleCustomerVO>> myCustomers(@RequestParam @ApiParam Long empNo,
-                                                             @RequestParam @ApiParam Integer start,
+    public PagingResponseWrapper<List<SimpleCustomerVO>> myCustomers(@RequestParam @ApiParam Long empNo,
+                                                             @RequestParam @ApiParam Integer currentPage,
                                                              @RequestParam @ApiParam Integer pageSize){
         try {
             ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
             if(null == employee){
                 throw new RuntimeException("员工不存在");
             }
-            int total = customerBO.countCustomer(employee.getShopNo(), empNo);
-            List<CustomerInfo> customerInfos = customerBO.queryCustomer(employee.getShopNo(), empNo);
+            QueryCustomerCond cond = new QueryCustomerCond(employee.getShopNo(), empNo, null, null);
+            Integer total = customerBO.countCustomerByCond(cond);
+            if (total < 1){
+                return PagingResponseWrapper.success(new ArrayList<>(), 0);
+            }
+            Integer start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+            cond.setStart(start);
+            cond.setPageSize(pageSize);
+            List<CustomerInfo> customerInfos = customerBO.pagingQueryCustomerByCond(cond);
             List<SimpleCustomerVO> vos = customerInfos.stream().map(this::convertToSimpleCustomerVO).collect(Collectors.toList());
-            return BaseResponseWrapper.success(vos);
+            return PagingResponseWrapper.success(vos,total);
         } catch (Exception e) {
             logger.error("统计活跃客户异常。", e);
-            return BaseResponseWrapper.fail(null, e.getMessage());
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
     }
 
