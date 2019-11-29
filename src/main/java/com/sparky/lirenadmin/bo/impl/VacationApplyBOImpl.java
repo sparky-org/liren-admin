@@ -5,6 +5,7 @@ import com.sparky.lirenadmin.bo.ApplyBO;
 import com.sparky.lirenadmin.bo.VacationApplyBO;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.constant.ApplyTypeEnum;
+import com.sparky.lirenadmin.constant.PicUrl;
 import com.sparky.lirenadmin.entity.Apply;
 import com.sparky.lirenadmin.entity.ApplyDtl;
 import com.sparky.lirenadmin.entity.ShopEmployee;
@@ -41,7 +42,9 @@ public class VacationApplyBOImpl implements VacationApplyBO {
 
     @Override
     public VacationApply getVacation(Long id) {
-        return vacationApplyMapper.selectByPrimaryKey(id);
+        VacationApply apply = vacationApplyMapper.selectByPrimaryKey(id);
+        handleWithPicUrl(apply);
+        return apply;
     }
 
     @Override
@@ -53,6 +56,22 @@ public class VacationApplyBOImpl implements VacationApplyBO {
             total = vacationApplyMapper.sumRestEmployeeNumByEmp(employee.getShopNo(), today);
         }
         return total;
+    }
+
+    private void handleWithPicUrl(VacationApply apply) {
+        if (apply.getPicList() == null || apply.getPicList().isEmpty()){
+            return;
+        }
+        String picList = apply.getPicList();
+        StringBuffer appendHeaderBuff = new StringBuffer();
+        int length = picList.split(",").length;
+        for (String pic : picList.split(",")) {
+            appendHeaderBuff.append(PicUrl.url).append(pic);
+            if (--length > 0){
+                appendHeaderBuff.append(",");
+            }
+        }
+        apply.setPicList(appendHeaderBuff.toString());
     }
 
     private void doCreateVacationApply(VacationApply apply) {
