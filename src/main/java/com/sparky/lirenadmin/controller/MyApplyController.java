@@ -62,8 +62,8 @@ public class MyApplyController {
     public PagingResponseWrapper<List<ListApplyVO>> listApply(@RequestParam @ApiParam Long empNo,
                                                               @RequestParam(required = false) @ApiParam String applyType,
                                                               @RequestParam(required = false) @ApiParam String status,
-                                                              @RequestParam(required = false) @ApiParam Date begin,
-                                                              @RequestParam(required = false) @ApiParam Date end,
+                                                              @RequestParam(required = false) @ApiParam String begin,
+                                                              @RequestParam(required = false) @ApiParam String end,
                                                               @RequestParam @ApiParam Integer currentPage,
                                                               @RequestParam @ApiParam Integer pageSize){
         try {
@@ -71,7 +71,15 @@ public class MyApplyController {
             if (status != null){
                 statuses = Arrays.asList(status);
             }
-            QueryApplyCond cond = buildQueryApplyCond(empNo, null,null, applyType, statuses, begin, end);
+            Date beginDate = null;
+            if(null != begin){
+                beginDate = DateUtils.getDateTime(begin);
+            }
+            Date endDate = null;
+            if (null != end){
+                endDate = DateUtils.getDateTime(begin);
+            }
+            QueryApplyCond cond = buildQueryApplyCond(empNo, null,null, applyType, statuses, beginDate, endDate);
             PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
             return applyVOS;
         } catch (Exception e) {
