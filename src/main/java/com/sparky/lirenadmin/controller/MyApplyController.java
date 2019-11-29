@@ -77,7 +77,7 @@ public class MyApplyController {
             }
             Date endDate = null;
             if (null != end){
-                endDate = DateUtils.getDateTime(begin);
+                endDate = DateUtils.getDateTime(end);
             }
             QueryApplyCond cond = buildQueryApplyCond(empNo, null,null, applyType, statuses, beginDate, endDate);
             PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);

@@ -83,8 +83,7 @@ public class ApplyControllerTest {
 
         //查询我的申请
         PagingResponseWrapper<List<ListApplyVO>> result = myApplyController.listApply(employee.getId(), ApplyTypeEnum.VACATION.getCode(),
-                ApplyStatusEnum.NEW.getCode(), DateUtils.parseDate("2019-11-01", "yyyy-MM-dd"),
-                DateUtils.parseDate("2019-11-30", "yyyy-MM-dd"),
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-11-30",
                 1, 10);
         Assert.isTrue(result.getTotal() == 1, "新建申请失败");
         //查询抄送我的
@@ -123,8 +122,8 @@ public class ApplyControllerTest {
         dto.setApplyEmpNo(employee.getId());
         dto.setAttachmentPicList("");
         dto.setAuditEmpNo(admin.getId());
-        dto.setBegin("2000-11-01");
-        dto.setEnd("2000-11-01");
+        dto.setBegin("2019-11-01");
+        dto.setEnd("2019-11-01");
         dto.setCcList("");
         dto.setReason("请假请假请假");
         return dto;
