@@ -62,6 +62,9 @@ public class VacationController {
             MyAttendanceInfo info = new MyAttendanceInfo();
             //迟到、早退、旷工
             AttendanceStatisticsPO po = attendanceRecordBO.getStatistics(empNo, com.sparky.lirenadmin.utils.DateUtils.getMonth(month));
+            if (po == null){
+                return BaseResponseWrapper.success(null);
+            }
             info.setLate(po.getLate());
             info.setLeaveEarly(po.getLeaveEarly());
             info.setAbsenteeism(po.getAbsenteeism());
