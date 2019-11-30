@@ -286,9 +286,11 @@ public class MyApplyController {
         if (null == employee){
             throw new RuntimeException("员工不存在");
         }
-        return applyBO.buildApply(ApplyTypeEnum.NORMAL.getCode(), 0l, newNormalApplyDTO.getContent(),
+        Apply apply = applyBO.buildApply(ApplyTypeEnum.NORMAL.getCode(), 0l, newNormalApplyDTO.getContent(),
                 newNormalApplyDTO.getEmpNo(), newNormalApplyDTO.getAuditEmpNo(), newNormalApplyDTO.getEmpNo(),
                 employee.getShopNo());
+        apply.setPicList(newNormalApplyDTO.getAttachmentPicList());
+        return apply;
     }
 
     private List<ApplyDtl> buildApplyDtl(String ccList) {
