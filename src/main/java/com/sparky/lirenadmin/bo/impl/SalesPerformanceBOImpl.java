@@ -9,15 +9,19 @@ import com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SalesPerformanceBOImpl implements SalesPerformanceBO {
 
     @Autowired
     private ApplyBO applyBO;
+    @Autowired
+    private ApplyDtlBO applyDtlBO;
     @Autowired
     private PointBO pointBO;
     @Autowired
@@ -31,7 +35,15 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     @Override
     public void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList) {
         doCreateSales(salesPerformance);
-        applyBO.createApply(buildApply(salesPerformance), null);
+        List<ApplyDtl> dtls = null;
+        if (!CollectionUtils.isEmpty(ccList)){
+             dtls = ccList.stream().map(l -> {
+                 ApplyDtl dtl = new ApplyDtl();
+                 dtl.setCcNo(l);
+                 return dtl;
+             }).collect(Collectors.toList());
+        }
+        applyBO.createApply(buildApply(salesPerformance), dtls);
         customerTraceBO.createCustomerTrace(buildTrace(salesPerformance));
     }
 
