@@ -328,7 +328,10 @@ public class MyApplyController {
             vo.setAuditEmp(auditEmp.getName());
         }
         vo.setContent(apply.getApplyContent());
-        vo.setCcList(JSONArray.toJSONString(getCcEmpNames(apply.getId())));
+        List<String> ccList = getCcEmpNames(apply.getId());
+        if (!CollectionUtils.isEmpty(ccList)){
+            vo.setCcList(JSONArray.toJSONString(ccList));
+        }
         vo.setPicList(apply.getPicList());
         vo.setStatus(apply.getAuditStatus());
         if (apply.getAuditTime() != null) {

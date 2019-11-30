@@ -6,10 +6,8 @@ import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.cond.QueryApplyCond;
 import com.sparky.lirenadmin.component.ApplyApprovedHandler;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
-import com.sparky.lirenadmin.entity.Apply;
-import com.sparky.lirenadmin.entity.ApplyDtl;
-import com.sparky.lirenadmin.entity.ApplyExample;
-import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.constant.PicUrl;
+import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.invoker.NotifyInvoker;
 import com.sparky.lirenadmin.mapper.ext.ApplyMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +130,9 @@ public class ApplyBOImpl implements ApplyBO {
 
     @Override
     public Apply getApply(Long id) {
-        return applyMapper.selectByPrimaryKey(id);
+        Apply apply = applyMapper.selectByPrimaryKey(id);
+        handleWithPicUrl(apply);
+        return apply;
     }
 
     /**
@@ -156,5 +156,21 @@ public class ApplyBOImpl implements ApplyBO {
         apply.setAuditStatus(ApplyStatusEnum.REVERTED.getCode());
         apply.setGmtModify(new Date());
         applyMapper.updateByPrimaryKeySelective(apply);
+    }
+
+    private void handleWithPicUrl(Apply apply) {
+        if (apply.getPicList() == null || apply.getPicList().isEmpty()){
+            return;
+        }
+        String picList = apply.getPicList();
+        StringBuffer appendHeaderBuff = new StringBuffer();
+        int length = picList.split(",").length;
+        for (String pic : picList.split(",")) {
+            appendHeaderBuff.append(PicUrl.url).append(pic);
+            if (--length > 0){
+                appendHeaderBuff.append(",");
+            }
+        }
+        apply.setPicList(appendHeaderBuff.toString());
     }
 }
