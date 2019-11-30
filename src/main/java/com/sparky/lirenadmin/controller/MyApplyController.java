@@ -344,10 +344,19 @@ public class MyApplyController {
         ShopEmployee auditEmp = shopEmployeeBO.getEmployee(apply.getAuditEmpNo());
         vo.setAuditEmp(auditEmp.getName());
 
-        vo.setBeinDate(vacationApply.getBeginDate());
-        vo.setEndDate(vacationApply.getEndDate());
+        if (vacationApply.getBeginDate() != null) {
+            vo.setBeginDate(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getBeginDate(),
+                    "yyyy-MM-dd"));
+        }
+        if (vacationApply.getEndDate() != null) {
+            vo.setEndDate(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getEndDate(),
+                    "yyyy-MM-dd"));
+        }
         vo.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()) + 1);
         vo.setReason(vacationApply.getReason());
+        vo.setCreateTime(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getGmtCreate(),
+                "yyyy-MM-dd HH:mm:ss"));
+        vo.setPicList(vacationApply.getPicList());
 
         ShopEmployee applyEmp = shopEmployeeBO.getEmployee(apply.getApplyEmpNo());
         ShopJob shopJob = shopJobBO.getShopJob(applyEmp.getJobNo());

@@ -16,8 +16,8 @@ public class VacationApplyDetailVO {
     private String createTime;
 
     private Long applyNo;
-    private Date beinDate;
-    private Date endDate;
+    private String beginDate;
+    private String endDate;
     private Integer days;
     private String reason;
     private String ccList;
@@ -59,19 +59,19 @@ public class VacationApplyDetailVO {
         this.applyNo = applyNo;
     }
 
-    public Date getBeinDate() {
-        return beinDate;
+    public String getBeginDate() {
+        return beginDate;
     }
 
-    public void setBeinDate(Date beinDate) {
-        this.beinDate = beinDate;
+    public void setBeginDate(String beginDate) {
+        this.beginDate = beginDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
