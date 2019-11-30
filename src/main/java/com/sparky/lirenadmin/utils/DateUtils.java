@@ -152,6 +152,7 @@ public class DateUtils {
         String pattern1 = "yyyy-MM";
         String pattern2 = "yyyy-MM-dd";
         String pattern3 = "yyyy-MM-dd HH:mm:ss";
+        String pattern4 = "yyyy-MM-dd HH:mm";
         Date d = null;
         try {
             if (date.length() == pattern1.length()){
@@ -162,6 +163,9 @@ public class DateUtils {
                 d = df.parse(date);
             }else if(date.length() == pattern3.length()){
                 SimpleDateFormat df = new SimpleDateFormat(pattern3);
+                d = df.parse(date);
+            }else if(date.length() == pattern4.length()){
+                SimpleDateFormat df = new SimpleDateFormat(pattern4);
                 d = df.parse(date);
             }else{
                 return null;
