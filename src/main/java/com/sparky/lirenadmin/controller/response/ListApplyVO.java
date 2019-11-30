@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.controller.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -184,6 +185,16 @@ public class ListApplyVO {
         private Date date;
         @ApiModelProperty("申报积分")
         private Integer applyPoint;
+        @ApiModelProperty("业绩金额")
+        private BigDecimal targetAmount;
+
+        public BigDecimal getTargetAmount() {
+            return targetAmount;
+        }
+
+        public void setTargetAmount(BigDecimal targetAmount) {
+            this.targetAmount = targetAmount;
+        }
 
         public Long getSalesPerfNo() {
             return salesPerfNo;

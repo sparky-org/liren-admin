@@ -443,6 +443,7 @@ public class MyApplyController {
             perf.setName(salesPerformance.getTitle());
             perf.setDate(salesPerformance.getCompleteTime());
             perf.setApplyPoint(salesPerformance.getRewardPoint());
+            perf.setTargetAmount(salesPerformance.getAmount());
         }
         return perf;
     }
