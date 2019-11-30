@@ -2,12 +2,11 @@ package com.sparky.lirenadmin.controller;
 
 import com.sparky.lirenadmin.bo.ShopConfigBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.constant.PicUrl;
 import com.sparky.lirenadmin.constant.ShopConfigTypeEnum;
-import com.sparky.lirenadmin.controller.request.PublishNoticeDTO;
 import com.sparky.lirenadmin.controller.request.PublishPosterDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.ViewPosterVO;
-import com.sparky.lirenadmin.controller.response.ViewPublishNoticeVO;
 import com.sparky.lirenadmin.entity.ShopConfig;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import io.swagger.annotations.Api;
@@ -65,6 +64,22 @@ public class PosterController {
         }
     }
 
+    private void handleWithPicUrl(ViewPosterVO vo) {
+        if (vo.getContent() == null || vo.getContent().isEmpty()){
+            return;
+        }
+        String picList = vo.getContent();
+        StringBuffer appendHeaderBuff = new StringBuffer();
+        int length = picList.split(",").length;
+        for (String pic : picList.split(",")) {
+            appendHeaderBuff.append(PicUrl.url).append(pic);
+            if (--length > 0){
+                appendHeaderBuff.append(",");
+            }
+        }
+        vo.setContent(appendHeaderBuff.toString());
+    }
+
     private ViewPosterVO convertToDto(ShopConfig config, Long empNo) {
         ViewPosterVO dto = new ViewPosterVO();
         ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
@@ -74,6 +89,7 @@ public class PosterController {
         }
         dto.setPosterNo(config.getId());
         dto.setContent(config.getContent());
+        handleWithPicUrl(dto);
         return dto;
     }
 
