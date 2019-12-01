@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.controller.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @ApiModel
@@ -19,6 +20,37 @@ public class MyAttendanceInfo {
     private String endWorkTime;
     @ApiModelProperty("考勤异常日期")
     private List<String> exceptDateList;
+
+    @ApiModelProperty("经度")
+    private BigDecimal longitude;
+    @ApiModelProperty("维度")
+    private BigDecimal latitude;
+    @ApiModelProperty("打卡半径")
+    private Integer radiu;
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public Integer getRadiu() {
+        return radiu;
+    }
+
+    public void setRadiu(Integer radiu) {
+        this.radiu = radiu;
+    }
 
     public Integer getLate() {
         return late;

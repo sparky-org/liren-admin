@@ -70,11 +70,19 @@ public class VacationController {
                         .collect(Collectors.toList());
                 info.setExceptDateList(exceptDateList);
             }
+            //测试数据
+            List<String> strings = new ArrayList<>();
+            strings.add("2019-12-01");
+            strings.add("2019-12-02");
+            info.setExceptDateList(strings);
 
             AttendanceConfig config = attendanceConfigBO.getConfig(employee.getShopNo());
             if (config != null){
                 info.setStartWorkTime(DateUtils.formatDate(config.getStartWork(), "HH:mm"));
                 info.setEndWorkTime(DateUtils.formatDate(config.getEndWork(), "HH:mm"));
+                info.setLongitude(config.getLongitude());
+                info.setLatitude(config.getLatitude());
+                info.setRadiu(config.getRadius());
             }
             return BaseResponseWrapper.success(info);
         } catch (RuntimeException e) {
