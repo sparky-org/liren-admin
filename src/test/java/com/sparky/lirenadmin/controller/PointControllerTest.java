@@ -66,7 +66,7 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testApplyFlow() throws ParseException {
+    public void testGetPointTable() throws ParseException {
         BeautyShop shop = initShop();
         beautyShopBO.createShop(shop);
         ShopEmployee admin = initEmployee(shop);
@@ -115,6 +115,60 @@ public class PointControllerTest {
         dto.setShopNo(shop.getId());
         dto.setInterval("YEAR");
         PagingResponseWrapper result = pointController.getPointTable(dto);
+        System.out.println(JSONObject.toJSONString(result));
+    }
+
+    @Test
+    public void testGetPointDetail() throws ParseException {
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+        //初始化一名普通员工
+        ShopEmployee employee = initEmployee(shop);
+        employee.setName("美容师");
+        employee.setPhone("13000000001");
+        employee.setShopNo(shop.getId());
+        employee.setManagerNo(admin.getId());
+        employee.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(employee);
+        //初始化一名普通员工
+        ShopEmployee cc = initEmployee(shop);
+        cc.setName("美容师");
+        cc.setPhone("13000000001");
+        cc.setShopNo(shop.getId());
+        cc.setManagerNo(admin.getId());
+        cc.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(cc);
+
+        //初始化一个顾客
+        CustomerInfo customerInfo = initCustomer(employee);
+        customerBO.createCustomer(customerInfo);
+
+        //创建业绩申请
+        ApplySalesPerfDTO applySalesPerfDTO = initApplySalesPerfDTO(employee,admin,cc, customerInfo);
+        BaseResponseWrapper wrapper = salesPerformanceController.applySalesPerf(applySalesPerfDTO);
+        Assert.isTrue(wrapper.isSuccess());
+
+        //审批，奖励积分
+        PagingResponseWrapper<List<ListApplyVO>> result3 = myApplyController.myApprovalPending(admin.getId(), ApplyTypeEnum.SAL_PERF.getCode(),
+                ApplyStatusEnum.NEW.getCode(), DateUtils.parseDate("2019-11-01", "yyyy-MM-dd"),
+                DateUtils.parseDate("2019-12-30", "yyyy-MM-dd"),
+                1, 10);
+        Assert.isTrue(result3.isSuccess(), "查询待我审批异常。");
+        List<ListApplyVO> pending = (List<ListApplyVO>)result3.getResult();
+        //审批通过
+        BaseResponseWrapper r1 = myApplyController.approve(pending.get(0).getApplyNo(),true, admin.getId());
+        Assert.isTrue(r1.isSuccess(), "审批失败");
+
+        GetPointTableDTO dto = new GetPointTableDTO();
+        dto.setEmpNo(employee.getId());
+        dto.setCurrentPage(1);
+        dto.setPageSize(10);
+        dto.setShopNo(shop.getId());
+        dto.setInterval("YEAR");
+        PagingResponseWrapper result = pointController.getPointRewardDetail(dto);
         System.out.println(JSONObject.toJSONString(result));
     }
 

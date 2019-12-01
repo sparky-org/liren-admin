@@ -19,7 +19,11 @@ public interface RewardRecordMapperExt extends RewardRecordMapper {
 
     List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize);
 
-    Integer countPointTable(Long shopNo, String interval, String beginDate, String endDate);
+    Integer countPointTable(Long empNo, Long shopNo, String interval, String beginDate, String endDate);
 
-    List<PointTablePO> getPointTable(Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize);
+    List<PointTablePO> getPointTable(Long empNo, Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize);
+
+    Integer countPointDetail(Long empNo, Long shopNo, String interval, String beginDate, String endDate);
+
+    List<RewardRecord> queryPointDetail(Long empNo, Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize);
 }

@@ -42,11 +42,21 @@ public class RewardRecordBOImpl implements RewardRecordBO {
 
     @Override
     public Integer countPointTable(Long shopNo, String interval, String beginDate, String endDate) {
-        return rewardRecordMapper.countPointTable(shopNo, interval, beginDate, endDate);
+        return rewardRecordMapper.countPointTable(null, shopNo, interval, beginDate, endDate);
     }
 
     @Override
     public List<PointTablePO> getPointTable(Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize) {
-        return rewardRecordMapper.getPointTable(shopNo, interval, beginDate, endDate, start, pageSize);
+        return rewardRecordMapper.getPointTable(null, shopNo, interval, beginDate, endDate, start, pageSize);
+    }
+
+    @Override
+    public Integer countPointDetail(Long empNo, Long shopNo, String interval, String beginDate, String endDate) {
+        return rewardRecordMapper.countPointDetail(empNo, shopNo, interval, beginDate, endDate);
+    }
+
+    @Override
+    public List<RewardRecord> queryPointDetail(Long empNo, Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize) {
+        return rewardRecordMapper.queryPointDetail(empNo, shopNo, interval, beginDate, endDate, start, pageSize);
     }
 }

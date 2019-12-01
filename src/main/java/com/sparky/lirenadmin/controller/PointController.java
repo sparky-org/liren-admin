@@ -7,18 +7,22 @@ import com.sparky.lirenadmin.bo.PointConfigBO;
 import com.sparky.lirenadmin.bo.RewardRecordBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.constant.PointTypeEnum;
+import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.controller.request.CreatePointDTO;
+import com.sparky.lirenadmin.controller.request.GetPointRewardDetailVO;
 import com.sparky.lirenadmin.controller.request.GetPointTableDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.GetPointTableVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.PointConfig;
+import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.po.PointTablePO;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.hc.client5.http.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +107,34 @@ public class PointController {
             e.printStackTrace();
             return PagingResponseWrapper.fail1(null, e.getMessage());
         }
+    }
+
+    @ApiOperation("积分榜")
+    @RequestMapping(value = "/getPointRewardDetail",method = RequestMethod.POST)
+    @ResponseBody
+    public PagingResponseWrapper<List<GetPointRewardDetailVO>> getPointRewardDetail(@RequestBody GetPointTableDTO dto){
+        try {
+            Integer total = rewardRecordBO.countPointDetail(dto.getEmpNo(), dto.getShopNo(), dto.getInterval(), dto.getBeginDate(), dto.getEndDate());
+            if (total < 1){
+                return PagingResponseWrapper.success(new ArrayList<>(), total);
+            }
+            Integer start = PagingUtils.getStartIndex(total,dto.getCurrentPage(), dto.getPageSize());
+            List<RewardRecord> configs = rewardRecordBO.queryPointDetail(dto.getEmpNo(), dto.getShopNo(), dto.getInterval(), dto.getBeginDate(), dto.getEndDate(),
+                    start, dto.getPageSize());
+            List<GetPointRewardDetailVO> vos = configs.stream().map(this::convertFromRewardRecord).collect(Collectors.toList());
+            return PagingResponseWrapper.success(vos, total);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PagingResponseWrapper.fail1(null, e.getMessage());
+        }
+    }
+
+    private GetPointRewardDetailVO convertFromRewardRecord(RewardRecord rewardRecord) {
+        GetPointRewardDetailVO vo = new GetPointRewardDetailVO();
+        vo.setTitle(RewardTypeEnum.valueOf(rewardRecord.getOrigin()).getDesc());
+        vo.setTime(DateUtils.formatDate(rewardRecord.getRewardTime(), "yyyy-MM-dd HH:mm:ss"));
+        vo.setPoint(rewardRecord.getPoint());
+        return vo;
     }
 
     private GetPointTableVO convertFromPO(PointTablePO configs) {

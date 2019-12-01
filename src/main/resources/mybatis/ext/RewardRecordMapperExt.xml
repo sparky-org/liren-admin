@@ -32,30 +32,39 @@
      limit #{start}, #{pageSize}
   </select>
 
+    <sql id="paging_query_record_where_clause">
+        <where>
+            is_valid = true
+            <if test="empNo != null">
+                and emp_no = #{empNo}
+            </if>
+            <if test="shopNo != null">
+                and shop_no = #{shopNo}
+            </if>
+            <if test="interval == 'DAY'">
+                and day(reward_time) = day(sysdate())
+            </if>
+            <if test="interval == 'MONTH'">
+                and month(reward_time) = month(sysdate())
+            </if>
+            <if test="interval == 'QUARTER'">
+                and quarter(reward_time) = quarter(sysdate())
+            </if>
+            <if test="interval == 'YEAR'">
+                and year(reward_time) = year(sysdate())
+            </if>
+            <if test="interval == 'DEFINE'">
+                and reward_time between #{beginDate} and #{endDate}
+            </if>
+        </where>
+    </sql>
+
   <sql id="sum_query_from_clause">
     select emp_no, emp_name, sum(point) as point, sum(case when point &gt; 0 then point else 0 end) as increase,sum(case when point &lt; 0 then abs(point) else 0 end) as decrease, @rownum:=0  AS rownum
     from (select a.emp_no, b.name as emp_name, a.point
             from (
                   select * from t_reward_record
-                          where is_valid = true
-                          <if test="shopNo != null">
-                            and shop_no = #{shopNo}
-                          </if>
-                          <if test="interval == 'DAY'">
-                            and day(gmt_create) = day(sysdate())
-                          </if>
-                          <if test="interval == 'MONTH'">
-                            and month(gmt_create) = month(sysdate())
-                          </if>
-                          <if test="interval == 'QUARTER'">
-                            and quarter(gmt_create) = quarter(sysdate())
-                          </if>
-                          <if test="interval == 'YEAR'">
-                            and year(gmt_create) = year(sysdate())
-                          </if>
-                          <if test="interval == 'DEFINE'">
-                            and gmt_create between #{beginDate} and #{endDate}
-                          </if>
+                          <include refid="paging_query_record_where_clause"/>
                       ) a
             left outer join t_shop_employee b on a.emp_no=b.id
           ) m
@@ -77,4 +86,17 @@
     ) n
     limit #{start}, #{pageSize}
   </select>
+
+    <select id="countPointDetail" resultType="java.lang.Integer">
+        select count(*)
+          from t_reward_record
+          <include refid="paging_query_record_where_clause"/>
+    </select>
+
+    <select id="queryPointDetail" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_reward_record
+        <include refid="paging_query_record_where_clause"/>
+    </select>
 </mapper>
