@@ -28,7 +28,7 @@ import java.util.Date;
 @MapperScan("com.sparky.lirenadmin.mapper")
 @RunWith(SpringRunner.class)
 @Transactional
-@Rollback(true)
+@Rollback(false)
 public class VacationControllerTest {
 
 

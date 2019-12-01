@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.constant.AutoRewardConfigEnum;
@@ -19,10 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Api(tags = "考勤接口")
@@ -164,15 +162,23 @@ public class VacationController {
                 shopConfig.setShopNo(dto.getShopNo());
                 JSONObject object = new JSONObject();
                 object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
-                shopConfig.setContent(object.toJSONString());
+                JSONArray array = new JSONArray();
+                array.add(object);
+                shopConfig.setContent(array.toJSONString());
                 shopConfigBO.createModifyConfig(shopConfig);
             }else{
-                JSONObject object = JSONObject.parseObject(shopConfig.getContent());
-                if (null != object.get(AutoRewardConfigEnum.ATTENDANCE.getCode())){
-                    object.remove(AutoRewardConfigEnum.ATTENDANCE.getCode());
+                JSONArray array = JSONArray.parseArray(shopConfig.getContent());
+                Iterator iterator = array.iterator();
+                while (iterator.hasNext()){
+                    JSONObject json = (JSONObject)iterator.next();
+                    if (null != json.get(AutoRewardConfigEnum.ATTENDANCE.getCode())){
+                        iterator.remove();
+                    }
                 }
+                JSONObject object = new JSONObject();
                 object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
-                shopConfig.setContent(object.toJSONString());
+                array.add(object);
+                shopConfig.setContent(array.toJSONString());
                 shopConfigBO.createModifyConfig(shopConfig);
             }
             return BaseResponseWrapper.success(null);
