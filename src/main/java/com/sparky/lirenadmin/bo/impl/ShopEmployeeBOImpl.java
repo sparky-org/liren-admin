@@ -62,6 +62,13 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
         return shopEmployeeMapper.selectByExample(example);
     }
 
+    @Override
+    public List<ShopEmployee> listEmployByJobList(List<Long> jobList) {
+        ShopEmployeeExample example = new ShopEmployeeExample();
+        example.createCriteria().andIsValidEqualTo(true).andJobNoIn(jobList);
+        return shopEmployeeMapper.selectByExample(example);
+    }
+
     private void setDefaultAvatar(ShopEmployee employee) {
         //TODO 设置默认图片
         employee.setAvatar("/jyw-server/xxxxx");

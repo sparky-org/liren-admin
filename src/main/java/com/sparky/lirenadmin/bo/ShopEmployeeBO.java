@@ -14,4 +14,6 @@ public interface ShopEmployeeBO {
     void modify(ShopEmployee shopEmployee);
 
     List<ShopEmployee> listEmploy(List<Long> idList);
+
+    List<ShopEmployee> listEmployByJobList(List<Long> jobList);
 }

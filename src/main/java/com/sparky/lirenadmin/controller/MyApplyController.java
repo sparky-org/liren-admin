@@ -188,8 +188,8 @@ public class MyApplyController {
     public PagingResponseWrapper<List<ListApplyVO>> myApprovalPending(@RequestParam @ApiParam Long auditEmpNo,
                                                                       @RequestParam(required = false) @ApiParam String applyType,
                                                                       @RequestParam(required = false) @ApiParam String status,
-                                                                      @RequestParam(required = false) @ApiParam Date begin,
-                                                                      @RequestParam(required = false) @ApiParam Date end,
+                                                                      @RequestParam(required = false) @ApiParam String begin,
+                                                                      @RequestParam(required = false) @ApiParam String end,
                                                                       @RequestParam @ApiParam Integer currentPage,
                                                                       @RequestParam @ApiParam Integer pageSize){
         try {
@@ -197,7 +197,15 @@ public class MyApplyController {
             if (status != null){
                 statuses = Arrays.asList(status);
             }
-            QueryApplyCond cond = buildQueryApplyCond(null, auditEmpNo,null, applyType, statuses, begin, end);
+            Date beginDate = null;
+            if (begin != null){
+                beginDate = DateUtils.getDateTime(begin);
+            }
+            Date endDate = null;
+            if (end != null){
+                endDate = DateUtils.getDateTime(end);
+            }
+            QueryApplyCond cond = buildQueryApplyCond(null, auditEmpNo,null, applyType, statuses, beginDate, endDate);
             PagingResponseWrapper<List<ListApplyVO>> applyVOS = pagingQueryApp(cond, currentPage, pageSize);
             return applyVOS;
         } catch (RuntimeException e) {
