@@ -227,7 +227,7 @@ public class MyApplyController {
             }
             return BaseResponseWrapper.success(null);
         } catch (RuntimeException e) {
-            logger.error("审批异常", e.getMessage());
+            logger.error("审批异常", e);
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
     }
