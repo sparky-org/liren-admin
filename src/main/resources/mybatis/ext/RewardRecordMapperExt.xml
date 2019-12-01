@@ -31,4 +31,50 @@
      order by id desc
      limit #{start}, #{pageSize}
   </select>
+
+  <sql id="sum_query_from_clause">
+    select emp_no, emp_name, sum(point) as point, sum(case when point &gt; 0 then point else 0 end) as increase,sum(case when point &lt; 0 then abs(point) else 0 end) as decrease, @rownum:=0  AS rownum
+    from (select a.emp_no, b.name as emp_name, a.point
+            from (
+                  select * from t_reward_record
+                          where is_valid = true
+                          <if test="shopNo != null">
+                            and shop_no = #{shopNo}
+                          </if>
+                          <if test="interval == 'DAY'">
+                            and day(gmt_create) = day(sysdate())
+                          </if>
+                          <if test="interval == 'MONTH'">
+                            and month(gmt_create) = month(sysdate())
+                          </if>
+                          <if test="interval == 'QUARTER'">
+                            and quarter(gmt_create) = quarter(sysdate())
+                          </if>
+                          <if test="interval == 'YEAR'">
+                            and year(gmt_create) = year(sysdate())
+                          </if>
+                          <if test="interval == 'DEFINE'">
+                            and gmt_create between #{beginDate} and #{endDate}
+                          </if>
+                      ) a
+            left outer join t_shop_employee b on a.emp_no=b.id
+          ) m
+    group by emp_no
+    order by point desc
+  </sql>
+
+  <select id="countPointTable" resultType="java.lang.Integer">
+    select count(*)
+    from (
+    <include refid="sum_query_from_clause"/>
+    ) n
+  </select>
+
+  <select id="getPointTable" resultType="com.sparky.lirenadmin.entity.po.PointTablePO">
+    select emp_no as empNo, emp_name as name, increase, decrease, point as total, @rownum:=@rownum+1 as empRank
+    from (
+    <include refid="sum_query_from_clause"/>
+    ) n
+    limit #{start}, #{pageSize}
+  </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.bo;
 
 import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.po.PointRankPO;
+import com.sparky.lirenadmin.entity.po.PointTablePO;
 
 import java.util.Date;
 import java.util.List;
@@ -14,4 +15,8 @@ public interface RewardRecordBO {
     int countRewardRecord(String shopNo);
 
     List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize);
+
+    Integer countPointTable(Long shopNo, String interval, String beginDate, String endDate);
+
+    List<PointTablePO> getPointTable(Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize);
 }

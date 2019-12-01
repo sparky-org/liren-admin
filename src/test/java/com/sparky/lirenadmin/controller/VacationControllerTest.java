@@ -1,10 +1,13 @@
 package com.sparky.lirenadmin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
 import com.sparky.lirenadmin.bo.CustomerBO;
 import com.sparky.lirenadmin.bo.ServiceItemBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.controller.request.SetAttendanceDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.entity.AttendanceConfig;
 import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.ShopEmployee;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @SpringBootTest
@@ -30,6 +34,8 @@ public class VacationControllerTest {
 
     @Autowired
     private VacationController vacationController;
+    @Autowired
+    private PointController pointController;
     @Autowired
     private MyApplyController myApplyController;
     @Autowired
@@ -77,6 +83,33 @@ public class VacationControllerTest {
         wrapper = vacationController.clockIn(employee.getId(), 0.1,0.1, true);
         Assert.isTrue(wrapper.isSuccess());
 
+    }
+
+    @Test
+    public void testAddConfig(){
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+        SetAttendanceDTO dto = initSetAttendanceDTO(shop, admin);
+        BaseResponseWrapper result = vacationController.setAttendance(dto);
+        System.out.println(JSONObject.toJSONString(result));
+    }
+
+    private SetAttendanceDTO initSetAttendanceDTO(BeautyShop shop, ShopEmployee admin) {
+        SetAttendanceDTO dto = new SetAttendanceDTO();
+        dto.setAddress("浙江省余杭区梦想小镇");
+        dto.setEndWorkTime("09:00");
+        dto.setLatitude(new BigDecimal(20.000012));
+        dto.setLongitude(new BigDecimal(1231.000923));
+        dto.setOperator(admin.getId());
+        dto.setRewardPoint(100);
+        dto.setScopeRadio(100);
+        dto.setShopNo(shop.getId());
+        dto.setStartWorkTime("09:00");
+        dto.setWorkDay("星期一，星期二，星期三，星期四，星期五");
+        return dto;
     }
 
     private CustomerInfo initCustomer(ShopEmployee employee) {

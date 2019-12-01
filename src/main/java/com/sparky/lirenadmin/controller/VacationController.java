@@ -1,15 +1,13 @@
 package com.sparky.lirenadmin.controller;
 
-import com.sparky.lirenadmin.bo.AttendanceConfigBO;
-import com.sparky.lirenadmin.bo.AttendanceRecordBO;
-import com.sparky.lirenadmin.bo.ClockInLogBO;
-import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.alibaba.fastjson.JSONObject;
+import com.sparky.lirenadmin.bo.*;
+import com.sparky.lirenadmin.constant.AutoRewardConfigEnum;
+import com.sparky.lirenadmin.constant.ShopConfigTypeEnum;
+import com.sparky.lirenadmin.controller.request.SetAttendanceDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyAttendanceInfo;
-import com.sparky.lirenadmin.entity.AttendanceConfig;
-import com.sparky.lirenadmin.entity.AttendanceRecord;
-import com.sparky.lirenadmin.entity.ClockInLog;
-import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.entity.po.AttendanceStatisticsPO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,10 +16,7 @@ import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -43,6 +38,8 @@ public class VacationController {
     private AttendanceRecordBO attendanceRecordBO;
     @Autowired
     private AttendanceConfigBO attendanceConfigBO;
+    @Autowired
+    private ShopConfigBO shopConfigBO;
     /**
      * 查询月信息
      * @param empNo
@@ -150,6 +147,52 @@ public class VacationController {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
+    }
+
+    @ApiOperation("设置考勤")
+    @RequestMapping(value = "/setAttendance", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper setAttendance(@RequestBody SetAttendanceDTO dto){
+        try {
+            attendanceConfigBO.createConfig(buildAttendanceConfig(dto));
+            ShopConfig shopConfig = shopConfigBO.getShopConfig(dto.getShopNo(), ShopConfigTypeEnum.REWARD_CONFIG.getCode());
+            if (shopConfig == null){
+                shopConfig = new ShopConfig();
+                shopConfig.setConfigName(ShopConfigTypeEnum.REWARD_CONFIG.getDesc());
+                shopConfig.setConfigType(ShopConfigTypeEnum.REWARD_CONFIG.getCode());
+                shopConfig.setCreator(0L);
+                shopConfig.setShopNo(dto.getShopNo());
+                JSONObject object = new JSONObject();
+                object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
+                shopConfig.setContent(object.toJSONString());
+                shopConfigBO.createModifyConfig(shopConfig);
+            }else{
+                JSONObject object = JSONObject.parseObject(shopConfig.getContent());
+                if (null != object.get(AutoRewardConfigEnum.ATTENDANCE.getCode())){
+                    object.remove(AutoRewardConfigEnum.ATTENDANCE.getCode());
+                }
+                object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
+                shopConfig.setContent(object.toJSONString());
+                shopConfigBO.createModifyConfig(shopConfig);
+            }
+            return BaseResponseWrapper.success(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
+    private AttendanceConfig buildAttendanceConfig(SetAttendanceDTO dto) {
+        AttendanceConfig config = new AttendanceConfig();
+        config.setCreator(dto.getOperator());
+        config.setEndWork(com.sparky.lirenadmin.utils.DateUtils.getDateTime("1990-01-01 " + dto.getEndWorkTime()));
+        config.setShopNo(dto.getShopNo());
+        config.setLatitude(dto.getLatitude());
+        config.setLongitude(dto.getLongitude());
+        config.setRadius(dto.getScopeRadio());
+        config.setStartWork(com.sparky.lirenadmin.utils.DateUtils.getDateTime("1990-01-01 " + dto.getStartWorkTime()));
+        config.setWorkDay(dto.getWorkDay());
+        return config;
     }
 
     private ClockInLog buildClockInLog(Long empNo, Double longitude, Double latitude, Boolean isOutSide) {

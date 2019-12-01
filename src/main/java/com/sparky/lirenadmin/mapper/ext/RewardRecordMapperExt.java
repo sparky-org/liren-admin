@@ -2,6 +2,7 @@ package com.sparky.lirenadmin.mapper.ext;
 
 import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.po.PointRankPO;
+import com.sparky.lirenadmin.entity.po.PointTablePO;
 import com.sparky.lirenadmin.mapper.RewardRecordMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,8 @@ public interface RewardRecordMapperExt extends RewardRecordMapper {
     int countRewardRecord(String shopNo);
 
     List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize);
+
+    Integer countPointTable(Long shopNo, String interval, String beginDate, String endDate);
+
+    List<PointTablePO> getPointTable(Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize);
 }

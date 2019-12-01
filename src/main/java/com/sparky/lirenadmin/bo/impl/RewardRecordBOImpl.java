@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.bo.impl;
 import com.sparky.lirenadmin.bo.RewardRecordBO;
 import com.sparky.lirenadmin.entity.RewardRecord;
 import com.sparky.lirenadmin.entity.po.PointRankPO;
+import com.sparky.lirenadmin.entity.po.PointTablePO;
 import com.sparky.lirenadmin.mapper.ext.RewardRecordMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,15 @@ public class RewardRecordBOImpl implements RewardRecordBO {
     @Override
     public List<RewardRecord> pagingQueryRewardRecord(String shopNo, int start, Integer pageSize) {
         return rewardRecordMapper.pagingQueryRewardRecord(shopNo, start, pageSize);
+    }
+
+    @Override
+    public Integer countPointTable(Long shopNo, String interval, String beginDate, String endDate) {
+        return rewardRecordMapper.countPointTable(shopNo, interval, beginDate, endDate);
+    }
+
+    @Override
+    public List<PointTablePO> getPointTable(Long shopNo, String interval, String beginDate, String endDate, Integer start, Integer pageSize) {
+        return rewardRecordMapper.getPointTable(shopNo, interval, beginDate, endDate, start, pageSize);
     }
 }
