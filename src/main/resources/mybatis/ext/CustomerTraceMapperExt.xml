@@ -34,7 +34,7 @@
       ) b on a.creator = b.id
     )
     group by date_format(date, '%Y-%m')
-    order by date_format(date, '%Y-%m') desc, gmt_modify desc
+    order by date_format(date, '%Y-%m') desc
     limit 12
   </select>
 </mapper>
