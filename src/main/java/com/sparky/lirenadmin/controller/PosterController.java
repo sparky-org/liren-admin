@@ -74,6 +74,8 @@ public class PosterController {
         for (String pic : picList.split(",")) {
             if (pic.indexOf(PicUrl.url) < 0) {
                 appendHeaderBuff.append(PicUrl.url).append(pic);
+            }else{
+                appendHeaderBuff.append(pic);
             }
             if (--length > 0){
                 appendHeaderBuff.append(",");
