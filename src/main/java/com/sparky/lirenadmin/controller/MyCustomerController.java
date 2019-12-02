@@ -102,7 +102,7 @@ public class MyCustomerController {
             List<CustomerTrace> traceList = customerTraceBO.pagingQueryTrace(customerNo, start, pageSize);
             CustomerDetailVO detailVO = new CustomerDetailVO();
             fillBaseInfo(detailVO, customerInfo);
-            if (CollectionUtils.isEmpty(traceList)){
+            if (!CollectionUtils.isEmpty(traceList)){
                 List<CustomerDetailVO.TraceInfo> traceInfos = traceList.stream().map(t -> {
                     CustomerDetailVO.TraceInfo info = new CustomerDetailVO.TraceInfo();
                     info.setDate(DateUtils.formatDate(t.getDate(), "yyyy-MM-dd HH:mm:ss"));
@@ -113,7 +113,7 @@ public class MyCustomerController {
             }
             return BaseResponseWrapper.success(detailVO);
         } catch (Exception e) {
-            logger.error("创建客户异常。", e.getMessage());
+            logger.error("获取客户详情异常。", e.getMessage());
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
     }
