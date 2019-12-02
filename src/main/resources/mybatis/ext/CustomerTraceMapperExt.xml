@@ -11,7 +11,7 @@
     <include refid="Base_Column_List"/>
     from t_customer_trace
     where customer_no = #{customerNo}
-    order by gmt_create desc
+    order by gmt_modify desc
     limit #{start},#{length}
   </select>
 

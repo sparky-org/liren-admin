@@ -2,7 +2,6 @@ package com.sparky.lirenadmin.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.internal.org.apache.commons.lang3.time.DateUtils;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
@@ -93,8 +92,7 @@ public class ApplyControllerTest {
         Assert.isTrue(result2.isSuccess(), "撤回失败");
         //查询待我审批
         PagingResponseWrapper<List<ListApplyVO>> result3 = myApplyController.myApprovalPending(admin.getId(), ApplyTypeEnum.NORMAL.getCode(),
-                ApplyStatusEnum.NEW.getCode(), DateUtils.parseDate("2019-11-01", "yyyy-MM-dd"),
-                DateUtils.parseDate("2019-11-30", "yyyy-MM-dd"),
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-11-30",
                 1, 10);
         Assert.isTrue(result3.isSuccess(), "查询待我审批异常。");
         Assert.isTrue(result3.getTotal() >= 2, "查询待我审批异常, 少于2个。");

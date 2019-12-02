@@ -2,9 +2,7 @@ package com.sparky.lirenadmin.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.internal.org.apache.commons.lang3.time.DateUtils;
 import com.sparky.lirenadmin.bo.*;
-import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
 import com.sparky.lirenadmin.constant.ApplyStatusEnum;
 import com.sparky.lirenadmin.constant.ApplyTypeEnum;
 import com.sparky.lirenadmin.controller.request.ApplySalesPerfDTO;
@@ -12,7 +10,6 @@ import com.sparky.lirenadmin.controller.request.GetPointTableDTO;
 import com.sparky.lirenadmin.controller.request.NewNormalApplyDTO;
 import com.sparky.lirenadmin.controller.request.NewVacationApplyDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
-import com.sparky.lirenadmin.controller.response.CCTomeVO;
 import com.sparky.lirenadmin.controller.response.ListApplyVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.Apply;
@@ -100,8 +97,7 @@ public class PointControllerTest {
 
         //审批，奖励积分
         PagingResponseWrapper<List<ListApplyVO>> result3 = myApplyController.myApprovalPending(admin.getId(), ApplyTypeEnum.SAL_PERF.getCode(),
-                ApplyStatusEnum.NEW.getCode(), DateUtils.parseDate("2019-11-01", "yyyy-MM-dd"),
-                DateUtils.parseDate("2019-12-30", "yyyy-MM-dd"),
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-12-30",
                 1, 10);
         Assert.isTrue(result3.isSuccess(), "查询待我审批异常。");
         List<ListApplyVO> pending = (List<ListApplyVO>)result3.getResult();
@@ -153,8 +149,7 @@ public class PointControllerTest {
 
         //审批，奖励积分
         PagingResponseWrapper<List<ListApplyVO>> result3 = myApplyController.myApprovalPending(admin.getId(), ApplyTypeEnum.SAL_PERF.getCode(),
-                ApplyStatusEnum.NEW.getCode(), DateUtils.parseDate("2019-11-01", "yyyy-MM-dd"),
-                DateUtils.parseDate("2019-12-30", "yyyy-MM-dd"),
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-12-30",
                 1, 10);
         Assert.isTrue(result3.isSuccess(), "查询待我审批异常。");
         List<ListApplyVO> pending = (List<ListApplyVO>)result3.getResult();

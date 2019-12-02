@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparky.lirenadmin.mapper.ext.RewardPunishmentMapperExt">
+
+    <sql id="paging_query_where_clause">
+        <where>
+            is_valid = 1
+            <if test="contentLike != null">
+                and content like concat('%',contentLike,'%')
+            </if>
+            and emp_no in (
+              select id
+                from t_shop_employee
+                where is_valid = 1
+                <if test="isAdmin == false">
+                    and (manager_no = #{empNo} or (id = #{empNo}))
+                </if>
+                <if test="isAdmin == true">
+                    and shop_no = #{shopNo}
+                </if>
+            )
+        </where>
+    </sql>
+
+    <select id="countRewardPunishment" resultType="java.lang.Integer">
+        select count(*)
+          from t_reward_punishment
+        <include refid="paging_query_where_clause"/>
+    </select>
+    <select id="queryRewardPunishment" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_reward_punishment
+        <include refid="paging_query_where_clause"/>
+        order by gmt_modify desc
+         limit #{start}, #{pageSize}
+    </select>
+</mapper>

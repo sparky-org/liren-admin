@@ -16,7 +16,16 @@ public class CustomerDetailVO {
     private String sex;
     private String phone;
     private BaseInfo baseInfo;
+    private Integer total;
     private List<TraceInfo> traceInfoList;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
 
     public Long getCustomerNo() {
         return customerNo;

@@ -99,17 +99,23 @@ public class MyCustomerController {
             if (customerInfo == null){
                 throw new RuntimeException(String .format("编号[%d]的顾客不存在。", customerNo));
             }
-            List<CustomerTrace> traceList = customerTraceBO.pagingQueryTrace(customerNo, start, pageSize);
             CustomerDetailVO detailVO = new CustomerDetailVO();
             fillBaseInfo(detailVO, customerInfo);
-            if (!CollectionUtils.isEmpty(traceList)){
-                List<CustomerDetailVO.TraceInfo> traceInfos = traceList.stream().map(t -> {
-                    CustomerDetailVO.TraceInfo info = new CustomerDetailVO.TraceInfo();
-                    info.setDate(DateUtils.formatDate(t.getDate(), "yyyy-MM-dd HH:mm:ss"));
-                    info.setContent(t.getActiveType());
-                    return info;
-                }).collect(Collectors.toList());
-                detailVO.setTraceInfoList(traceInfos);
+            Integer total = customerTraceBO.countTrace(customerNo);
+            if (total < 1){
+                detailVO.setTraceInfoList(new ArrayList<>());
+            }else {
+                Integer start1 = PagingUtils.getStartIndex(total, start, pageSize);
+                List<CustomerTrace> traceList = customerTraceBO.pagingQueryTrace(customerNo, start1, pageSize);
+                if (!CollectionUtils.isEmpty(traceList)) {
+                    List<CustomerDetailVO.TraceInfo> traceInfos = traceList.stream().map(t -> {
+                        CustomerDetailVO.TraceInfo info = new CustomerDetailVO.TraceInfo();
+                        info.setDate(DateUtils.formatDate(t.getDate(), "yyyy-MM-dd HH:mm:ss"));
+                        info.setContent(t.getActiveType());
+                        return info;
+                    }).collect(Collectors.toList());
+                    detailVO.setTraceInfoList(traceInfos);
+                }
             }
             return BaseResponseWrapper.success(detailVO);
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class CustomerTraceBOImpl implements CustomerTraceBO {
     @Override
     public int countTrace(Long customerId) {
         CustomerTraceExample example = new CustomerTraceExample();
-        example.createCriteria().andCustomerNoEqualTo(customerId);
+        example.createCriteria().andIsValidEqualTo(true).andCustomerNoEqualTo(customerId);
         return new Long(customerTraceMapper.countByExample(example)).intValue();
     }
 
