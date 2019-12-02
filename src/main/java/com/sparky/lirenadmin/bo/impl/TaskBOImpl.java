@@ -6,7 +6,6 @@ import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
 import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskDtl;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
-import com.sparky.lirenadmin.mapper.TaskMapper;
 import com.sparky.lirenadmin.mapper.ext.TaskMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +41,23 @@ public class TaskBOImpl implements TaskBO {
     }
 
     @Override
-    public void modifyTask(Task task) {
+    public void modifyTask(Task task, List<TaskDtl> dtls) {
+        doModifyTask(task);
+        taskDtlBO.deleteDtlIfExist(task.getId());
+        if (!CollectionUtils.isEmpty(dtls)){
+            for (TaskDtl dtl : dtls){
+                dtl.setTaskNo(task.getId());
+                taskDtlBO.createTaskDtl(dtl);
+            }
+        }
+    }
 
+    private void doModifyTask(Task task) {
+        if (task.getId() == null){
+            throw new RuntimeException("修改任务失败，原任务不存在。");
+        }
+        task.setGmtModify(new Date());
+        taskMapper.updateByPrimaryKeySelective(task);
     }
 
     @Override
@@ -64,6 +78,16 @@ public class TaskBOImpl implements TaskBO {
     @Override
     public List<MyTaskPO> queryTask(QueryTaskCond cond) {
         return taskMapper.pagingByQueryCond(cond);
+    }
+
+    @Override
+    public int countManageTask(Date beginDate, Date endDate, Long jobNo, Long shopNo) {
+        return taskMapper.countManageTask(beginDate, endDate, jobNo, shopNo);
+    }
+
+    @Override
+    public List<Task> queryManageTask(Date beginDate, Date endDate, Long jobNo, Long shopNo, int start, Integer pageSize) {
+        return taskMapper.queryManageTask(beginDate, endDate, jobNo, shopNo, start, pageSize);
     }
 
     private void doCreate(Task task) {

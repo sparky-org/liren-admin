@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +19,11 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
 
     @Override
     public ShopEmployee getEmployee(Long empNo) {
-        return shopEmployeeMapper.selectByPrimaryKey(empNo);
+        ShopEmployee employee = shopEmployeeMapper.selectByPrimaryKey(empNo);
+        if (employee == null || !employee.getIsValid()){
+            return null;
+        }
+        return employee;
     }
 
     @Override

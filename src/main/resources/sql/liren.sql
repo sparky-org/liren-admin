@@ -283,6 +283,7 @@ CREATE TABLE `t_task` (
   `point_no` bigint(11) NOT NULL COMMENT '积分类型',
   `join_limit` int NOT NULL COMMENT '人数限制',
   `scope` varchar(8) NOT NULL COMMENT '可见范围',
+  `rewardPoint` int NOT NULL COMMENT '奖励积分',
   `shop_no` bigint(11) NOT NULL COMMENT '美容院编码',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
   `is_valid` tinyint(1) NOT NULL COMMENT '删除标志',

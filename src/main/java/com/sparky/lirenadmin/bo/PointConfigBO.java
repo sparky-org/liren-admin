@@ -10,4 +10,6 @@ public interface PointConfigBO {
     void modifyPointConfig(PointConfig config);
 
     List<PointConfig> getPointConfig(Long shopNo);
+
+    PointConfig getPointConfigByPrimaryKey(Long pointNo);
 }

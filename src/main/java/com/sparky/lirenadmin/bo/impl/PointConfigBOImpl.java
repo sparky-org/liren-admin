@@ -36,4 +36,9 @@ public class PointConfigBOImpl implements PointConfigBO {
         example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
         return pointConfigMapper.selectByExample(example);
     }
+
+    @Override
+    public PointConfig getPointConfigByPrimaryKey(Long pointNo) {
+        return pointConfigMapper.selectByPrimaryKey(pointNo);
+    }
 }

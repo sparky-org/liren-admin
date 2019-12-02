@@ -1,17 +1,13 @@
 package com.sparky.lirenadmin.controller;
 
-import com.sparky.lirenadmin.bo.EmployeeBO;
-import com.sparky.lirenadmin.bo.PointBO;
-import com.sparky.lirenadmin.bo.ShopEmployeeBO;
-import com.sparky.lirenadmin.bo.TaskBO;
+import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
+import com.sparky.lirenadmin.controller.request.ModifyTaskDTO;
 import com.sparky.lirenadmin.controller.request.PublishTaskDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyTaskVO;
-import com.sparky.lirenadmin.entity.Point;
-import com.sparky.lirenadmin.entity.ShopEmployee;
-import com.sparky.lirenadmin.entity.Task;
-import com.sparky.lirenadmin.entity.TaskDtl;
+import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
+import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
@@ -24,10 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,42 +45,54 @@ public class MyTaskController {
     private ShopEmployeeBO shopEmployeeBO;
     @Autowired
     private EmployeeBO employeeBO;
+    @Autowired
+    private TaskRecordBO taskRecordBO;
+    @Autowired
+    private PointConfigBO pointConfigBO;
 
     @ApiOperation("我的任务列表")
     @RequestMapping(value = "/queryMyTask",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<List<MyTaskVO>> queryMyTask(@RequestParam(required = false) @ApiParam("奖励编号，通过/point/getPoint获取工作积分/品德积分的id") Long pointNo,
-                                                           @RequestParam(required = false) @ApiParam("任务状态：未完成-UNCOMPLETE/已完成-COMPLETE") String taskStatus,
-                                                           @RequestParam @ApiParam Long empNo,
-                                                           @RequestParam @ApiParam Integer currentPage,
-                                                           @RequestParam @ApiParam Integer pageSize){
-        QueryTaskCond cond = new QueryTaskCond();
-        cond.setEmpNo(empNo);
-        int total = taskBO.countTask(cond);
-        if (total < 1){
-            return BaseResponseWrapper.success(new ArrayList<>());
+    public PagingResponseWrapper<List<MyTaskVO>> queryMyTask(@RequestParam(required = false) @ApiParam("品德积分-CHARACTER/行为积分-ACTION") String pointType,
+                                                             @RequestParam(required = false) @ApiParam("任务状态：未完成-UNCOMPLETE/已完成-COMPLETE") String taskStatus,
+                                                             @RequestParam @ApiParam Long empNo,
+                                                             @RequestParam @ApiParam Integer currentPage,
+                                                             @RequestParam @ApiParam Integer pageSize){
+        try {
+            QueryTaskCond cond = new QueryTaskCond();
+            cond.setEmpNo(empNo);
+            cond.setPointType(pointType);
+            int total = taskBO.countTask(cond);
+            if (total < 1){
+                return PagingResponseWrapper.success(new ArrayList<>(), total);
+            }
+            int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
+            cond.setStart(start);
+            cond.setLength(pageSize);
+            List<MyTaskPO> tasks = taskBO.queryTask(cond);
+            if (taskStatus != null){
+                tasks = tasks.stream().filter(p -> p.getStatus().equals(taskStatus)).collect(Collectors.toList());
+            }
+            List<MyTaskVO> myTaskVOS = tasks.stream().map(this::convertToMyTaskVO).collect(Collectors.toList());
+            return PagingResponseWrapper.success(myTaskVOS, total);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PagingResponseWrapper.fail1(null, e.getMessage());
         }
-        int start = PagingUtils.getStartIndex(total, currentPage, pageSize);
-        cond.setStart(start);
-        cond.setLength(pageSize);
-        List<MyTaskPO> tasks = taskBO.queryTask(cond);
-        if (taskStatus != null){
-            tasks = tasks.stream().filter(p -> p.getStatus().equals(taskStatus)).collect(Collectors.toList());
-        }
-        List<MyTaskVO> myTaskVOS = tasks.stream().map(this::convertToMyTaskVO).collect(Collectors.toList());
-        return BaseResponseWrapper.success(myTaskVOS);
     }
 
-    @ApiOperation("发布任务")
-    @RequestMapping(value = "/publishTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/completeTask",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper publishTask(@RequestBody PublishTaskDTO dto){
+    public BaseResponseWrapper completeTask(@RequestBody Long taskNo,
+                                            @RequestBody Long empNo){
         try {
-            ShopEmployee shopEmployee = shopEmployeeBO.getEmployee(dto.getEmpNo());
-            if (shopEmployee == null){
-                throw new RuntimeException("发布人不存在");
+            //TODO 1. 验证此人可以完成该任务
+            Task task = taskBO.getTask(taskNo);
+            if (null == task){
+                throw new RuntimeException("任务不存在");
             }
-            taskBO.createTask(buildTask(dto, shopEmployee), assembleTaskDtl(dto, shopEmployee));
+            //2. 完成逻辑
+            taskRecordBO.createTaskRecord(buildTaskRecord(task, empNo));
             return BaseResponseWrapper.success(null);
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -95,49 +100,22 @@ public class MyTaskController {
         }
     }
 
-    private List<TaskDtl> assembleTaskDtl(PublishTaskDTO dto,ShopEmployee shopEmployee) {
-        Set<Long> employeeList = new HashSet<>();
-        if (CollectionUtils.isEmpty(dto.getJobList()) && CollectionUtils.isEmpty(dto.getEmpList())){
-            List<ShopEmployee> shopEmployees = employeeBO.getEmployeeByShopNo(shopEmployee.getShopNo());
-            List<Long> list = shopEmployees.stream().map(ShopEmployee::getId).collect(Collectors.toList());
-            employeeList.addAll(list);
-        }else{
-            if (!CollectionUtils.isEmpty(dto.getJobList())){
-                List<ShopEmployee> shopEmployees = shopEmployeeBO.listEmployByJobList(dto.getJobList());
-                List<Long> list = shopEmployees.stream().map(ShopEmployee::getId).collect(Collectors.toList());
-                employeeList.addAll(list);
-            }
-            if (!CollectionUtils.isEmpty(dto.getEmpList())){
-                employeeList.addAll(dto.getEmpList());
-            }
+    private TaskRecord buildTaskRecord(Task task, Long empNo) {
+        TaskRecord record = new TaskRecord();
+        record.setIsRewarded(false);
+        record.setShopNo(task.getShopNo());
+        PointConfig pointConfig = pointConfigBO.getPointConfigByPrimaryKey(task.getPointNo());
+        record.setRewardPoint(0);
+        if (null != pointConfig){
+            record.setRewardPoint(pointConfig.getPoint());
         }
-
-        if (CollectionUtils.isEmpty(employeeList)){
-            return null;
-        }
-        List<TaskDtl> taskDtls = employeeList.stream().map(l -> {
-            TaskDtl dtl = new TaskDtl();
-            dtl.setEmpNo(l);
-            dtl.setShopNo(shopEmployee.getShopNo());
-            dtl.setCreator(dto.getEmpNo());
-            return  dtl;
-        }).collect(Collectors.toList());
-        return taskDtls;
-    }
-
-    private Task buildTask(PublishTaskDTO dto,ShopEmployee shopEmployee) {
-        Task task = new Task();
-        task.setContent(dto.getTaskDesc());
-        task.setCreator(dto.getEmpNo());
-        task.setPointNo(dto.getPointConfigNo());
-        task.setJoinLimit(0);
-        task.setScope("");
-        if (!shopEmployee.getIsAdmin()){
-            throw new RuntimeException("发布人必须是管理员");
-        }
-        task.setShopNo(shopEmployee.getShopNo());
-        task.setTitle(dto.getTaskTitle());
-        return task;
+        record.setEmpNo(empNo);
+        record.setTaskNo(task.getId());
+        record.setCreator(empNo);
+        record.setCompleteTime(new Date());
+        record.setCompleteCount(1);
+        record.setRewardTime(null);
+        return record;
     }
 
     private MyTaskVO convertToMyTaskVO(MyTaskPO myTaskPO) {

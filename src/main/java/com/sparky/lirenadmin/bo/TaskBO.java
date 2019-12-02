@@ -5,6 +5,7 @@ import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskDtl;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface TaskBO {
 
     void createTask(Task task, List<TaskDtl> dtls);
 
-    void modifyTask(Task task);
+    void modifyTask(Task task, List<TaskDtl> dtls);
 
     void deleteTask(Long taskNo);
 
@@ -30,5 +31,7 @@ public interface TaskBO {
     List<MyTaskPO> queryTask(QueryTaskCond cond);
 
 
+    int countManageTask(Date beginDate, Date endDate, Long jobNo, Long empNo);
 
+    List<Task> queryManageTask(Date beginDate, Date endDate, Long jobNo, Long empNo, int start, Integer pageSize);
 }

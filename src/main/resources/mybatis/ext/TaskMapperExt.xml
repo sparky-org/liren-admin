@@ -50,4 +50,46 @@
     order by status, gmt_modify desc
     limit #{cond.start}, #{cond.length}
   </select>
+
+  <sql id="paging_query_manage_task_where_clause">
+    <where>
+      is_valid = 1
+      and shop_no = #{shopNo}
+      <if test="beginDate != null and endDate == null">
+        and gmt_create &gt;= #{beginDate}
+      </if>
+      <if test="beginDate == null and endDate != null">
+        and gmt_create &lt;= #{endDate}
+      </if>
+      <if test="beginDate != null and endDate != null">
+        and gmt_create between #{beginDate} and #{endDate}
+      </if>
+      <if test="jobNo != null">
+        and id in (
+          select task_no
+            from t_task_dtl
+            where is_valid = 1
+              and shop_no = #{shopNo}
+              and emp_no in (
+              select id from t_shop_employee where is_valid=1 and shop_no=#{shopNo} and job_no = #{jobNo}
+            )
+        )
+      </if>
+    </where>
+  </sql>
+
+  <select id="countManageTask" resultType="java.lang.Integer">
+    select count(*)
+      from t_task
+      <include refid="paging_query_manage_task_where_clause"/>
+  </select>
+
+  <select id="queryManageTask" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List"/>
+      from t_task
+      <include refid="paging_query_manage_task_where_clause"/>
+      order by gmt_modify desc
+      limit #{start}, #{pageSize}
+  </select>
 </mapper>

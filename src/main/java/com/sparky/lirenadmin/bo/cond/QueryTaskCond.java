@@ -11,7 +11,7 @@ public class QueryTaskCond {
 
     private Long empNo;
 
-    private Long pointNo;
+    private String pointType;
 
     private int start;
 
@@ -25,12 +25,12 @@ public class QueryTaskCond {
         this.empNo = empNo;
     }
 
-    public Long getPointNo() {
-        return pointNo;
+    public String getPointType() {
+        return pointType;
     }
 
-    public void setPointNo(Long pointNo) {
-        this.pointNo = pointNo;
+    public void setPointType(String pointType) {
+        this.pointType = pointType;
     }
 
     public int getStart() {

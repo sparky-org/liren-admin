@@ -8,6 +8,7 @@ import com.sparky.lirenadmin.mapper.TaskMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -16,4 +17,7 @@ public interface TaskMapperExt extends TaskMapper {
 
     List<MyTaskPO> pagingByQueryCond(@Param("cond") QueryTaskCond cond);
 
+    int countManageTask(Date beginDate, Date endDate, Long jobNo, Long shopNo);
+
+    List<Task> queryManageTask(Date beginDate, Date endDate, Long jobNo, Long shopNo, int start, Integer pageSize);
 }
