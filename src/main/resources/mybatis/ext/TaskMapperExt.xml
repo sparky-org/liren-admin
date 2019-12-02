@@ -47,7 +47,7 @@
     x.id, x.title, x.content, x.point_no, x.join_limit, x.scope, x.shop_no,#{cond.empNo} as emp_no,x.status, x.creator, x.is_valid, x.gmt_create,
     x.gmt_modify
     from (<include refid="query_cond_from_clause"/>) x
-    order by status
+    order by status, gmt_modify desc
     limit #{cond.start}, #{cond.length}
   </select>
 </mapper>

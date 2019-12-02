@@ -23,7 +23,7 @@
     <include refid="Base_Column_List"/>
     from t_service_item
     <include refid="paging_query_service_by_cond"/>
-    order by id desc
+    order by gmt_modify desc
     limit #{start}, #{pageSize}
   </select>
 </mapper>

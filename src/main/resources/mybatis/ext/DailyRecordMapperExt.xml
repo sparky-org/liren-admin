@@ -25,7 +25,7 @@
         <include refid="Base_Column_List"/>
         from t_daily_record
         <include refid="paging_query_where_clause"/>
-        order by record_date desc
+        order by record_date desc, gmt_modify desc
         limit #{startIndex},#{pageSize}
     </select>
 </mapper>

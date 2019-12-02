@@ -45,7 +45,7 @@
         <include refid="Base_Column_List"/>
         from t_appointment
         <include refid="query_by_cond_where_clause"/>
-        order by appoint_time desc
+        order by gmt_modify desc, appoint_time desc
         limit #{start},#{pageSize}
     </select>
 </mapper>

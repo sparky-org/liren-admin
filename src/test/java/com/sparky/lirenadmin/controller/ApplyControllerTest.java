@@ -25,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void testApplyFlow() throws ParseException {
+    public void testApplyFlow() {
         BeautyShop shop = initShop();
         beautyShopBO.createShop(shop);
         ShopEmployee admin = initEmployee(shop);
@@ -82,7 +81,7 @@ public class ApplyControllerTest {
 
         //查询我的申请
         PagingResponseWrapper<List<ListApplyVO>> result = myApplyController.listApply(employee.getId(), ApplyTypeEnum.VACATION.getCode(),
-                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-11-30",
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2022-11-30",
                 1, 10);
         Assert.isTrue(result.getTotal() == 1, "新建申请失败");
         //查询抄送我的
@@ -92,7 +91,7 @@ public class ApplyControllerTest {
         Assert.isTrue(result2.isSuccess(), "撤回失败");
         //查询待我审批
         PagingResponseWrapper<List<ListApplyVO>> result3 = myApplyController.myApprovalPending(admin.getId(), ApplyTypeEnum.NORMAL.getCode(),
-                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2019-11-30",
+                ApplyStatusEnum.NEW.getCode(), "2019-11-01","2022-11-30",
                 1, 10);
         Assert.isTrue(result3.isSuccess(), "查询待我审批异常。");
         Assert.isTrue(result3.getTotal() >= 2, "查询待我审批异常, 少于2个。");

@@ -117,6 +117,7 @@ public class MyCustomerController {
                     detailVO.setTraceInfoList(traceInfos);
                 }
             }
+            detailVO.setTotal(total);
             return BaseResponseWrapper.success(detailVO);
         } catch (Exception e) {
             logger.error("获取客户详情异常。", e.getMessage());

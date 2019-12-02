@@ -68,7 +68,7 @@
     <include refid="Base_Column_List"/>
     from t_customer_info
     <include refid="paging_query_customer_by_cond"/>
-    order by id desc
+    order by gmt_modify desc
     limit #{cond.start}, #{cond.pageSize}
   </select>
 </mapper>
