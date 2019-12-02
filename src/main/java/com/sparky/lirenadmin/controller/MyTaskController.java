@@ -1,13 +1,17 @@
 package com.sparky.lirenadmin.controller;
 
-import com.sparky.lirenadmin.bo.*;
+import com.sparky.lirenadmin.bo.PointConfigBO;
+import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.bo.TaskBO;
+import com.sparky.lirenadmin.bo.TaskRecordBO;
 import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
-import com.sparky.lirenadmin.controller.request.ModifyTaskDTO;
-import com.sparky.lirenadmin.controller.request.PublishTaskDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyTaskVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
-import com.sparky.lirenadmin.entity.*;
+import com.sparky.lirenadmin.entity.PointConfig;
+import com.sparky.lirenadmin.entity.ShopEmployee;
+import com.sparky.lirenadmin.entity.Task;
+import com.sparky.lirenadmin.entity.TaskRecord;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
@@ -17,10 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -40,11 +45,7 @@ public class MyTaskController {
     @Autowired
     private TaskBO taskBO;
     @Autowired
-    private PointBO pointBO;
-    @Autowired
     private ShopEmployeeBO shopEmployeeBO;
-    @Autowired
-    private EmployeeBO employeeBO;
     @Autowired
     private TaskRecordBO taskRecordBO;
     @Autowired
@@ -59,9 +60,23 @@ public class MyTaskController {
                                                              @RequestParam @ApiParam Integer currentPage,
                                                              @RequestParam @ApiParam Integer pageSize){
         try {
+            ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
+            if (employee == null){
+                throw new RuntimeException("用户不存在");
+            }
             QueryTaskCond cond = new QueryTaskCond();
             cond.setEmpNo(empNo);
-            cond.setPointType(pointType);
+            cond.setStatus(taskStatus);
+            if (pointType != null){
+                List<PointConfig> pointConfigs = pointConfigBO.getPointConfig(employee.getShopNo());
+                if (pointConfigs != null){
+                    List<PointConfig> filter = pointConfigs.stream().filter(e -> pointType.equals(e.getPointType())).collect(Collectors.toList());
+                    if (filter != null){
+                        List<Long> pointConfigNoList = filter.stream().map(PointConfig::getId).collect(Collectors.toList());
+                        cond.setPointNoList(pointConfigNoList);
+                    }
+                }
+            }
             int total = taskBO.countTask(cond);
             if (total < 1){
                 return PagingResponseWrapper.success(new ArrayList<>(), total);
@@ -104,11 +119,7 @@ public class MyTaskController {
         TaskRecord record = new TaskRecord();
         record.setIsRewarded(false);
         record.setShopNo(task.getShopNo());
-        PointConfig pointConfig = pointConfigBO.getPointConfigByPrimaryKey(task.getPointNo());
-        record.setRewardPoint(0);
-        if (null != pointConfig){
-            record.setRewardPoint(pointConfig.getPoint());
-        }
+        record.setRewardPoint(task.getRewardPoint());
         record.setEmpNo(empNo);
         record.setTaskNo(task.getId());
         record.setCreator(empNo);
@@ -121,13 +132,10 @@ public class MyTaskController {
     private MyTaskVO convertToMyTaskVO(MyTaskPO myTaskPO) {
         MyTaskVO vo = new MyTaskVO();
         vo.setContent(myTaskPO.getContent());
-        Point point = pointBO.getPoint(myTaskPO.getPointNo());
-        vo.setRewardPoint(0);
-        if(point != null){
-            vo.setRewardPoint(point.getPoint());
-        }
+        vo.setRewardPoint(myTaskPO.getRewardPoint());
         vo.setTaskName(myTaskPO.getTitle());
         vo.setTaskNo(myTaskPO.getId());
+        vo.setStatus(myTaskPO.getStatus());
         return vo;
     }
 

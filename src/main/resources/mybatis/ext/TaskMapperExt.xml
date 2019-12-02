@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="point_no" jdbcType="BIGINT" property="pointNo" />
+    <result column="reward_point" jdbcType="INTEGER" property="rewardPoint" />
     <result column="join_limit" jdbcType="INTEGER" property="joinLimit" />
     <result column="scope" jdbcType="VARCHAR" property="scope" />
     <result column="shop_no" jdbcType="BIGINT" property="shopNo" />
@@ -18,7 +18,7 @@
   </resultMap>
 
   <sql id="query_cond_from_clause">
-    select id, title, content, point_no, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'UNCOMPLETE' as status, creator, is_valid, gmt_create,
+    select id, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'UNCOMPLETE' as status, creator, is_valid, gmt_create,
     gmt_modify
     from t_task a
     where (
@@ -26,13 +26,16 @@
           or scope = 'ALL'
         )
       and not exists (select task_no from t_task_record where emp_no = #{cond.empNo} and is_valid=1 and a.id = task_no)
-      <if test="cond.pointNo != null">
-        a.point_no = #{cond.pointNo}
+      <if test="cond.pointNoList != null">
+        and a.point_no in
+         <foreach collection="cond.pointNoList" item="pointConfigNo" open="(" close=")" separator=",">
+          #{pointConfigNo}
+         </foreach>
       </if>
     union all
-    select id, title, content, point_no, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'COMPLETE' as status, creator, is_valid, gmt_create,
+    select id, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'COMPLETE' as status, creator, is_valid, gmt_create,
     gmt_modify
-    from (select id, title, content, point_no, join_limit, scope, shop_no, creator, is_valid, gmt_create, gmt_modify from t_task where is_valid = 1) m
+    from (select id, title, content, reward_point, join_limit, scope, shop_no, creator, is_valid, gmt_create, gmt_modify from t_task where is_valid = 1) m
     left join (select task_no from t_task_record where emp_no = #{cond.empNo} and is_valid=1) n on m.id = n.task_no
     where n.task_no is not null
   </sql>
@@ -40,13 +43,21 @@
   <select id="countByQueryCond" resultType="java.lang.Integer">
     select count(*) as count
       from (<include refid="query_cond_from_clause"/>) x
+      where 1=1
+      <if test="cond.status != null">
+        and status = #{cond.status}
+      </if>
   </select>
 
   <select id="pagingByQueryCond" resultMap="TaskPOResultMap">
     select
-    x.id, x.title, x.content, x.point_no, x.join_limit, x.scope, x.shop_no,#{cond.empNo} as emp_no,x.status, x.creator, x.is_valid, x.gmt_create,
+    x.id, x.title, x.content, x.reward_point, x.join_limit, x.scope, x.shop_no,#{cond.empNo} as emp_no,x.status, x.creator, x.is_valid, x.gmt_create,
     x.gmt_modify
     from (<include refid="query_cond_from_clause"/>) x
+    where 1=1
+    <if test="cond.status != null">
+      and status = #{cond.status}
+    </if>
     order by status, gmt_modify desc
     limit #{cond.start}, #{cond.length}
   </select>

@@ -4,7 +4,6 @@ import com.sparky.lirenadmin.entity.Task;
 import com.sparky.lirenadmin.entity.TaskExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 public interface TaskMapper {
     long countByExample(TaskExample example);

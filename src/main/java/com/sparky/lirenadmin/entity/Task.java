@@ -5,10 +5,6 @@ import java.util.Date;
 public class Task {
     private Long id;
 
-    private Long empNo;
-
-    private String status;
-
     private String title;
 
     private String content;
@@ -28,6 +24,8 @@ public class Task {
     private Date gmtCreate;
 
     private Date gmtModify;
+
+    private Integer rewardPoint;
 
     public Long getId() {
         return id;
@@ -115,5 +113,13 @@ public class Task {
 
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
+    }
+
+    public Integer getRewardPoint() {
+        return rewardPoint;
+    }
+
+    public void setRewardPoint(Integer rewardPoint) {
+        this.rewardPoint = rewardPoint;
     }
 }

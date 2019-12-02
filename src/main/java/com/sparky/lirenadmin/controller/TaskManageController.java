@@ -156,7 +156,7 @@ public class TaskManageController {
             if (null != pointConfig) {
                 viewTaskVO.setPointType(pointConfig.getPointDesc());
             }
-//            viewTaskVO.setRewardPoint(task.getRewardPoint());
+            viewTaskVO.setRewardPoint(task.getRewardPoint());
             viewTaskVO.setTaskNo(task.getId());
             viewTaskVO.setTitle(task.getTitle());
             return BaseResponseWrapper.success(viewTaskVO);
@@ -214,17 +214,22 @@ public class TaskManageController {
     }
 
     private Task buildTask(PublishTaskDTO dto,ShopEmployee shopEmployee) {
+        if (!shopEmployee.getIsAdmin()){
+            throw new RuntimeException("发布人必须是管理员");
+        }
         Task task = new Task();
         task.setContent(dto.getTaskDesc());
         task.setCreator(dto.getEmpNo());
         task.setPointNo(dto.getPointConfigNo());
         task.setJoinLimit(0);
-        task.setScope("");
-        if (!shopEmployee.getIsAdmin()){
-            throw new RuntimeException("发布人必须是管理员");
+        if (dto.getSelectAll() != null && dto.getSelectAll()){
+            task.setScope("ALL");
+        }else{
+            task.setScope("SPECIAL");
         }
         task.setShopNo(shopEmployee.getShopNo());
         task.setTitle(dto.getTaskTitle());
+        task.setRewardPoint(dto.getRewardPoint());
         return task;
     }
 

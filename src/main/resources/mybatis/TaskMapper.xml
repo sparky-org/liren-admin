@@ -13,6 +13,7 @@
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="reward_point" jdbcType="INTEGER" property="rewardPoint" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, title, content, point_no, join_limit, scope, shop_no, creator, is_valid, gmt_create, 
-    gmt_modify
+    gmt_modify, reward_point
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.TaskExample" resultMap="BaseResultMap">
     select
@@ -114,11 +115,11 @@
     insert into t_task (title, content, point_no, 
       join_limit, scope, shop_no, 
       creator, is_valid, gmt_create, 
-      gmt_modify)
+      gmt_modify, reward_point)
     values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{pointNo,jdbcType=BIGINT}, 
       #{joinLimit,jdbcType=INTEGER}, #{scope,jdbcType=VARCHAR}, #{shopNo,jdbcType=BIGINT}, 
       #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModify,jdbcType=TIMESTAMP})
+      #{gmtModify,jdbcType=TIMESTAMP}, #{rewardPoint,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.Task">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -156,6 +157,9 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
+      <if test="rewardPoint != null">
+        reward_point,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="title != null">
@@ -187,6 +191,9 @@
       </if>
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rewardPoint != null">
+        #{rewardPoint,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -232,6 +239,9 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.rewardPoint != null">
+        reward_point = #{record.rewardPoint,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -249,7 +259,8 @@
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      reward_point = #{record.rewardPoint,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -287,6 +298,9 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="rewardPoint != null">
+        reward_point = #{rewardPoint,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -301,7 +315,8 @@
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      reward_point = #{rewardPoint,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

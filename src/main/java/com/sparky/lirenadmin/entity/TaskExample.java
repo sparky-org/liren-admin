@@ -794,6 +794,66 @@ public class TaskExample {
             addCriterion("gmt_modify not between", value1, value2, "gmtModify");
             return (Criteria) this;
         }
+
+        public Criteria andRewardPointIsNull() {
+            addCriterion("reward_point is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointIsNotNull() {
+            addCriterion("reward_point is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointEqualTo(Integer value) {
+            addCriterion("reward_point =", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointNotEqualTo(Integer value) {
+            addCriterion("reward_point <>", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointGreaterThan(Integer value) {
+            addCriterion("reward_point >", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointGreaterThanOrEqualTo(Integer value) {
+            addCriterion("reward_point >=", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointLessThan(Integer value) {
+            addCriterion("reward_point <", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointLessThanOrEqualTo(Integer value) {
+            addCriterion("reward_point <=", value, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointIn(List<Integer> values) {
+            addCriterion("reward_point in", values, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointNotIn(List<Integer> values) {
+            addCriterion("reward_point not in", values, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointBetween(Integer value1, Integer value2) {
+            addCriterion("reward_point between", value1, value2, "rewardPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andRewardPointNotBetween(Integer value1, Integer value2) {
+            addCriterion("reward_point not between", value1, value2, "rewardPoint");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

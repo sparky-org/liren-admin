@@ -26,7 +26,7 @@ public class MyTaskPO {
 
     private String content;
 
-    private Long pointNo;
+    private Integer rewardPoint;
 
     private Integer joinLimit;
 
@@ -82,12 +82,12 @@ public class MyTaskPO {
         this.content = content;
     }
 
-    public Long getPointNo() {
-        return pointNo;
+    public Integer getRewardPoint() {
+        return rewardPoint;
     }
 
-    public void setPointNo(Long pointNo) {
-        this.pointNo = pointNo;
+    public void setRewardPoint(Integer rewardPoint) {
+        this.rewardPoint = rewardPoint;
     }
 
     public Integer getJoinLimit() {

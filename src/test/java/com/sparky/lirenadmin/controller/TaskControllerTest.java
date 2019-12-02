@@ -3,13 +3,16 @@ package com.sparky.lirenadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.BeautyShopBO;
+import com.sparky.lirenadmin.bo.PointConfigBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
+import com.sparky.lirenadmin.constant.PointTypeEnum;
 import com.sparky.lirenadmin.controller.request.ModifyTaskDTO;
 import com.sparky.lirenadmin.controller.request.PublishTaskDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyTaskVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.BeautyShop;
+import com.sparky.lirenadmin.entity.PointConfig;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +39,13 @@ public class TaskControllerTest {
     @Autowired
     private TaskManageController taskManageController;
     @Autowired
+    private MyTaskController myTaskController;
+    @Autowired
     private ShopEmployeeBO shopEmployeeBO;
     @Autowired
     private BeautyShopBO beautyShopBO;
+    @Autowired
+    private PointConfigBO pointConfigBO;
 
     @Before
     public void before(){
@@ -62,7 +69,9 @@ public class TaskControllerTest {
         shopEmployeeBO.createEmployee(employee);
 
         //1. 发布任务
-        PublishTaskDTO dto = initPublishTaskDTO(admin);
+        PointConfig pointConfig = initPointConfig(admin);
+        pointConfigBO.createPointConfig(pointConfig);
+        PublishTaskDTO dto = initPublishTaskDTO(admin, pointConfig);
         BaseResponseWrapper result = taskManageController.publishTask(dto);
         Assert.isTrue(result.isSuccess());
 
@@ -87,12 +96,59 @@ public class TaskControllerTest {
         Assert.isTrue(result.isSuccess());
     }
 
-    private PublishTaskDTO initPublishTaskDTO(ShopEmployee admin) {
+    @Test
+    public void testMyTask(){
+        BeautyShop shop = initShop();
+        beautyShopBO.createShop(shop);
+        ShopEmployee admin = initEmployee(shop);
+        admin.setShopNo(shop.getId());
+        shopEmployeeBO.createEmployee(admin);
+        //初始化一名普通员工
+        ShopEmployee employee = initEmployee(shop);
+        employee.setName("美容师");
+        employee.setPhone("13000000001");
+        employee.setShopNo(shop.getId());
+        employee.setManagerNo(admin.getId());
+        employee.setIsAdmin(false);
+        shopEmployeeBO.createEmployee(employee);
+
+        //1. 发布任务面向全体的
+        PointConfig pointConfig = initPointConfig(admin);
+        pointConfigBO.createPointConfig(pointConfig);
+        PublishTaskDTO dto = initPublishTaskDTO(admin, pointConfig);
+        dto.setSelectAll(true);
+        BaseResponseWrapper result = taskManageController.publishTask(dto);
+        Assert.isTrue(result.isSuccess());
+
+        //查询带我完成的任务
+        PagingResponseWrapper<List<MyTaskVO>> rs = myTaskController.queryMyTask(PointTypeEnum.CHARACTER.getCode(), null, employee.getId(), 1,1);
+        Assert.isTrue(rs.isSuccess());
+        System.out.println(JSONObject.toJSONString(rs));
+        List<MyTaskVO> myTaskVOS = (List<MyTaskVO>)rs.getResult();
+        result = myTaskController.completeTask(myTaskVOS.get(0).getTaskNo(), employee.getId());
+        Assert.isTrue(result.isSuccess());
+        System.out.printf(JSONObject.toJSONString(result));
+
+    }
+
+    private PointConfig initPointConfig(ShopEmployee admin) {
+        PointConfig config = new PointConfig();
+        config.setPointDesc(PointTypeEnum.CHARACTER.getDesc());
+        config.setPoint(102);
+        config.setPointName("品的积分");
+        config.setPointType(PointTypeEnum.CHARACTER.getCode());
+        config.setCreator(admin.getId());
+        config.setShopNo(admin.getShopNo());
+        return config;
+    }
+
+    private PublishTaskDTO initPublishTaskDTO(ShopEmployee admin, PointConfig config) {
         PublishTaskDTO taskDTO = new PublishTaskDTO();
         taskDTO.setTaskTitle("测试任务1");
         taskDTO.setTaskDesc("测试任务内容1");
         taskDTO.setEmpNo(admin.getId());
-        taskDTO.setPointConfigNo(0l);
+        taskDTO.setPointConfigNo(config.getId());
+        taskDTO.setRewardPoint(10);
         return taskDTO;
     }
 

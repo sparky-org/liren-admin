@@ -20,6 +20,16 @@ public class MyTaskVO {
     private String content;
     @ApiModelProperty("奖励积分")
     private Integer rewardPoint;
+    @ApiModelProperty("状态：COMPLETE/UNCOMPLETE")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getTaskNo() {
         return taskNo;

@@ -15,10 +15,30 @@ public class PublishTaskDTO {
     private String taskDesc;
     @ApiModelProperty("积分配置编号")
     private Long pointConfigNo;
+    @ApiModelProperty("奖励积分")
+    private Integer rewardPoint;
+    @ApiModelProperty("是否全选")
+    private Boolean selectAll;
     @ApiModelProperty("可见员工岗位列表")
     private List<Long> jobList;
     @ApiModelProperty("可见员工列表")
     private List<Long> empList;
+
+    public Integer getRewardPoint() {
+        return rewardPoint;
+    }
+
+    public void setRewardPoint(Integer rewardPoint) {
+        this.rewardPoint = rewardPoint;
+    }
+
+    public Boolean getSelectAll() {
+        return selectAll;
+    }
+
+    public void setSelectAll(Boolean selectAll) {
+        this.selectAll = selectAll;
+    }
 
     public Long getEmpNo() {
         return empNo;
