@@ -236,7 +236,7 @@ public class EmployeeController {
             List<QueryEmpGroupJob> list = new ArrayList<>();
             for (Map.Entry<Long, List<ShopEmployee>> entry : empMap.entrySet()){
                 ShopJob job = shopJobBO.getShopJob(entry.getKey());
-                if(job != null){
+                if(job != null && job.getIsValid()){
                     QueryEmpGroupJob groupJob = new QueryEmpGroupJob();
                     groupJob.setJobNo(job.getId());
                     groupJob.setJobName(job.getName());
