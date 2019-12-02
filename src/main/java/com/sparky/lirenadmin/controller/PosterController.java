@@ -72,7 +72,9 @@ public class PosterController {
         StringBuffer appendHeaderBuff = new StringBuffer();
         int length = picList.split(",").length;
         for (String pic : picList.split(",")) {
-            appendHeaderBuff.append(PicUrl.url).append(pic);
+            if (pic.indexOf(PicUrl.url) < 0) {
+                appendHeaderBuff.append(PicUrl.url).append(pic);
+            }
             if (--length > 0){
                 appendHeaderBuff.append(",");
             }
@@ -97,7 +99,8 @@ public class PosterController {
         ShopConfig config = new ShopConfig();
         config.setConfigName(ShopConfigTypeEnum.POSTER.getDesc());
         config.setConfigType(ShopConfigTypeEnum.POSTER.getCode());
-        config.setContent(dto.getContent());
+        String content = removeUrlPrefix(dto.getContent());
+        config.setContent(content);
         config.setCreator(dto.getEmpNo());
         config.setId(dto.getPosterNo());
         ShopEmployee employee = shopEmployeeBO.getEmployee(dto.getEmpNo());
@@ -106,5 +109,12 @@ public class PosterController {
         }
         config.setShopNo(employee.getShopNo());
         return config;
+    }
+
+    private String removeUrlPrefix(String content) {
+        if (content == null){
+            return null;
+        }
+        return content.replaceAll(PicUrl.url, "");
     }
 }
