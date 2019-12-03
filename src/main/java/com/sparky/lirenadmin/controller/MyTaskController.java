@@ -98,8 +98,8 @@ public class MyTaskController {
 
     @RequestMapping(value = "/completeTask",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper completeTask(@RequestBody Long taskNo,
-                                            @RequestBody Long empNo){
+    public BaseResponseWrapper completeTask(@RequestParam @ApiParam Long taskNo,
+                                            @RequestParam @ApiParam Long empNo){
         try {
             //TODO 1. 验证此人可以完成该任务
             Task task = taskBO.getTask(taskNo);
