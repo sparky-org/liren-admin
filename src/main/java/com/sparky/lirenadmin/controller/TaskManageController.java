@@ -154,7 +154,7 @@ public class TaskManageController {
             viewTaskVO.setPointNo(task.getPointNo());
             PointConfig pointConfig = pointConfigBO.getPointConfigByPrimaryKey(task.getPointNo());
             if (null != pointConfig) {
-                viewTaskVO.setPointType(pointConfig.getPointDesc());
+                viewTaskVO.setPointType(pointConfig.getPointType());
             }
             viewTaskVO.setRewardPoint(task.getRewardPoint());
             viewTaskVO.setTaskNo(task.getId());
