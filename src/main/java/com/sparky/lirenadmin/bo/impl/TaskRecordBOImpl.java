@@ -71,7 +71,7 @@ public class TaskRecordBOImpl implements TaskRecordBO {
     private String buildApplyContent(TaskRecord record) {
         Task task = taskBO.getTask(record.getTaskNo());
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("任务名称：%s \n任务内容：%s \n申请奖励：%d 积分", task.getTitle(), task.getContent(), record.getRewardPoint()));
+        builder.append(String.format("任务名称：%s <br>任务内容：%s <br>申请奖励：%d 积分", task.getTitle(), task.getContent(), record.getRewardPoint()));
         return builder.toString();
     }
 
