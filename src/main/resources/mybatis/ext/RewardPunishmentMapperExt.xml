@@ -6,7 +6,7 @@
         <where>
             is_valid = 1
             <if test="contentLike != null">
-                and content like concat('%',contentLike,'%')
+                and content like concat('%',#{contentLike},'%')
             </if>
             and emp_no in (
               select id
