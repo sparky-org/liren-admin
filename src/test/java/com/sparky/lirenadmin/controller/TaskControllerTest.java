@@ -121,7 +121,7 @@ public class TaskControllerTest {
         Assert.isTrue(result.isSuccess());
 
         //查询带我完成的任务
-        PagingResponseWrapper<List<MyTaskVO>> rs = myTaskController.queryMyTask(PointTypeEnum.CHARACTER.getCode(), null, employee.getId(), 1,1);
+        PagingResponseWrapper<List<MyTaskVO>> rs = myTaskController.queryMyTask(PointTypeEnum.ACTION.getCode(), null, employee.getId(), 1,1);
         Assert.isTrue(rs.isSuccess());
         System.out.println(JSONObject.toJSONString(rs));
         List<MyTaskVO> myTaskVOS = (List<MyTaskVO>)rs.getResult();

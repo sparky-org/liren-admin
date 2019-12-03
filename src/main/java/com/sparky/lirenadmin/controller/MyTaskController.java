@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -73,7 +74,9 @@ public class MyTaskController {
                     List<PointConfig> filter = pointConfigs.stream().filter(e -> pointType.equals(e.getPointType())).collect(Collectors.toList());
                     if (filter != null){
                         List<Long> pointConfigNoList = filter.stream().map(PointConfig::getId).collect(Collectors.toList());
-                        cond.setPointNoList(pointConfigNoList);
+                        if (!CollectionUtils.isEmpty(pointConfigNoList)){
+                            cond.setPointNoList(pointConfigNoList);
+                        }
                     }
                 }
             }
