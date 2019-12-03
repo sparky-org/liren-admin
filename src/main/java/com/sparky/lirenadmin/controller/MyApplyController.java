@@ -260,6 +260,7 @@ public class MyApplyController {
                 ShopEmployee audit = shopEmployeeBO.getEmployee(e.getAuditEmpNo());
                 vo.setAuditEmpName(audit.getName());
                 vo.setStatusDesc(ApplyStatusEnum.valueOf(e.getAuditStatus()).getDesc());
+                vo.setLastModify(org.apache.http.client.utils.DateUtils.formatDate(e.getGmtModify(), "yyyy-MM-dd HH:mm:ss"));
                 return vo;
             }).collect(Collectors.toList());
             return PagingResponseWrapper.success(ccTomeVOS, total);
