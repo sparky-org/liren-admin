@@ -91,11 +91,11 @@ public class EmployeeController {
             if (employee == null){
                 return BaseResponseWrapper.fail(null, "待修改用户不存在");
             }
-            if (newPassword.equals(confirmNewPassword)){
+            if (!newPassword.equals(confirmNewPassword)){
                 return BaseResponseWrapper.fail(null, "新密码不一致");
             }
             String password = employee.getPassword();
-            if (password.equals(md5(oldPassword))){
+            if (!password.equals(md5(oldPassword))){
                 return BaseResponseWrapper.fail(null, "旧密码错误");
             }
             employee.setPassword(md5(newPassword));
