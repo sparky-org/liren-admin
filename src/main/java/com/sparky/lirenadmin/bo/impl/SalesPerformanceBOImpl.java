@@ -108,7 +108,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
 
     private String buildApplyContent(SalesPerformance salesPerformance) {
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("业绩金额：%s \n客户手机号：%s \n申请奖励：%d 积分", salesPerformance.getAmount().toString(), salesPerformance.getCustomerPhone(), salesPerformance.getRewardPoint()));
+        builder.append(String.format("业绩金额：%s <br>客户手机号：%s <br>申请奖励：%d 积分", salesPerformance.getAmount().toString(), salesPerformance.getCustomerPhone(), salesPerformance.getRewardPoint()));
         return builder.toString();
     }
 
