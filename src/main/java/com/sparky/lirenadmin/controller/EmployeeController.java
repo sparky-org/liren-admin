@@ -2,13 +2,17 @@ package com.sparky.lirenadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.EmployeeBO;
+import com.sparky.lirenadmin.bo.PointBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.ShopJobBO;
+import com.sparky.lirenadmin.constant.PicUrl;
 import com.sparky.lirenadmin.controller.request.CreateOrModifyShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopJobDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.controller.response.GetEmployeeInfoVO;
 import com.sparky.lirenadmin.controller.response.QueryEmpGroupJob;
+import com.sparky.lirenadmin.entity.Point;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
 import com.sparky.lirenadmin.utils.DateUtils;
@@ -48,14 +52,34 @@ public class EmployeeController {
     private EmployeeBO employeeBO;
     @Autowired
     private ShopJobBO shopJobBO;
+    @Autowired
+    private PointBO pointBO;
 
     @ApiOperation("个人资料")
     @RequestMapping(value = "/getEmployeeInfo", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<ShopEmployee> getEmployeeInfo(@RequestParam @ApiParam Long empNo){
+    public BaseResponseWrapper<GetEmployeeInfoVO> getEmployeeInfo(@RequestParam @ApiParam Long empNo){
         try {
             ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
-            return BaseResponseWrapper.success(employee);
+            if (employee == null){
+                return null;
+            }
+            GetEmployeeInfoVO vo = JSONObject.parseObject(JSONObject.toJSONString(employee), GetEmployeeInfoVO.class);
+            if (vo == null){
+                throw new RuntimeException("转换员工信息失败");
+            }
+            vo.setEmpNo(employee.getId());
+            ShopJob shopJob = shopJobBO.getShopJob(employee.getJobNo());
+            if (null != shopJob){
+                vo.setJobName(shopJob.getName());
+            }
+            handleWithPicUrl(employee);
+            vo.setAvatar(employee.getAvatar());
+            Point point = pointBO.getEmployeePoint(employee.getId());
+            if (point != null){
+                vo.setTotalPoint(point.getPoint());
+            }
+            return BaseResponseWrapper.success(vo);
         } catch (Exception e) {
             logger.error("查询个人资料异常。", e);
             return BaseResponseWrapper.fail(null, e.getMessage());
@@ -295,5 +319,15 @@ public class EmployeeController {
         }
         job.setShopNo(employee.getShopNo());
         return job;
+    }
+
+    private void handleWithPicUrl(ShopEmployee employee) {
+        if (employee.getAvatar() == null || employee.getAvatar().isEmpty()){
+            return;
+        }
+        String picUrl = employee.getAvatar();
+        if (picUrl.indexOf(PicUrl.url) < 0){
+            employee.setAvatar(PicUrl.url + picUrl);
+        }
     }
 }

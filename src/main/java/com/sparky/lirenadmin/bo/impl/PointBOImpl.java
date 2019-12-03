@@ -62,6 +62,11 @@ public class PointBOImpl implements PointBO {
         return pointMapper.selectByPrimaryKey(pointNo);
     }
 
+    @Override
+    public Point getEmployeePoint(Long empNo) {
+        return getPointByEmp(empNo);
+    }
+
     private RewardRecord buildRewardRecord(IncreasePointDO increasePointDO) {
         RewardRecord reward = new RewardRecord();
         reward.setCreator(increasePointDO.getOperator());
