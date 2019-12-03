@@ -184,6 +184,9 @@ public class TaskManageController {
     }
 
     private List<TaskDtl> assembleTaskDtl(PublishTaskDTO dto,ShopEmployee shopEmployee) {
+        if (dto.getSelectAll()){
+            return null;
+        }
         Set<Long> employeeList = new HashSet<>();
         if (CollectionUtils.isEmpty(dto.getJobList()) && CollectionUtils.isEmpty(dto.getEmpList())){
             List<ShopEmployee> shopEmployees = employeeBO.getEmployeeByShopNo(shopEmployee.getShopNo());
