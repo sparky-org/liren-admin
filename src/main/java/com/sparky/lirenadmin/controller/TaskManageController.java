@@ -239,7 +239,7 @@ public class TaskManageController {
     private MyTaskVO convertToMyTaskVO(Task myTaskPO) {
         MyTaskVO vo = new MyTaskVO();
         vo.setContent(myTaskPO.getContent());
-        vo.setRewardPoint(0);
+        vo.setRewardPoint(myTaskPO.getRewardPoint());
         Point point = pointBO.getPoint(myTaskPO.getPointNo());
         vo.setTaskName(myTaskPO.getTitle());
         if(point != null){
