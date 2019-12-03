@@ -33,7 +33,7 @@ import java.util.List;
 @MapperScan("com.sparky.lirenadmin.mapper")
 @RunWith(SpringRunner.class)
 @Transactional
-@Rollback(false)
+@Rollback(true)
 public class TaskControllerTest {
 
     @Autowired
@@ -76,7 +76,7 @@ public class TaskControllerTest {
         Assert.isTrue(result.isSuccess());
 
         //2. 查询任务
-        PagingResponseWrapper query = taskManageController.queryTask("2019-12-02","2029-12-04", admin.getJobNo(), employee.getId(), 1,1);
+        PagingResponseWrapper query = taskManageController.queryTask("2019-12-02","2029-12-04", admin.getJobNo(), admin.getId(), 1,1);
         Assert.isTrue(query.isSuccess());
         List<MyTaskVO> res = (List<MyTaskVO>) query.getResult();
         Assert.isTrue(res.size() > 0);
@@ -149,6 +149,7 @@ public class TaskControllerTest {
         taskDTO.setEmpNo(admin.getId());
         taskDTO.setPointConfigNo(config.getId());
         taskDTO.setRewardPoint(10);
+        taskDTO.setSelectAll(false);
         return taskDTO;
     }
 
@@ -160,6 +161,7 @@ public class TaskControllerTest {
         taskDTO.setEmpNo(admin.getId());
         taskDTO.setPointConfigNo(0l);
         taskDTO.setEmpList(Arrays.asList(admin.getId()));
+        taskDTO.setSelectAll(false);
         return taskDTO;
     }
 
