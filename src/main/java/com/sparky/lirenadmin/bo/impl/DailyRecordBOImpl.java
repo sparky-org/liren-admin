@@ -74,7 +74,9 @@ public class DailyRecordBOImpl implements DailyRecordBO {
             while (it.hasNext()){
                 JSONObject o = (JSONObject) it.next();
                 Integer p = o.getInteger(AutoRewardConfigEnum.DAILY_RECORD.getCode());
-                point = p;
+                if (null != p) {
+                    point = p;
+                }
             }
         }
         return point;
