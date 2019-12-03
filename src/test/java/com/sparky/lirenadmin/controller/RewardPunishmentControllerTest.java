@@ -81,7 +81,7 @@ public class RewardPunishmentControllerTest {
         SubmitAwardDeductionDTO dto = new SubmitAwardDeductionDTO();
         dto.setContent("打扫卫生后未清理垃圾桶");
         dto.setEmpNoList(Arrays.asList(employee.getId()));
-        dto.setPicList(Arrays.asList("/lr-resource/xxx"));
+        dto.setPicList(Arrays.asList("/lr-resource/17/58/175880acb23807a7f93ef366fd7e9ac4"));
         dto.setPoint(-10);
         dto.setSubmitter(admin.getId());
         dto.setTitle("测试测试测试");

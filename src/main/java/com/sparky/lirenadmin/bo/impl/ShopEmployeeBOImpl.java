@@ -72,7 +72,7 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
 
     private void setDefaultAvatar(ShopEmployee employee) {
         //TODO 设置默认图片
-        employee.setAvatar("/jyw-server/xxxxx");
+        employee.setAvatar("/lr-resource/17/58/175880acb23807a7f93ef366fd7e9ac4");
     }
 
     private ShopEmployee getShopAdmin(Long shopNo, boolean isAdmin){
