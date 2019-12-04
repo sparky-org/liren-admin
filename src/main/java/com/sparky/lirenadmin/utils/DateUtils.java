@@ -6,9 +6,23 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
+    private final static String SECOND_REGEX = "\\d{4}(\\-|\\/|.)\\d{1,2}(\\-|\\/|.)\\d{1,2}\\s\\d{1,2}\\:\\d{1,2}\\:\\d{1,2}";
+    private final static String MINUTE_REGEX = "\\d{4}(\\-|\\/|.)\\d{1,2}(\\-|\\/|.)\\d{1,2}\\s\\d{1,2}\\:\\d{1,2}";
+    private final static String DATE_REGEX = "\\d{4}(\\-|\\/|.)\\d{1,2}(\\-|\\/|.)\\d{1,2}";
+    private final static String YEAR_MONTH_REGEX = "\\d{4}(\\-|\\/|.)\\d{1,2}";
+    private final static String HOUR_MINUTE_REGEX = "\\d{1,2}\\:\\d{1,2}";
+    private final static String HOUR_MINUTE_SECOND_REGEX = "\\d{1,2}\\:\\d{1,2}:\\d{1,2}";
 
     public static void main(String[] args) {
-        System.out.println(yestoday(new Date()));
+        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("2919-1-2"),"yyyy-MM-dd"));
+        System.out.println(formatDate(getDateTime("2919-1-2 10:1:2"),"yyyy-MM-dd HH:mm:ss"));
+        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:1:1"),"HH:mm:ss"));
+        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:01:01"),"HH:mm:ss"));
+    }
+
+    public static String formatDate(Date date, String pattern){
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
     }
 
     public static Date yestoday(Date date){
@@ -155,17 +169,23 @@ public class DateUtils {
         String pattern4 = "yyyy-MM-dd HH:mm";
         Date d = null;
         try {
-            if (date.length() == pattern1.length()){
+            if (date.matches(YEAR_MONTH_REGEX)){
                 SimpleDateFormat df = new SimpleDateFormat(pattern1);
                 d = df.parse(date);
-            }else if(date.length() == pattern2.length()){
+            }else if(date.matches(DATE_REGEX)){
                 SimpleDateFormat df = new SimpleDateFormat(pattern2);
                 d = df.parse(date);
-            }else if(date.length() == pattern3.length()){
+            }else if(date.matches(SECOND_REGEX)){
                 SimpleDateFormat df = new SimpleDateFormat(pattern3);
                 d = df.parse(date);
-            }else if(date.length() == pattern4.length()){
+            }else if(date.matches(MINUTE_REGEX)){
                 SimpleDateFormat df = new SimpleDateFormat(pattern4);
+                d = df.parse(date);
+            }else if(date.matches(HOUR_MINUTE_SECOND_REGEX)){
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                d = df.parse(date);
+            }else if(date.matches(HOUR_MINUTE_REGEX)){
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm");
                 d = df.parse(date);
             }else{
                 return null;

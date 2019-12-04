@@ -12,7 +12,7 @@ import com.sparky.lirenadmin.entity.CustomerInfo;
 import com.sparky.lirenadmin.entity.ServiceItem;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.po.PointRankPO;
-import org.apache.http.client.utils.DateUtils;
+import com.sparky.lirenadmin.utils.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,7 +89,7 @@ public class AppointmentControllerTest {
 
 
         //普通员工查询
-        BaseResponseWrapper<List<Date>> results1 = myAppointmentController.queryAppointmentDays(employee.getId(), DateUtils.formatDate(new Date(), "yyyy-MM"));
+        BaseResponseWrapper<List<String>> results1 = myAppointmentController.queryAppointmentDays(employee.getId(), DateUtils.formatDate(new Date(), "yyyy-MM"));
         Assert.isTrue(results1.isSuccess(), "查询失败");
 
         PagingResponseWrapper<List<AppointmentInfo>> results2 = myAppointmentController.queryAppointment(employee.getId(), DateUtils.formatDate(new Date(), "yyyy-MM-dd"), 1,10);

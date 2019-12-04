@@ -7,7 +7,7 @@ import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.controller.response.PointTraceVO;
 import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.ShopEmployee;
-import org.apache.http.client.utils.DateUtils;
+import com.sparky.lirenadmin.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;

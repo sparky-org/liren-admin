@@ -94,7 +94,7 @@ public class MyAppointmentController {
             if (appointments == null){
                 return BaseResponseWrapper.success(new ArrayList<>());
             }
-            List<String> days = appointments.stream().map(a -> org.apache.http.client.utils.DateUtils.formatDate(a.getAppointTime(),"yyyy-MM-dd")).collect(Collectors.toList());
+            List<String> days = appointments.stream().map(a -> com.sparky.lirenadmin.utils.DateUtils.formatDate(a.getAppointTime(),"yyyy-MM-dd")).collect(Collectors.toList());
             return BaseResponseWrapper.success(days);
         } catch (RuntimeException e) {
             logger.error("查询预约日期异常", e);

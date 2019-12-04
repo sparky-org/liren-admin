@@ -260,7 +260,7 @@ public class MyApplyController {
                 ShopEmployee audit = shopEmployeeBO.getEmployee(e.getAuditEmpNo());
                 vo.setAuditEmpName(audit.getName());
                 vo.setStatusDesc(ApplyStatusEnum.valueOf(e.getAuditStatus()).getDesc());
-                vo.setLastModify(org.apache.http.client.utils.DateUtils.formatDate(e.getGmtModify(), "yyyy-MM-dd HH:mm:ss"));
+                vo.setLastModify(com.sparky.lirenadmin.utils.DateUtils.formatDate(e.getGmtModify(), "yyyy-MM-dd HH:mm:ss"));
                 return vo;
             }).collect(Collectors.toList());
             return PagingResponseWrapper.success(ccTomeVOS, total);
@@ -359,16 +359,16 @@ public class MyApplyController {
         vo.setAuditEmp(auditEmp.getName());
 
         if (vacationApply.getBeginDate() != null) {
-            vo.setBeginDate(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getBeginDate(),
+            vo.setBeginDate(com.sparky.lirenadmin.utils.DateUtils.formatDate(vacationApply.getBeginDate(),
                     "yyyy-MM-dd"));
         }
         if (vacationApply.getEndDate() != null) {
-            vo.setEndDate(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getEndDate(),
+            vo.setEndDate(com.sparky.lirenadmin.utils.DateUtils.formatDate(vacationApply.getEndDate(),
                     "yyyy-MM-dd"));
         }
         vo.setDays(DateUtils.differentDays(vacationApply.getBeginDate(), vacationApply.getEndDate()) + 1);
         vo.setReason(vacationApply.getReason());
-        vo.setCreateTime(org.apache.http.client.utils.DateUtils.formatDate(vacationApply.getGmtCreate(),
+        vo.setCreateTime(com.sparky.lirenadmin.utils.DateUtils.formatDate(vacationApply.getGmtCreate(),
                 "yyyy-MM-dd HH:mm:ss"));
         vo.setPicList(vacationApply.getPicList());
 
