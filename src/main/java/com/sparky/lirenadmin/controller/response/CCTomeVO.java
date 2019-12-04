@@ -17,6 +17,8 @@ public class CCTomeVO {
     private String statusDesc;
     @ApiModelProperty("上次更新时间")
     private String lastModify;
+    @ApiModelProperty("内容")
+    private String content;
 
     public Long getApplyNo() {
         return applyNo;
@@ -64,5 +66,13 @@ public class CCTomeVO {
 
     public void setLastModify(String lastModify) {
         this.lastModify = lastModify;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

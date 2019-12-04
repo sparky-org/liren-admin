@@ -261,6 +261,7 @@ public class MyApplyController {
                 vo.setAuditEmpName(audit.getName());
                 vo.setStatusDesc(ApplyStatusEnum.valueOf(e.getAuditStatus()).getDesc());
                 vo.setLastModify(com.sparky.lirenadmin.utils.DateUtils.formatDate(e.getGmtModify(), "yyyy-MM-dd HH:mm:ss"));
+                vo.setContent(e.getApplyContent());
                 return vo;
             }).collect(Collectors.toList());
             return PagingResponseWrapper.success(ccTomeVOS, total);
