@@ -1,17 +1,11 @@
 package com.sparky.lirenadmin.controller;
 
-import com.sparky.lirenadmin.bo.PointConfigBO;
-import com.sparky.lirenadmin.bo.ShopEmployeeBO;
-import com.sparky.lirenadmin.bo.TaskBO;
-import com.sparky.lirenadmin.bo.TaskRecordBO;
+import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.bo.cond.QueryTaskCond;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyTaskVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
-import com.sparky.lirenadmin.entity.PointConfig;
-import com.sparky.lirenadmin.entity.ShopEmployee;
-import com.sparky.lirenadmin.entity.Task;
-import com.sparky.lirenadmin.entity.TaskRecord;
+import com.sparky.lirenadmin.entity.*;
 import com.sparky.lirenadmin.entity.po.MyTaskPO;
 import com.sparky.lirenadmin.utils.PagingUtils;
 import io.swagger.annotations.Api;
@@ -22,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,6 +48,8 @@ public class MyTaskController {
     private TaskRecordBO taskRecordBO;
     @Autowired
     private PointConfigBO pointConfigBO;
+    @Autowired
+    private TaskDtlBO taskDtlBO;
 
     @ApiOperation("我的任务列表")
     @RequestMapping(value = "/queryMyTask",method = RequestMethod.POST)
@@ -110,6 +109,16 @@ public class MyTaskController {
             if (null == task){
                 throw new RuntimeException("任务不存在");
             }
+            ShopEmployee emp = shopEmployeeBO.getEmployee(empNo);
+            if (emp == null){
+                throw new RuntimeException("员工不存在");
+            }
+            if (emp.getShopNo().longValue() != task.getShopNo().longValue()){
+                throw new RuntimeException("本店未配置此任务");
+            }
+            if (!"ALL".equals(task.getScope()) && notSpecified(taskNo, empNo)){
+                throw new RuntimeException(String.format("[%d]不能参与此[%d]任务", empNo, taskNo));
+            }
             //2. 完成逻辑
             taskRecordBO.createTaskRecord(buildTaskRecord(task, empNo));
             return BaseResponseWrapper.success(null);
@@ -117,6 +126,18 @@ public class MyTaskController {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, null);
         }
+    }
+
+    private boolean notSpecified(Long taskNo, Long empNo) {
+        List<TaskDtl> dtls = taskDtlBO.queryTaskDtlByTask(taskNo);
+        if (!CollectionUtils.isEmpty(dtls)){
+            for (TaskDtl dtl : dtls){
+                if (dtl.getEmpNo().longValue() == empNo.longValue()){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private TaskRecord buildTaskRecord(Task task, Long empNo) {
