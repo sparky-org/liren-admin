@@ -73,11 +73,6 @@ public class VacationController {
                         .collect(Collectors.toList());
                 info.setExceptDateList(exceptDateList);
             }
-            //测试数据
-            List<String> strings = new ArrayList<>();
-            strings.add("2019-12-01");
-            strings.add("2019-12-02");
-            info.setExceptDateList(strings);
 
             AttendanceConfig config = attendanceConfigBO.getConfig(employee.getShopNo());
             if (config != null){
@@ -104,7 +99,7 @@ public class VacationController {
     @RequestMapping(value = "/todayVacation", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponseWrapper<Map<String,String>> todayVacation(@RequestParam @ApiParam Long empNo,
-                                                                 @RequestParam @ApiParam Date today){
+                                                                 @RequestParam @ApiParam String today){
 
         try {
             //考勤异常日期列表
@@ -112,7 +107,7 @@ public class VacationController {
             if (employee == null){
                 throw new RuntimeException("员工不存在");
             }
-            List<ClockInLog> logs = clockInLogBO.getMyLog(empNo, today);
+            List<ClockInLog> logs = clockInLogBO.getMyLog(empNo, com.sparky.lirenadmin.utils.DateUtils.getDateTime(today));
             if (CollectionUtils.isEmpty(logs)){
                 return BaseResponseWrapper.success(new HashMap<>());
             }
