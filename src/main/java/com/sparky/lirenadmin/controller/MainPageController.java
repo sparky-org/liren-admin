@@ -96,7 +96,7 @@ public class MainPageController {
                         ShopEmployee champion = shopEmployeeBO.getEmployee(rankPO.getEmpNo());
                         businessVO.setChampionName(champion.getName());
                     }
-                    if (rankPO.getEmpNo() == empNo){
+                    if (rankPO.getEmpNo() == empNo.longValue()){
                         //本人
                         businessVO.setYourRank(rankPO.getRank());
                         businessVO.setObtainPoint(rankPO.getPoint());
