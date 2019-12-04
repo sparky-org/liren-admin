@@ -67,6 +67,7 @@ public class MyTaskController {
             }
             QueryTaskCond cond = new QueryTaskCond();
             cond.setEmpNo(empNo);
+            cond.setShopNo(employee.getShopNo());
             cond.setStatus(taskStatus);
             if (pointType != null){
                 List<PointConfig> pointConfigs = pointConfigBO.getPointConfig(employee.getShopNo());

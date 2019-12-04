@@ -13,6 +13,8 @@ public class QueryTaskCond {
 
     private Long empNo;
 
+    private Long shopNo;
+
     private String status;
 
     private List<Long> pointNoList;
@@ -27,6 +29,14 @@ public class QueryTaskCond {
 
     public void setEmpNo(Long empNo) {
         this.empNo = empNo;
+    }
+
+    public Long getShopNo() {
+        return shopNo;
+    }
+
+    public void setShopNo(Long shopNo) {
+        this.shopNo = shopNo;
     }
 
     public String getStatus() {
