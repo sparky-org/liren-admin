@@ -74,7 +74,7 @@ public class MyAppointmentController {
     @ApiOperation("查询预约当月预约日期")
     @RequestMapping(value = "/queryAppointmentDays",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<List<Date>> queryAppointmentDays(@RequestParam @ApiParam Long empNo,
+    public BaseResponseWrapper<List<String>> queryAppointmentDays(@RequestParam @ApiParam Long empNo,
                                                                   @RequestParam @ApiParam("月份：yyyy-MM") String month){
         try {
             Date month1 = DateUtils.getMonth(month);
@@ -91,7 +91,10 @@ public class MyAppointmentController {
                 appointments = appointmentBO.queryAppointment(new QueryAppointmentCond(employee.getShopNo(), empNo, monthBegin, monthEnd));
 
             }
-            List<Date> days = appointments.stream().map(Appointment::getAppointTime).collect(Collectors.toList());
+            if (appointments == null){
+                return BaseResponseWrapper.success(new ArrayList<>());
+            }
+            List<String> days = appointments.stream().map(a -> org.apache.http.client.utils.DateUtils.formatDate(a.getAppointTime(),"yyyy-MM-dd")).collect(Collectors.toList());
             return BaseResponseWrapper.success(days);
         } catch (RuntimeException e) {
             logger.error("查询预约日期异常", e);
