@@ -57,6 +57,9 @@ public class PosterController {
                                                          @RequestParam @ApiParam Long empNo){
         try {
             ShopConfig config = shopConfigBO.getShopConfig(shopNo, ShopConfigTypeEnum.POSTER.getCode());
+            if(null == config){
+                return BaseResponseWrapper.success(null);
+            }
             return BaseResponseWrapper.success(convertToDto(config, empNo));
         } catch (Exception e) {
             e.printStackTrace();

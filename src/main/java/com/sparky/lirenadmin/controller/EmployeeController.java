@@ -175,6 +175,15 @@ public class EmployeeController {
         }
     }
 
+    /**
+     *  初始化的岗位不能删除
+     *  自己不能删除自己的岗位
+     *  管理员才有资格删除岗位
+     * @param shopNo
+     * @param jobNo
+     * @param empNo
+     * @return
+     */
     @ApiOperation("删除岗位")
     @RequestMapping(value = "/deleteJob", method = RequestMethod.POST)
     @ResponseBody
@@ -189,6 +198,10 @@ public class EmployeeController {
             if (shopNo.longValue() != job.getShopNo()){
                 throw new RuntimeException("店铺无此职业");
             }
+            //初始化的岗位
+            if (job.getCreator() == 0){
+                throw new RuntimeException("初始化的岗位不能被删除");
+            }
             ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
             if (employee == null){
                 throw new RuntimeException("无此管理者");
@@ -196,6 +209,10 @@ public class EmployeeController {
             if (employee.getShopNo().longValue() != shopNo){
                 throw new RuntimeException("无此管理者");
             }
+            if (employee.getJobNo() == jobNo.longValue()){
+                throw new RuntimeException("不能删除自己的岗位");
+            }
+
             shopJobBO.deleteJob(jobNo);
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
