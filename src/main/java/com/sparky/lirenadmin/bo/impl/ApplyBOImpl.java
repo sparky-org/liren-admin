@@ -98,11 +98,15 @@ public class ApplyBOImpl implements ApplyBO {
 
     @Override
     public Apply buildApply(String origin, Long originId, String content, Long applyEmp, Long creator, Long shopNo) {
-        ShopEmployee admin = shopEmployeeBO.getShopAdmin(applyEmp);
-        if (admin == null){
+        ShopEmployee emp = shopEmployeeBO.getEmployee(applyEmp);
+        if (emp == null){
             throw new RuntimeException("没有管理员，不符合业务规则");
         }
-        return buildApply(origin, originId, content, applyEmp, admin.getId(), creator, shopNo);
+        Long managerNo = emp.getManagerNo();
+        if (managerNo == 0){
+            managerNo = emp.getId();
+        }
+        return buildApply(origin, originId, content, applyEmp, managerNo, creator, shopNo);
     }
 
     @Override
