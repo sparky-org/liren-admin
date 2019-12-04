@@ -69,7 +69,7 @@
     <if test="cond.status != null">
       and status = #{cond.status}
     </if>
-    order by status, gmt_modify desc
+    order by status desc, gmt_modify desc
     limit #{cond.start}, #{cond.length}
   </select>
 
