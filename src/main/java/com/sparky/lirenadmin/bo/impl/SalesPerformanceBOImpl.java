@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,8 +59,8 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     }
 
     @Override
-    public Integer sumSalePerformanceNum(ShopEmployee employee, Date today) {
-        int total;
+    public BigDecimal sumSalePerformanceNum(ShopEmployee employee, Date today) {
+        BigDecimal total;
         if (employee.getIsAdmin()){
             total = salesPerformanceMapper.sumSalePerformanceNumByShop(employee.getShopNo(), today);
         }else{

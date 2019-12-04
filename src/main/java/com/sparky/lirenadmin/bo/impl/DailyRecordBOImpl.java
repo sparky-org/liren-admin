@@ -1,24 +1,18 @@
 package com.sparky.lirenadmin.bo.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.DailyRecordBO;
 import com.sparky.lirenadmin.bo.PointBO;
-import com.sparky.lirenadmin.bo.ShopConfigBO;
+import com.sparky.lirenadmin.bo.PointConfigBO;
 import com.sparky.lirenadmin.bo.cond.IncreasePointDO;
-import com.sparky.lirenadmin.constant.AutoRewardConfigEnum;
+import com.sparky.lirenadmin.constant.PointTypeEnum;
 import com.sparky.lirenadmin.constant.RewardTypeEnum;
-import com.sparky.lirenadmin.constant.ShopConfigTypeEnum;
 import com.sparky.lirenadmin.entity.DailyRecord;
 import com.sparky.lirenadmin.entity.DailyRecordExample;
-import com.sparky.lirenadmin.entity.ShopConfig;
-import com.sparky.lirenadmin.mapper.DailyRecordMapper;
 import com.sparky.lirenadmin.mapper.ext.DailyRecordMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -27,7 +21,7 @@ public class DailyRecordBOImpl implements DailyRecordBO {
     @Autowired
     private PointBO pointBO;
     @Autowired
-    private ShopConfigBO shopConfigBO;
+    private PointConfigBO pointConfigBO;
 
     @Autowired
     private DailyRecordMapperExt dailyRecordMapper;
@@ -66,20 +60,7 @@ public class DailyRecordBOImpl implements DailyRecordBO {
     }
 
     private Integer getRewardPoint(Long shopNo){
-        ShopConfig config = shopConfigBO.getShopConfig(shopNo, ShopConfigTypeEnum.REWARD_CONFIG.getCode());
-        Integer point = 0;
-        if (config != null){
-            JSONArray array = JSONArray.parseArray(config.getContent());
-            Iterator it = array.iterator();
-            while (it.hasNext()){
-                JSONObject o = (JSONObject) it.next();
-                Integer p = o.getInteger(AutoRewardConfigEnum.DAILY_RECORD.getCode());
-                if (null != p) {
-                    point = p;
-                }
-            }
-        }
-        return point;
+        return pointConfigBO.getPointReward(shopNo, PointTypeEnum.DAILY_RECORD.getCode());
     }
 
     private Boolean doReward(Long salesId) {

@@ -1,7 +1,6 @@
 package com.sparky.lirenadmin.bo.impl;
 
 import com.sparky.lirenadmin.bo.AttendanceConfigBO;
-import com.sparky.lirenadmin.bo.ShopConfigBO;
 import com.sparky.lirenadmin.entity.AttendanceConfig;
 import com.sparky.lirenadmin.entity.AttendanceConfigExample;
 import com.sparky.lirenadmin.mapper.AttendanceConfigMapper;
@@ -15,8 +14,6 @@ import java.util.List;
 @Service
 public class AttendanceConfigBOImpl implements AttendanceConfigBO {
 
-    @Autowired
-    private ShopConfigBO shopConfigBO;
     @Autowired
     private AttendanceConfigMapper attendanceConfigMapper;
 
@@ -32,10 +29,25 @@ public class AttendanceConfigBOImpl implements AttendanceConfigBO {
     }
 
     @Override
-    public void createConfig(AttendanceConfig buildAttendanceConfig) {
-        buildAttendanceConfig.setIsValid(true);
-        buildAttendanceConfig.setGmtCreate(new Date());
-        buildAttendanceConfig.setGmtModify(new Date());
-        attendanceConfigMapper.insertSelective(buildAttendanceConfig);
+    public void createOrModifyConfig(AttendanceConfig config) {
+        AttendanceConfig exist = getConfig(config.getShopNo());
+        if (exist == null){
+            doCreate(config);
+        }else {
+            config.setId(exist.getId());
+            doModifyConfig(config);
+        }
+    }
+
+    private void doModifyConfig(AttendanceConfig config) {
+        config.setGmtModify(new Date());
+        attendanceConfigMapper.insertSelective(config);
+    }
+
+    private void doCreate(AttendanceConfig config) {
+        config.setIsValid(true);
+        config.setGmtCreate(new Date());
+        config.setGmtModify(new Date());
+        attendanceConfigMapper.insertSelective(config);
     }
 }

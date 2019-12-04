@@ -1,10 +1,7 @@
 package com.sparky.lirenadmin.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.*;
-import com.sparky.lirenadmin.constant.AutoRewardConfigEnum;
-import com.sparky.lirenadmin.constant.ShopConfigTypeEnum;
+import com.sparky.lirenadmin.constant.PointTypeEnum;
 import com.sparky.lirenadmin.controller.request.SetAttendanceDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.MyAttendanceInfo;
@@ -20,7 +17,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Api(tags = "考勤接口")
@@ -37,7 +37,7 @@ public class VacationController {
     @Autowired
     private AttendanceConfigBO attendanceConfigBO;
     @Autowired
-    private ShopConfigBO shopConfigBO;
+    private PointConfigBO pointConfigBO;
     /**
      * 查询月信息
      * @param empNo
@@ -158,40 +158,40 @@ public class VacationController {
     @ResponseBody
     public BaseResponseWrapper setAttendance(@RequestBody SetAttendanceDTO dto){
         try {
-            attendanceConfigBO.createConfig(buildAttendanceConfig(dto));
-            ShopConfig shopConfig = shopConfigBO.getShopConfig(dto.getShopNo(), ShopConfigTypeEnum.REWARD_CONFIG.getCode());
-            if (shopConfig == null){
-                shopConfig = new ShopConfig();
-                shopConfig.setConfigName(ShopConfigTypeEnum.REWARD_CONFIG.getDesc());
-                shopConfig.setConfigType(ShopConfigTypeEnum.REWARD_CONFIG.getCode());
-                shopConfig.setCreator(0L);
-                shopConfig.setShopNo(dto.getShopNo());
-                JSONObject object = new JSONObject();
-                object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
-                JSONArray array = new JSONArray();
-                array.add(object);
-                shopConfig.setContent(array.toJSONString());
-                shopConfigBO.createModifyConfig(shopConfig);
-            }else{
-                JSONArray array = JSONArray.parseArray(shopConfig.getContent());
-                Iterator iterator = array.iterator();
-                while (iterator.hasNext()){
-                    JSONObject json = (JSONObject)iterator.next();
-                    if (null != json.get(AutoRewardConfigEnum.ATTENDANCE.getCode())){
-                        iterator.remove();
-                    }
-                }
-                JSONObject object = new JSONObject();
-                object.put(AutoRewardConfigEnum.ATTENDANCE.getCode(), dto.getRewardPoint());
-                array.add(object);
-                shopConfig.setContent(array.toJSONString());
-                shopConfigBO.createModifyConfig(shopConfig);
+            attendanceConfigBO.createOrModifyConfig(buildAttendanceConfig(dto));
+            if (dto.getRewardPoint() != null){
+                createOrModifyPointConfig(dto);
             }
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, e.getMessage());
         }
+    }
+
+    private void createOrModifyPointConfig(SetAttendanceDTO dto) {
+        PointConfig config = pointConfigBO.getPointConfig(dto.getShopNo(), PointTypeEnum.ATTENDANCE.getCode());
+        if (config != null && config.getPoint().longValue() == dto.getRewardPoint()){
+            return;
+        }
+        if (config != null){
+            config.setPoint(dto.getRewardPoint());
+            pointConfigBO.modifyPointConfig(config);
+            return;
+        }
+        config = buildPointConfig(dto);
+        pointConfigBO.createPointConfig(config);
+    }
+
+    private PointConfig buildPointConfig(SetAttendanceDTO dto) {
+        PointConfig point = new PointConfig();
+        point.setShopNo(dto.getShopNo());
+        point.setCreator(dto.getOperator());
+        point.setPointType(PointTypeEnum.ATTENDANCE.getCode());
+        point.setPointName(PointTypeEnum.ATTENDANCE.getDesc());
+        point.setPoint(dto.getRewardPoint());
+        point.setPointDesc("");
+        return point;
     }
 
     private AttendanceConfig buildAttendanceConfig(SetAttendanceDTO dto) {

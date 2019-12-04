@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -61,7 +62,7 @@ public class MainPageController {
             Date today = new Date();
             //获取预约客户数
             Future<Integer> appointment = executor.submit(() -> sumAppointmentCustomer(employee,today));
-            Future<Integer> salePerformance = executor.submit(() -> sumSalePerformanceNum(employee,today));
+            Future<BigDecimal> salePerformance = executor.submit(() -> sumSalePerformanceNum(employee,today));
             Future<Integer> serviceItemRecord = executor.submit(() -> sumServiceItemRecordNum(employee,today));
             Future<Integer> restEmployee = executor.submit(() -> sumRestEmployeeNum(employee,today));
             Future<List<PointRankPO>> rankPOList = executor.submit(() -> findPointRank(empNo,today));
@@ -69,8 +70,8 @@ public class MainPageController {
             TodayBusinessVO businessVO = new TodayBusinessVO();
             Integer appointmentNum =  catchExceptionAndReturn(appointment);
             businessVO.setAppointmentCustomerNum(appointmentNum == null ? 0 : appointmentNum);
-            Integer salePerformanceNum =  catchExceptionAndReturn(salePerformance);
-            businessVO.setSalesPerformanceNum(salePerformanceNum == null ? 0 : salePerformanceNum);
+            BigDecimal salePerformanceNum =  catchExceptionAndReturn(salePerformance);
+            businessVO.setSalesPerformanceNum(salePerformanceNum == null ? BigDecimal.ZERO : salePerformanceNum);
             Integer serviceItemRecordNum =  catchExceptionAndReturn(serviceItemRecord);
             businessVO.setServiceItemRecordNum(serviceItemRecordNum == null ? 0 : serviceItemRecordNum);
             Integer restEmployeeNum =  catchExceptionAndReturn(restEmployee);
@@ -81,6 +82,9 @@ public class MainPageController {
             businessVO.setChampionDate(today);
             businessVO.setChampionName(employee.getName());
 
+            //TODO
+            //自己排名：自己得分
+            //冠军姓名
             List<PointRankPO> rankPOS = catchExceptionAndReturn(rankPOList);
             if (!CollectionUtils.isEmpty(rankPOS)){
                 Iterator<PointRankPO> iterator = rankPOS.iterator();
@@ -153,7 +157,7 @@ public class MainPageController {
     private Integer sumAppointmentCustomer(ShopEmployee employee, Date today){
         return appointmentBO.countAppointCustomer(employee, today);
     }
-    private Integer sumSalePerformanceNum(ShopEmployee employee, Date today){
+    private BigDecimal sumSalePerformanceNum(ShopEmployee employee, Date today){
         return salesPerformanceBO.sumSalePerformanceNum(employee, today);
     }
     private Integer sumServiceItemRecordNum(ShopEmployee employee, Date today){

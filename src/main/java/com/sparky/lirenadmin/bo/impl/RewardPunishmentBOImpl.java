@@ -57,7 +57,7 @@ public class RewardPunishmentBOImpl implements RewardPunishmentBO {
 
     private IncreasePointDO buildIncreasePointDO(RewardPunishment record) {
         return pointBO.buildIncreasePointDO(RewardTypeEnum.REWARD_PUNISH.getCode(), record.getId(),
-                record.getCreator(), record.getCreator(), record.getPoint(), record.getShopNo());
+                record.getEmpNo(), record.getCreator(), record.getPoint(), record.getShopNo());
 
     }
 

@@ -5,6 +5,7 @@ public enum ShopConfigTypeEnum {
     SYSTEM("SYSTEM", "公司制度"),
     NOTICE("NOTICE", "公告"),
     POSTER("POSTER", "店内海报"),
+    @Deprecated
     REWARD_CONFIG("REWARD_CONFIG", "积分奖励配置");
 
     private String code;

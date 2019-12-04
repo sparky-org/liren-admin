@@ -6,7 +6,9 @@ import com.sparky.lirenadmin.entity.PointConfigExample;
 import com.sparky.lirenadmin.mapper.PointConfigMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -40,5 +42,25 @@ public class PointConfigBOImpl implements PointConfigBO {
     @Override
     public PointConfig getPointConfigByPrimaryKey(Long pointNo) {
         return pointConfigMapper.selectByPrimaryKey(pointNo);
+    }
+
+    @Override
+    public PointConfig getPointConfig(Long shopNo, String pointConfigType) {
+        PointConfigExample example = new PointConfigExample();
+        example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
+        List<PointConfig> configs = pointConfigMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(configs)){
+            return null;
+        }
+        if (configs.size() > 1) {
+            configs.sort(Comparator.comparing(PointConfig::getGmtModify));
+        }
+        return configs.iterator().next();
+    }
+
+    @Override
+    public Integer getPointReward(Long shopNo, String pointConfigType) {
+        PointConfig config = getPointConfig(shopNo, pointConfigType);
+        return config == null ? 0 : config.getPoint();
     }
 }

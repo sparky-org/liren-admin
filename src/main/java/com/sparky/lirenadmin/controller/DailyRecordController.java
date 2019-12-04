@@ -1,19 +1,15 @@
 package com.sparky.lirenadmin.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.sparky.lirenadmin.bo.DailyRecordBO;
-import com.sparky.lirenadmin.bo.ShopConfigBO;
+import com.sparky.lirenadmin.bo.PointConfigBO;
 import com.sparky.lirenadmin.bo.ShopEmployeeBO;
 import com.sparky.lirenadmin.bo.ShopJobBO;
-import com.sparky.lirenadmin.constant.AutoRewardConfigEnum;
-import com.sparky.lirenadmin.constant.ShopConfigTypeEnum;
+import com.sparky.lirenadmin.constant.PointTypeEnum;
 import com.sparky.lirenadmin.controller.request.CreateDailyRecordDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.ListDailyRecordVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.DailyRecord;
-import com.sparky.lirenadmin.entity.ShopConfig;
 import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.entity.ShopJob;
 import com.sparky.lirenadmin.utils.DateUtils;
@@ -26,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +47,7 @@ public class DailyRecordController {
     @Autowired
     private ShopJobBO shopJobBO;
     @Autowired
-    private ShopConfigBO shopConfigBO;
+    private PointConfigBO pointConfigBO;
 
     @ApiOperation("添加日志")
     @RequestMapping(value = "/createRecord",method = RequestMethod.POST)
@@ -151,17 +146,7 @@ public class DailyRecordController {
     }
 
     private Integer getRewardPoint(Long shopNo){
-        ShopConfig config = shopConfigBO.getShopConfig(shopNo, ShopConfigTypeEnum.REWARD_CONFIG.getCode());
-        if (config != null){
-            JSONArray array = JSONArray.parseArray(config.getContent());
-            Iterator it = array.iterator();
-            while (it.hasNext()){
-                JSONObject o = (JSONObject) it.next();
-                Integer p = o.getInteger(AutoRewardConfigEnum.DAILY_RECORD.getCode());
-                return p;
-            }
-        }
-        return 0;
+        return pointConfigBO.getPointReward(shopNo, PointTypeEnum.DAILY_RECORD.getCode());
     }
 
 }

@@ -61,6 +61,7 @@ public class ApplyBOImpl implements ApplyBO {
             throw new RuntimeException("审核失败，无审核对象");
         }
         apply.setAuditStatus(ApplyStatusEnum.PASSED.getCode());
+        apply.setAuditTime(new Date());
         apply.setGmtModify(new Date());
         applyMapper.updateByPrimaryKeySelective(apply);
         NotifyInvoker.invoke(ApplyApprovedHandler.class, "afterApplyApproved", new Object[]{apply.getOrigin(),apply.getOriginNo()});

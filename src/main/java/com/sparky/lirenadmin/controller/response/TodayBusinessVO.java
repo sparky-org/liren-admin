@@ -3,6 +3,7 @@ package com.sparky.lirenadmin.controller.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @ApiModel
@@ -12,7 +13,7 @@ public class TodayBusinessVO {
     private int appointmentCustomerNum;
 
     @ApiModelProperty("今日业绩")
-    private int salesPerformanceNum;
+    private BigDecimal salesPerformanceNum;
 
     @ApiModelProperty("今日项目数量")
     private int serviceItemRecordNum;
@@ -40,11 +41,11 @@ public class TodayBusinessVO {
         this.appointmentCustomerNum = appointmentCustomerNum;
     }
 
-    public int getSalesPerformanceNum() {
+    public BigDecimal getSalesPerformanceNum() {
         return salesPerformanceNum;
     }
 
-    public void setSalesPerformanceNum(int salesPerformanceNum) {
+    public void setSalesPerformanceNum(BigDecimal salesPerformanceNum) {
         this.salesPerformanceNum = salesPerformanceNum;
     }
 
