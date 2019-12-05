@@ -11,7 +11,7 @@
     select b.emp_no, b.point, b.rownum from (
       select emp_no, point, @rownum:=@rownum+1 as rownum from (
          select emp_no, sum(point) as point, @rownum:=0  AS rownum
-           from t_reward_record where STR_TO_DATE(DATE_FORMAT(reward_time,'%Y-%m-%d'),'%Y-%m-%d')=STR_TO_DATE(#{date},'%Y-%m-%d')  group by emp_no order by point desc
+           from t_reward_record where shop_no = #{shopNo} and STR_TO_DATE(DATE_FORMAT(reward_time,'%Y-%m-%d'),'%Y-%m-%d')=STR_TO_DATE(#{date},'%Y-%m-%d')  group by emp_no order by point desc
       ) a
     ) b where b.emp_no=#{empNo} or b.rownum=1;
   </select>

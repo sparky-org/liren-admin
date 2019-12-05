@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface RewardRecordMapperExt extends RewardRecordMapper {
 
-    List<PointRankPO> findPointRank(@Param("empNo") Long empNo, @Param("date") Date date);
+    List<PointRankPO> findPointRank(Long shopNo, @Param("empNo") Long empNo, @Param("date") Date date);
 
     int countRewardRecord(String shopNo);
 

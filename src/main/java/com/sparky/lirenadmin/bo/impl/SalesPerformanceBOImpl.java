@@ -64,7 +64,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
         if (employee.getIsAdmin()){
             total = salesPerformanceMapper.sumSalePerformanceNumByShop(employee.getShopNo(), today);
         }else{
-            total = salesPerformanceMapper.sumSalePerformanceNumByEmp(employee.getShopNo(), today);
+            total = salesPerformanceMapper.sumSalePerformanceNumByEmp(employee.getId(), today);
         }
         return total;
     }

@@ -49,7 +49,7 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
         if (employee.getIsAdmin()){
             total = serviceItemRecordMapper.sumServiceItemRecordNumByShop(employee.getShopNo(), today);
         }else{
-            total = serviceItemRecordMapper.sumServiceItemRecordNumByEmp(employee.getShopNo(), today);
+            total = serviceItemRecordMapper.sumServiceItemRecordNumByEmp(employee.getId(), today);
         }
         return total;
     }

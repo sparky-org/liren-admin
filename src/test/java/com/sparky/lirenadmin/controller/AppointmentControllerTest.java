@@ -94,7 +94,7 @@ public class AppointmentControllerTest {
 
         PagingResponseWrapper<List<AppointmentInfo>> results2 = myAppointmentController.queryAppointment(employee.getId(), DateUtils.formatDate(new Date(), "yyyy-MM-dd"), 1,10);
         Assert.isTrue(results2.isSuccess(), "查询失败");
-        List<PointRankPO> result3 = rewardRecordBO.findPointRank(employee.getId(), new Date());
+        List<PointRankPO> result3 = rewardRecordBO.findPointRank(shop.getId(), employee.getId(), new Date());
         System.out.println(JSONObject.toJSONString(result3));
 //
     }

@@ -26,8 +26,8 @@ public class RewardRecordBOImpl implements RewardRecordBO {
     }
 
     @Override
-    public List<PointRankPO> findPointRank(Long empNo, Date date) {
-        return rewardRecordMapper.findPointRank(empNo, date);
+    public List<PointRankPO> findPointRank(Long shopNo, Long empNo, Date date) {
+        return rewardRecordMapper.findPointRank(shopNo, empNo, date);
     }
 
     @Override

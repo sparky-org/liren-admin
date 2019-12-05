@@ -10,7 +10,7 @@ import java.util.List;
 public interface RewardRecordBO {
     void createReward(RewardRecord rewardRecord);
 
-    List<PointRankPO> findPointRank(Long empNo, Date date);
+    List<PointRankPO> findPointRank(Long shopNo, Long empNo, Date date);
 
     int countRewardRecord(String shopNo);
 

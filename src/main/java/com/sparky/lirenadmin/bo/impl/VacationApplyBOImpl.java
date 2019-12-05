@@ -53,7 +53,7 @@ public class VacationApplyBOImpl implements VacationApplyBO {
         if (employee.getIsAdmin()){
             total = vacationApplyMapper.sumRestEmployeeNumByShop(employee.getShopNo(), today);
         }else{
-            total = vacationApplyMapper.sumRestEmployeeNumByEmp(employee.getShopNo(), today);
+            total = vacationApplyMapper.sumRestEmployeeNumByEmp(employee.getId(), today);
         }
         return total;
     }

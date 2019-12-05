@@ -65,7 +65,7 @@ public class MainPageController {
             Future<BigDecimal> salePerformance = executor.submit(() -> sumSalePerformanceNum(employee,today));
             Future<Integer> serviceItemRecord = executor.submit(() -> sumServiceItemRecordNum(employee,today));
             Future<Integer> restEmployee = executor.submit(() -> sumRestEmployeeNum(employee,today));
-            Future<List<PointRankPO>> rankPOList = executor.submit(() -> findPointRank(empNo,today));
+            Future<List<PointRankPO>> rankPOList = executor.submit(() -> findPointRank(employee.getShopNo(), empNo,today));
 
             TodayBusinessVO businessVO = new TodayBusinessVO();
             Integer appointmentNum =  catchExceptionAndReturn(appointment);
@@ -142,8 +142,8 @@ public class MainPageController {
         }
     }
 
-    private List<PointRankPO> findPointRank(Long empNo, Date today){
-        return rewardRecordBO.findPointRank(empNo, today);
+    private List<PointRankPO> findPointRank(Long shopNo, Long empNo, Date today){
+        return rewardRecordBO.findPointRank(shopNo, empNo, today);
     }
 
     private <T> T catchExceptionAndReturn(Future<T> future){

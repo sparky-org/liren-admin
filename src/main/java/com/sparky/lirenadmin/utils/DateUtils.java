@@ -1,9 +1,14 @@
 package com.sparky.lirenadmin.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import org.springframework.util.CollectionUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateUtils {
     private final static String SECOND_REGEX = "\\d{4}(\\-|\\/|.)\\d{1,2}(\\-|\\/|.)\\d{1,2}\\s\\d{1,2}\\:\\d{1,2}\\:\\d{1,2}";
@@ -14,10 +19,66 @@ public class DateUtils {
     private final static String HOUR_MINUTE_SECOND_REGEX = "\\d{1,2}\\:\\d{1,2}:\\d{1,2}";
 
     public static void main(String[] args) {
-        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("2919-1-2"),"yyyy-MM-dd"));
-        System.out.println(formatDate(getDateTime("2919-1-2 10:1:2"),"yyyy-MM-dd HH:mm:ss"));
-        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:1:1"),"HH:mm:ss"));
-        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:01:01"),"HH:mm:ss"));
+//        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("2919-1-2"),"yyyy-MM-dd"));
+//        System.out.println(formatDate(getDateTime("2919-1-2 10:1:2"),"yyyy-MM-dd HH:mm:ss"));
+//        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:1:1"),"HH:mm:ss"));
+//        System.out.println(com.sparky.lirenadmin.utils.DateUtils.formatDate(getDateTime("10:01:01"),"HH:mm:ss"));
+
+        pagingQuery(-1);
+        pagingQuery(0);
+        pagingQuery(1);
+        pagingQuery(2);
+        pagingQuery(3);
+        pagingQuery(4);
+        pagingQuery(5);
+        pagingQuery(6);
+    }
+
+    private static List<String > pagingQuery(int currentPage){
+        List<String> strings = new ArrayList<>();
+        strings.add("111");
+        strings.add("112");
+        strings.add("113");
+        strings.add("114");
+        strings.add("115");
+        strings.add("116");
+        strings.add("117");
+        strings.add("118");
+        strings.add("119");
+        strings.add("120");
+        return pagingQuery(currentPage, strings);
+    }
+
+    private static List<String> pagingQuery(int currentPage, List<String> hashList){
+
+        int pageSize = 3;
+
+        int total = hashList.size();
+        if (CollectionUtils.isEmpty(hashList)){
+            return new ArrayList<>();
+        }
+
+        //计算的出
+        int totalPage = total / pageSize + (total % pageSize == 0 ? 0 : 1);
+        if (currentPage < 1) {
+            currentPage = totalPage;
+        }
+
+        int from = 0;
+        int to = 0;
+
+        if (total < 1){
+            return null;
+        }
+
+        if (currentPage >= totalPage){
+            from = (totalPage - 1) * pageSize;
+            to = total;
+        }else{
+            from = (currentPage - 1) * pageSize;
+            to = currentPage * pageSize;
+        }
+        return hashList.subList(from, to);
     }
 
     public static String formatDate(Date date, String pattern){
