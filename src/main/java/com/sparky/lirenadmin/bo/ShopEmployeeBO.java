@@ -16,4 +16,6 @@ public interface ShopEmployeeBO {
     List<ShopEmployee> listEmploy(List<Long> idList);
 
     List<ShopEmployee> listEmployByJobList(List<Long> jobList);
+
+    Integer countTotalEmployee(Long shopNo);
 }

@@ -70,6 +70,14 @@ public class ShopEmployeeBOImpl implements ShopEmployeeBO {
         return shopEmployeeMapper.selectByExample(example);
     }
 
+    @Override
+    public Integer countTotalEmployee(Long shopNo) {
+        ShopEmployeeExample example = new ShopEmployeeExample();
+        example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
+        Long total = shopEmployeeMapper.countByExample(example);
+        return total == null ? 0 : total.intValue();
+    }
+
     private void setDefaultAvatar(ShopEmployee employee) {
         //TODO 设置默认图片
         employee.setAvatar("/lr-resource/17/58/175880acb23807a7f93ef366fd7e9ac4");

@@ -77,7 +77,8 @@ public class MainPageController {
             Integer restEmployeeNum =  catchExceptionAndReturn(restEmployee);
             businessVO.setRestEmployeeNum(restEmployeeNum == null ? 0 : restEmployeeNum);
 
-            businessVO.setYourRank(1);
+            Integer totalEmploy = shopEmployeeBO.countTotalEmployee(employee.getShopNo());
+            businessVO.setYourRank(totalEmploy);
             businessVO.setObtainPoint(0);
             businessVO.setChampionDate(today);
             businessVO.setChampionName(employee.getName());
