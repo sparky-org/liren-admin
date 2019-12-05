@@ -83,7 +83,6 @@ public class MainPageController {
             businessVO.setChampionDate(today);
             businessVO.setChampionName(employee.getName());
 
-            //TODO
             //自己排名：自己得分
             //冠军姓名
             List<PointRankPO> rankPOS = catchExceptionAndReturn(rankPOList);

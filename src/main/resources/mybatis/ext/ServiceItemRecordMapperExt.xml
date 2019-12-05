@@ -3,7 +3,7 @@
 <mapper namespace="com.sparky.lirenadmin.mapper.ext.ServiceItemRecordMapperExt">
   <select id="sumServiceItemRecordNumByShop" resultType="java.lang.Integer">
         select count(distinct(b.id)) from (
-        select * from t_service_item_record where is_valid = 1
+        select * from t_service_item_record where is_valid = 1 and is_rewarded = 1
         ) a inner join (
         select * from t_shop_employee where is_valid = 1 and shop_no = #{shopNo}
         ) b on a.emp_no = b.id
@@ -12,7 +12,7 @@
 
   <select id="sumServiceItemRecordNumByEmp" resultType="java.lang.Integer">
         select count(distinct(b.id)) from (
-        select * from t_service_item_record where is_valid = 1
+        select * from t_service_item_record where is_valid = 1 and is_rewarded = 1
         ) a inner join (
         select * from t_shop_employee where is_valid = 1 and (id = #{empNo} or manager_no = #{empNo})
         ) b on a.emp_no = b.id

@@ -3,7 +3,7 @@
 <mapper namespace="com.sparky.lirenadmin.mapper.ext.SalesPerformanceMapperExt">
   <select id="sumSalePerformanceNumByShop" resultType="java.math.BigDecimal">
         select sum(a.amount) from (
-        select * from t_sales_performance where is_valid = 1
+        select * from t_sales_performance where is_valid = 1 AND is_rewarded = 1
         ) a inner join (
         select * from t_shop_employee where is_valid = 1 and shop_no = #{shopNo}
         ) b on a.emp_no = b.id
@@ -12,7 +12,7 @@
 
   <select id="sumSalePerformanceNumByEmp" resultType="java.math.BigDecimal">
         select sum(a.amount) from (
-        select * from t_sales_performance where is_valid = 1
+        select * from t_sales_performance where is_valid = 1 AND is_rewarded = 1
         ) a inner join (
         select * from t_shop_employee where is_valid = 1 and (id = #{empNo} or manager_no = #{empNo})
         ) b on a.emp_no = b.id

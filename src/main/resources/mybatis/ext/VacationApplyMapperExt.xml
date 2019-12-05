@@ -7,7 +7,7 @@
     ) a inner join (
     select * from t_shop_employee where is_valid = 1 and shop_no = #{shopNo}
     ) b on a.apply_emp_no = b.id
-    where a.audit_status='APPROVED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
+    where a.audit_status='PASSED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
   </select>
 
   <select id="sumRestEmployeeNumByEmp" resultType="java.lang.Integer">
@@ -16,6 +16,6 @@
     ) a inner join (
         select * from t_shop_employee where is_valid = 1 and (id = #{empNo} or manager_no = #{empNo})
     ) b on a.apply_emp_no = b.id
-    where a.audit_status='APPROVED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
+    where a.audit_status='PASSED' and a.begin_date &lt;= #{today} and a.end_date &gt;= #{today};
   </select>
 </mapper>
