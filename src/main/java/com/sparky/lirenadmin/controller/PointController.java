@@ -140,6 +140,7 @@ public class PointController {
     private GetPointTableVO convertFromPO(PointTablePO configs) {
         GetPointTableVO vo = JSONObject.parseObject(JSONObject.toJSONString(configs), GetPointTableVO.class);
         vo.setRank(configs.getEmpRank());
+        vo.setEmpNo(configs.getEmpNo());
         return vo;
     }
 

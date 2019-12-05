@@ -9,6 +9,8 @@ public class GetPointTableVO {
     private Integer rank;
     @ApiModelProperty("姓名")
     private String name;
+    @ApiModelProperty("员工编号")
+    private Long empNo;
     @ApiModelProperty("加分")
     private Integer increase;
     @ApiModelProperty("扣分")
@@ -30,6 +32,14 @@ public class GetPointTableVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getEmpNo() {
+        return empNo;
+    }
+
+    public void setEmpNo(Long empNo) {
+        this.empNo = empNo;
     }
 
     public Integer getIncrease() {
