@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ServiceItemRecordBO {
 
-    void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList);
+    void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList, Long auditor);
 
     void reward(Long salesNo);
 

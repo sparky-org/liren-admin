@@ -50,7 +50,7 @@ public class SalesPerformanceController {
                     ccList.add(Long.parseLong(s));
                 }
             }
-            salesPerformanceBO.createSalePerformance(buildSalesPerf(applySalesPerfDTO), ccList);
+            salesPerformanceBO.createSalePerformance(buildSalesPerf(applySalesPerfDTO), ccList, applySalesPerfDTO.getAuditor());
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
             logger.error("登陆未知异常", e);

@@ -28,9 +28,9 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
     private ServiceItemRecordMapperExt serviceItemRecordMapper;
 
     @Override
-    public void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList) {
+    public void createServiceRecord(ServiceItemRecord record, List<ApplyDtl> applyDtlList, Long auditor) {
         doCreateServiceItem(record);
-        applyBO.createApply(buildApply(record), applyDtlList);
+        applyBO.createApply(buildApply(record, auditor), applyDtlList);
         customerTraceBO.createCustomerTrace(buildTrace(record));
     }
 
@@ -93,9 +93,9 @@ public class ServiceItemRecordBOImpl implements ServiceItemRecordBO {
         serviceItemRecordMapper.insertSelective(record);
     }
 
-    private Apply buildApply(ServiceItemRecord record) {
+    private Apply buildApply(ServiceItemRecord record, Long auditor) {
         return applyBO.buildApply(ApplyTypeEnum.SERVICE_ITEM.getCode(), record.getId(), buildApplyContent(record),
-                record.getEmpNo(), record.getCreator(), record.getShopNo());
+                record.getEmpNo(), auditor, record.getCreator(), record.getShopNo());
     }
 
     private String buildApplyContent(ServiceItemRecord record) {

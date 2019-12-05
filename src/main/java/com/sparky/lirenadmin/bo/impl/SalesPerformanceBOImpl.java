@@ -34,7 +34,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
     private SalesPerformanceMapperExt salesPerformanceMapper;
 
     @Override
-    public void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList) {
+    public void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList, Long auditor) {
         doCreateSales(salesPerformance);
         List<ApplyDtl> dtls = null;
         if (!CollectionUtils.isEmpty(ccList)){
@@ -44,7 +44,7 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
                  return dtl;
              }).collect(Collectors.toList());
         }
-        applyBO.createApply(buildApply(salesPerformance), dtls);
+        applyBO.createApply(buildApply(salesPerformance, auditor), dtls);
         customerTraceBO.createCustomerTrace(buildTrace(salesPerformance));
     }
 
@@ -101,9 +101,9 @@ public class SalesPerformanceBOImpl implements SalesPerformanceBO {
         return salesPerformanceMapper.selectByPrimaryKey(salesNo);
     }
 
-    private Apply buildApply(SalesPerformance salesPerformance) {
+    private Apply buildApply(SalesPerformance salesPerformance, Long auditor) {
         return applyBO.buildApply(ApplyTypeEnum.SAL_PERF.getCode(), salesPerformance.getId(),
-                buildApplyContent(salesPerformance), salesPerformance.getEmpNo(),
+                buildApplyContent(salesPerformance), salesPerformance.getEmpNo(), auditor,
                 salesPerformance.getCreator(), salesPerformance.getShopNo());
     }
 

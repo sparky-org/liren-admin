@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SalesPerformanceBO {
 
-    void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList);
+    void createSalePerformance(SalesPerformance salesPerformance, List<Long> ccList, Long auditor);
 
     void reward(Long salesNo);
 

@@ -58,7 +58,7 @@ public class SalesPerformanceBOTest {
         customerBO.createCustomer(customerInfo);
         //4. 初始化销售业绩
         SalesPerformance performance = initPerformance(employee, customerInfo);
-        salesPerformanceBO.createSalePerformance(performance, null);
+        salesPerformanceBO.createSalePerformance(performance, null, admin.getId());
         List<Apply> approvalPending = applyBO.queryApprovalPendingTasks(admin.getId());
         for (Apply apply : approvalPending){
             applyBO.approve(apply);

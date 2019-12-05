@@ -52,7 +52,7 @@ public class ServiceItemRecordController {
                 }).collect(Collectors.toList());
             }
 
-            serviceItemRecordBO.createServiceRecord(buildServiceRecord(applyServiceRecordDTO), dtls);
+            serviceItemRecordBO.createServiceRecord(buildServiceRecord(applyServiceRecordDTO), dtls, applyServiceRecordDTO.getAuditor());
             return BaseResponseWrapper.success(null);
         } catch (Exception e) {
             logger.error("项目申报异常", e);
