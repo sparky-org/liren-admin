@@ -44,8 +44,14 @@
            from t_customer_info
            where is_valid=1
            and shop_no = #{cond.shopNo}
-           <if test="cond.empNo != null">
-             and creator = #{cond.empNo}
+           <if test="cond.empNo != null and cond.isAdmin != null and cond.isAdmin != true">
+             and creator in (
+                select id
+                  from t_shop_employee
+                 where is_valid = 1
+                   and shop_no = #{shopNo}
+                   and (id = #{cond.empNo} or manager_no = #{cond.empNo})
+             )
            </if>
           <if test="cond.phoneLike != null">
             and phone like concat(#{cond.empNo}, '%')

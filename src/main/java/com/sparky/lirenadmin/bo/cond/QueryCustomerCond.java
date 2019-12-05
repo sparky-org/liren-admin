@@ -11,17 +11,27 @@ public class QueryCustomerCond {
 
     private Long shopNo;
     private Long empNo;
+    private Boolean isAdmin;
     private String phoneLike;
     private String nameLike;
 
     private Integer start;
     private Integer pageSize;
 
-    public QueryCustomerCond(Long shopNo, Long empNo, String phoneLike, String nameLike) {
+    public QueryCustomerCond(Long shopNo, Long empNo, Boolean isAdmin, String phoneLike, String nameLike) {
         this.shopNo = shopNo;
         this.empNo = empNo;
+        this.isAdmin = isAdmin;
         this.phoneLike = phoneLike;
         this.nameLike = nameLike;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     public Long getShopNo() {

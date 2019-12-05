@@ -188,7 +188,7 @@ public class MyCustomerController {
             if(null == employee){
                 throw new RuntimeException("员工不存在");
             }
-            QueryCustomerCond cond = new QueryCustomerCond(employee.getShopNo(), empNo, null, null);
+            QueryCustomerCond cond = new QueryCustomerCond(employee.getShopNo(), empNo, employee.getIsAdmin(), null, null);
             Integer total = customerBO.countCustomerByCond(cond);
             if (total < 1){
                 return PagingResponseWrapper.success(new ArrayList<>(), 0);
@@ -214,7 +214,7 @@ public class MyCustomerController {
                                                                          @RequestParam @ApiParam Integer currentPage,
                                                                          @RequestParam @ApiParam Integer pageSize){
         try {
-            QueryCustomerCond cond = new QueryCustomerCond(shopNo, null, phoneLike, nameLike);
+            QueryCustomerCond cond = new QueryCustomerCond(shopNo, null, null, phoneLike, nameLike);
             Integer total = customerBO.countCustomerByCond(cond);
             if (total < 1){
                 return PagingResponseWrapper.success(new ArrayList<>(), 0);

@@ -97,10 +97,14 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public CustomerGrowthStatisticsPO getGrowthStatistics(Long empNo) {
         ShopEmployee employee = employeeBO.getEmployee(empNo);
-        int today = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"DAY");
-        int thisMonth = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"MONTH");
-        int thisQuarter = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"QUARTER");
-        int thisYear = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),empNo,"YEAR");
+        Long queryEmpNo = null;
+        if (!employee.getIsAdmin()){
+            queryEmpNo = empNo;
+        }
+        int today = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),queryEmpNo,"DAY");
+        int thisMonth = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),queryEmpNo,"MONTH");
+        int thisQuarter = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),queryEmpNo,"QUARTER");
+        int thisYear = customerInfoMapper.countGrowthOfSpecialInterval(employee.getShopNo(),queryEmpNo,"YEAR");
         CustomerGrowthStatisticsPO statisticsPO = new CustomerGrowthStatisticsPO();
         statisticsPO.setToday(today);
         statisticsPO.setThisMonth(thisMonth);
