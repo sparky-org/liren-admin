@@ -37,7 +37,7 @@ public class AppointmentBOImpl implements AppointmentBO {
         if (employee.getIsAdmin()){
             total = appointmentMapper.countAppointCustomerByShop(employee.getShopNo(), today);
         }else{
-            total = appointmentMapper.countAppointCustomerByEmp(employee.getShopNo(), today);
+            total = appointmentMapper.countAppointCustomerByEmp(employee.getId(), today);
         }
         return total;
     }
