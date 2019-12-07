@@ -9,5 +9,5 @@ package com.sparky.lirenadmin.constant;
  */
 public class PicUrl {
 
-    public static final String url = "https://www.streamnet-chain.com/kai/";
+    public static final String url = "http://118.25.104.232/";
 }
