@@ -61,7 +61,7 @@ public class PosterController {
         try {
             ShopConfig config = shopConfigBO.getShopConfig(shopNo, ShopConfigTypeEnum.POSTER.getCode());
             if(null == config){
-                return BaseResponseWrapper.success(null);
+                config = new ShopConfig();
             }
             return BaseResponseWrapper.success(convertToDto(config, empNo));
         } catch (Exception e) {
