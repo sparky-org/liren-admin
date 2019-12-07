@@ -79,7 +79,7 @@ public class PosterController {
         }
         dto.setPosterNo(config.getId());
         List<ViewPosterVO.Content> contents = new ArrayList<>();
-        if (config.getContent() != null){
+        if (config.getContent() != null && !config.getContent().trim().isEmpty()){
             String[] images = config.getContent().split(",");
             for (String img : images){
                 ViewPosterVO.Content content = new ViewPosterVO.Content();
