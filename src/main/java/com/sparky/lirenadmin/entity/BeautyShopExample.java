@@ -884,6 +884,76 @@ public class BeautyShopExample {
             addCriterion("gmt_modify not between", value1, value2, "gmtModify");
             return (Criteria) this;
         }
+
+        public Criteria andShopTypeIsNull() {
+            addCriterion("shop_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeIsNotNull() {
+            addCriterion("shop_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeEqualTo(String value) {
+            addCriterion("shop_type =", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeNotEqualTo(String value) {
+            addCriterion("shop_type <>", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeGreaterThan(String value) {
+            addCriterion("shop_type >", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("shop_type >=", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeLessThan(String value) {
+            addCriterion("shop_type <", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeLessThanOrEqualTo(String value) {
+            addCriterion("shop_type <=", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeLike(String value) {
+            addCriterion("shop_type like", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeNotLike(String value) {
+            addCriterion("shop_type not like", value, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeIn(List<String> values) {
+            addCriterion("shop_type in", values, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeNotIn(List<String> values) {
+            addCriterion("shop_type not in", values, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeBetween(String value1, String value2) {
+            addCriterion("shop_type between", value1, value2, "shopType");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopTypeNotBetween(String value1, String value2) {
+            addCriterion("shop_type not between", value1, value2, "shopType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

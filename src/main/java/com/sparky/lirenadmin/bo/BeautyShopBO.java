@@ -10,4 +10,6 @@ public interface BeautyShopBO {
     List<BeautyShop> getAllShop();
 
     List<BeautyShop> getShopByIdList(List<Long> shopNoList);
+
+    BeautyShop getShop(Long shopNo);
 }

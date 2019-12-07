@@ -14,6 +14,7 @@
     <result column="is_valid" jdbcType="TINYINT" property="isValid" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="shop_type" jdbcType="VARCHAR" property="shopType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, address, own_name, phone, join_date, referrer_name, referrer_phone, creator, 
-    is_valid, gmt_create, gmt_modify
+    is_valid, gmt_create, gmt_modify, shop_type
   </sql>
   <select id="selectByExample" parameterType="com.sparky.lirenadmin.entity.BeautyShopExample" resultMap="BaseResultMap">
     select
@@ -115,11 +116,13 @@
     insert into t_beauty_shop (name, address, own_name, 
       phone, join_date, referrer_name, 
       referrer_phone, creator, is_valid, 
-      gmt_create, gmt_modify)
+      gmt_create, gmt_modify, shop_type
+      )
     values (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{ownName,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{joinDate,jdbcType=TIMESTAMP}, #{referrerName,jdbcType=VARCHAR}, 
       #{referrerPhone,jdbcType=VARCHAR}, #{creator,jdbcType=BIGINT}, #{isValid,jdbcType=TINYINT}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{shopType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sparky.lirenadmin.entity.BeautyShop">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -160,6 +163,9 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
+      <if test="shopType != null">
+        shop_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -194,6 +200,9 @@
       </if>
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopType != null">
+        #{shopType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -242,6 +251,9 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.shopType != null">
+        shop_type = #{record.shopType,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -260,7 +272,8 @@
       creator = #{record.creator,jdbcType=BIGINT},
       is_valid = #{record.isValid,jdbcType=TINYINT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{record.gmtModify,jdbcType=TIMESTAMP},
+      shop_type = #{record.shopType,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -301,6 +314,9 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
       </if>
+      <if test="shopType != null">
+        shop_type = #{shopType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -316,7 +332,8 @@
       creator = #{creator,jdbcType=BIGINT},
       is_valid = #{isValid,jdbcType=TINYINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      shop_type = #{shopType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

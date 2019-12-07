@@ -27,6 +27,8 @@ public class BeautyShop {
 
     private Date gmtModify;
 
+    private String shopType;
+
     public Long getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class BeautyShop {
 
     public void setGmtModify(Date gmtModify) {
         this.gmtModify = gmtModify;
+    }
+
+    public String getShopType() {
+        return shopType;
+    }
+
+    public void setShopType(String shopType) {
+        this.shopType = shopType == null ? null : shopType.trim();
     }
 }

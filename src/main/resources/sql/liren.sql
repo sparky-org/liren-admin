@@ -10,6 +10,7 @@ CREATE TABLE `t_beauty_shop` (
   `join_date` datetime NOT NULL COMMENT '入驻日期',
   `referrer_name` varchar(32) DEFAULT NULL COMMENT '推荐人姓名',
   `referrer_phone` varchar(16) DEFAULT NULL COMMENT '推荐人手机号',
+  `shop_type` varchar(16) DEFAULT NULL COMMENT '商家类型/SHOP/AGENCY',
   `creator` bigint(11) DEFAULT NULL COMMENT '记录创建者',
   `is_valid` tinyint(1) DEFAULT NULL COMMENT '删除标志',
   `gmt_create` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',

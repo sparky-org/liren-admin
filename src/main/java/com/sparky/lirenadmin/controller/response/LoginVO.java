@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.controller.response;
 
 import com.sparky.lirenadmin.entity.ShopEmployee;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @ClassName LoginVO
@@ -11,7 +12,26 @@ import com.sparky.lirenadmin.entity.ShopEmployee;
  */
 public class LoginVO {
     private String token;
+    private String shopName;
+    @ApiModelProperty("商家类型SHOP/AGENCY")
+    private String shopType;
     private ShopEmployee shopEmployee;
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getShopType() {
+        return shopType;
+    }
+
+    public void setShopType(String shopType) {
+        this.shopType = shopType;
+    }
 
     public String getToken() {
         return token;

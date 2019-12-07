@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +56,10 @@ public class LoginController {
             LoginVO loginVO = new LoginVO();
             loginVO.setToken(token);
             loginVO.setShopEmployee(employee);
+
+            BeautyShop shop = beautyShopBO.getShop(employee.getShopNo());
+            loginVO.setShopName(shop.getName());
+            loginVO.setShopType(shop.getShopType());
             return BaseResponseWrapper.success(loginVO);
         } catch (Exception e) {
             logger.error("登陆未知异常", e);
