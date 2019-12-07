@@ -3,6 +3,8 @@ package com.sparky.lirenadmin.controller.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
+
 /**
  * 查看轮播图
  *
@@ -20,7 +22,7 @@ public class ViewPosterVO {
     @ApiModelProperty("是否可编辑")
     private Boolean canEdit;
     @ApiModelProperty("轮播图url,逗号分隔")
-    private String content;
+    private List<Content> content;
 
     public Long getPosterNo() {
         return posterNo;
@@ -38,11 +40,32 @@ public class ViewPosterVO {
         this.canEdit = canEdit;
     }
 
-    public String getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(List<Content> content) {
         this.content = content;
+    }
+
+    public static class Content{
+        private String relativePath;
+        private String absolutePath;
+
+        public String getRelativePath() {
+            return relativePath;
+        }
+
+        public void setRelativePath(String relativePath) {
+            this.relativePath = relativePath;
+        }
+
+        public String getAbsolutePath() {
+            return absolutePath;
+        }
+
+        public void setAbsolutePath(String absolutePath) {
+            this.absolutePath = absolutePath;
+        }
     }
 }

@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *  管理员可以发布/修改轮播图
  *  所有人可以查看轮播图
@@ -67,26 +70,6 @@ public class PosterController {
         }
     }
 
-    private void handleWithPicUrl(ViewPosterVO vo) {
-        if (vo.getContent() == null || vo.getContent().isEmpty()){
-            return;
-        }
-        String picList = vo.getContent();
-        StringBuffer appendHeaderBuff = new StringBuffer();
-        int length = picList.split(",").length;
-        for (String pic : picList.split(",")) {
-            if (pic.indexOf(PicUrl.url) < 0) {
-                appendHeaderBuff.append(PicUrl.url).append(pic);
-            }else{
-                appendHeaderBuff.append(pic);
-            }
-            if (--length > 0){
-                appendHeaderBuff.append(",");
-            }
-        }
-        vo.setContent(appendHeaderBuff.toString());
-    }
-
     private ViewPosterVO convertToDto(ShopConfig config, Long empNo) {
         ViewPosterVO dto = new ViewPosterVO();
         ShopEmployee employee = shopEmployeeBO.getEmployee(empNo);
@@ -95,8 +78,17 @@ public class PosterController {
             dto.setCanEdit(employee.getIsAdmin());
         }
         dto.setPosterNo(config.getId());
-        dto.setContent(config.getContent());
-        handleWithPicUrl(dto);
+        List<ViewPosterVO.Content> contents = new ArrayList<>();
+        if (config.getContent() != null){
+            String[] images = config.getContent().split(",");
+            for (String img : images){
+                ViewPosterVO.Content content = new ViewPosterVO.Content();
+                content.setRelativePath(img);
+                content.setAbsolutePath(PicUrl.url + img);
+                contents.add(content);
+            }
+        }
+        dto.setContent(contents);
         return dto;
     }
 
