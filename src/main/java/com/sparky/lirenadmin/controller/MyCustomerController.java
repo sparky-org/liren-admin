@@ -269,7 +269,7 @@ public class MyCustomerController {
         customerInfo.setPhone(addCustomerDTO.getPhone());
         customerInfo.setRemark(addCustomerDTO.getRemark());
         customerInfo.setSex(addCustomerDTO.getSex());
-        customerInfo.setYearPlan(customerInfo.getYearPlan());
+        customerInfo.setYearPlan(addCustomerDTO.getYearPlan());
         customerInfo.setShopNo(shopNo);
         return customerInfo;
     }
