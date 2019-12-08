@@ -1,6 +1,7 @@
 package com.sparky.lirenadmin.interceptor;
 
 import com.sparky.lirenadmin.annotations.NeedLogin;
+import com.sparky.lirenadmin.entity.ShopEmployee;
 import com.sparky.lirenadmin.utils.TokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 response.setStatus(401);
                 return false;
             }
-            if (null == TokenManager.unsign(token, String.class)) {
+            if (null == TokenManager.unsign(token, ShopEmployee.class)) {
                 logger.error("验证失败，token已过期");
                 response.setStatus(401);
                 return false;
