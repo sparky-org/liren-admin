@@ -1,5 +1,6 @@
 package com.sparky.lirenadmin.controller;
 
+import com.sparky.lirenadmin.annotations.NeedLogin;
 import com.sparky.lirenadmin.bo.*;
 import com.sparky.lirenadmin.constant.RewardTypeEnum;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
@@ -50,6 +51,7 @@ public class MainPageController {
     //TODO 需要测试下多线程情况下是共用5线程还是独占5线程
     private ExecutorService executor = Executors.newFixedThreadPool(5);
 
+    @NeedLogin
     @RequestMapping(value = "/findTodayBusiness", method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation("今日动态和排名")
@@ -110,6 +112,7 @@ public class MainPageController {
         }
     }
 
+    @NeedLogin
     @RequestMapping(value = "/pagingQueryPointTrace",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation("积分动态")
