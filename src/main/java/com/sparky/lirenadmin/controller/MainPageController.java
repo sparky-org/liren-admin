@@ -112,7 +112,6 @@ public class MainPageController {
         }
     }
 
-    @NeedLogin
     @RequestMapping(value = "/pagingQueryPointTrace",method = RequestMethod.POST)
     @ResponseBody
     @ApiOperation("积分动态")
