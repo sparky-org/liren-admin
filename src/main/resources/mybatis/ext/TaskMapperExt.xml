@@ -18,7 +18,7 @@
   </resultMap>
 
   <sql id="query_cond_from_clause">
-    select id, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'UNCOMPLETE' as status, creator, is_valid, gmt_create,
+    select id, point_no, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'UNCOMPLETE' as status, creator, is_valid, gmt_create,
     gmt_modify
     from t_task a
     where shop_no = #{cond.shopNo} and is_valid = 1
@@ -27,10 +27,10 @@
           or scope = 'ALL'
         )
     union all
-    select id, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'COMPLETE' as status, creator, is_valid, gmt_create,
+    select id, point_no, title, content, reward_point, join_limit, scope, shop_no,#{cond.empNo} as emp_no,'COMPLETE' as status, creator, is_valid, gmt_create,
     gmt_modify
     from (
-      select id, title, content, reward_point, join_limit, scope, shop_no, creator, is_valid, gmt_create, gmt_modify
+      select id, point_no, title, content, reward_point, join_limit, scope, shop_no, creator, is_valid, gmt_create, gmt_modify
         from t_task
         where shop_no = #{cond.shopNo}
           and is_valid = 1
