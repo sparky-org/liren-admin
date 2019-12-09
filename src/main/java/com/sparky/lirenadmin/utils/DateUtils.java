@@ -53,11 +53,11 @@ public class DateUtils {
 
         int pageSize = 3;
 
-        int total = hashList.size();
+
         if (CollectionUtils.isEmpty(hashList)){
             return new ArrayList<>();
         }
-
+        int total = hashList.size();
         //计算的出
         int totalPage = total / pageSize + (total % pageSize == 0 ? 0 : 1);
         if (currentPage < 1) {
