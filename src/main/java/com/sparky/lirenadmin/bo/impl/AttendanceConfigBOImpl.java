@@ -41,7 +41,7 @@ public class AttendanceConfigBOImpl implements AttendanceConfigBO {
 
     private void doModifyConfig(AttendanceConfig config) {
         config.setGmtModify(new Date());
-        attendanceConfigMapper.insertSelective(config);
+        attendanceConfigMapper.updateByPrimaryKeySelective(config);
     }
 
     private void doCreate(AttendanceConfig config) {
