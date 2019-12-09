@@ -58,6 +58,9 @@
       <if test="cond.status != null">
         and status = #{cond.status}
       </if>
+      <if test="cond.pointType != null">
+        and point_no in (select id from t_point_config where shop_no = #{cond.shopNo} and point_type = #{cond.pointType})
+      </if>
   </select>
 
   <select id="pagingByQueryCond" resultMap="TaskPOResultMap">

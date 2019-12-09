@@ -1,7 +1,5 @@
 package com.sparky.lirenadmin.bo.cond;
 
-import java.util.List;
-
 /**
  * @ClassName QueryTaskCond
  * @Description TODO
@@ -17,7 +15,7 @@ public class QueryTaskCond {
 
     private String status;
 
-    private List<Long> pointNoList;
+    private String pointType;
 
     private int start;
 
@@ -47,12 +45,12 @@ public class QueryTaskCond {
         this.status = status;
     }
 
-    public List<Long> getPointNoList() {
-        return pointNoList;
+    public String getPointType() {
+        return pointType;
     }
 
-    public void setPointNoList(List<Long> pointNoList) {
-        this.pointNoList = pointNoList;
+    public void setPointType(String pointType) {
+        this.pointType = pointType;
     }
 
     public int getStart() {

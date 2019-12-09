@@ -68,18 +68,7 @@ public class MyTaskController {
             cond.setEmpNo(empNo);
             cond.setShopNo(employee.getShopNo());
             cond.setStatus(taskStatus);
-            if (pointType != null){
-                List<PointConfig> pointConfigs = pointConfigBO.getPointConfig(employee.getShopNo());
-                if (pointConfigs != null){
-                    List<PointConfig> filter = pointConfigs.stream().filter(e -> pointType.equals(e.getPointType())).collect(Collectors.toList());
-                    if (filter != null){
-                        List<Long> pointConfigNoList = filter.stream().map(PointConfig::getId).collect(Collectors.toList());
-                        if (!CollectionUtils.isEmpty(pointConfigNoList)){
-                            cond.setPointNoList(pointConfigNoList);
-                        }
-                    }
-                }
-            }
+            cond.setPointType(pointType);
             int total = taskBO.countTask(cond);
             if (total < 1){
                 return PagingResponseWrapper.success(new ArrayList<>(), total);
