@@ -13,6 +13,7 @@ import com.sparky.lirenadmin.controller.request.GetPointRewardDetailVO;
 import com.sparky.lirenadmin.controller.request.GetPointTableDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
 import com.sparky.lirenadmin.controller.response.GetPointTableVO;
+import com.sparky.lirenadmin.controller.response.ListPointConfigVO;
 import com.sparky.lirenadmin.controller.response.PagingResponseWrapper;
 import com.sparky.lirenadmin.entity.PointConfig;
 import com.sparky.lirenadmin.entity.RewardRecord;
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.hc.client5.http.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -78,10 +80,20 @@ public class PointController {
     @ApiOperation("获取积分配置")
     @RequestMapping(value = "/getPointConfig",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseWrapper<List<PointConfig>> getPointConfig(@RequestParam @ApiParam Long shopNo){
+    public BaseResponseWrapper<List<ListPointConfigVO>> getPointConfig(@RequestParam @ApiParam Long shopNo){
         try {
             List<PointConfig> configs = pointConfigBO.getPointConfig(shopNo);
-            return BaseResponseWrapper.success(configs);
+            if (CollectionUtils.isEmpty(configs)){
+                return BaseResponseWrapper.success(new ArrayList<>());
+            }
+            List<ListPointConfigVO> vos = configs.stream().map(e -> (ListPointConfigVO)e).collect(Collectors.toList());
+            vos.forEach(e -> {
+                e.setPointTypeDesc(PointTypeEnum.valueOf(e.getPointType()).getDesc());
+                if (e.getPointDesc() != null){
+                    e.setPointTypeDesc(e.getPointDesc().replaceAll("\n", "<br>"));
+                }
+            });
+            return BaseResponseWrapper.success(vos);
         } catch (Exception e) {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, e.getMessage());
