@@ -145,7 +145,10 @@ public class MyTaskController {
 
     private MyTaskVO convertToMyTaskVO(MyTaskPO myTaskPO) {
         MyTaskVO vo = new MyTaskVO();
-        vo.setContent(myTaskPO.getContent());
+        String content = myTaskPO.getContent();
+        if (content != null){
+            vo.setContent(content.replaceAll("\n", "<br>"));
+        }
         vo.setRewardPoint(myTaskPO.getRewardPoint());
         vo.setTaskName(myTaskPO.getTitle());
         vo.setTaskNo(myTaskPO.getId());

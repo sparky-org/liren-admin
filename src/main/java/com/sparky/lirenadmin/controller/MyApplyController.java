@@ -465,7 +465,10 @@ public class MyApplyController {
             return null;
         }
         ListApplyVO.Normal normal = new ListApplyVO.Normal();
-        normal.setContent(apply.getApplyContent());
+        String content = apply.getApplyContent();
+        if (content != null){
+            normal.setContent(content.replaceAll("\n", "<br>"));
+        }
         normal.setDate(apply.getGmtCreate());
         return normal;
     }
