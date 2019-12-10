@@ -88,6 +88,19 @@ public class PointController {
         }
     }
 
+    @ApiOperation("获取积分配置详细信息")
+    @RequestMapping(value = "/getPointConfigInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponseWrapper<PointConfig> getPointConfigInfo(@RequestParam @ApiParam Long pointConfigNo){
+        try {
+            PointConfig config = pointConfigBO.getPointConfigByPrimaryKey(pointConfigNo);
+            return BaseResponseWrapper.success(config);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseResponseWrapper.fail(null, e.getMessage());
+        }
+    }
+
     @ApiOperation("积分榜")
     @RequestMapping(value = "/getPointTable",method = RequestMethod.POST)
     @ResponseBody
