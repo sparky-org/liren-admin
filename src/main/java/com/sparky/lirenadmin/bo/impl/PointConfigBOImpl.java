@@ -36,6 +36,7 @@ public class PointConfigBOImpl implements PointConfigBO {
     public List<PointConfig> getPointConfig(Long shopNo) {
         PointConfigExample example = new PointConfigExample();
         example.createCriteria().andIsValidEqualTo(true).andShopNoEqualTo(shopNo);
+        example.setOrderByClause("gmt_modify desc");
         return pointConfigMapper.selectByExample(example);
     }
 
