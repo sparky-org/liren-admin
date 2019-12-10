@@ -91,7 +91,7 @@ public class PointController {
             vos.forEach(e -> {
                 e.setPointTypeDesc(PointTypeEnum.valueOf(e.getPointType()).getDesc());
                 if (e.getPointDesc() != null){
-                    e.setPointTypeDesc(e.getPointDesc().replaceAll("\n", "<br>"));
+                    e.setPointDesc(e.getPointDesc().replaceAll("\n", "<br>"));
                 }
             });
             return BaseResponseWrapper.success(vos);
