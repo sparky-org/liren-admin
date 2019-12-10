@@ -49,6 +49,12 @@ public class CustomerBOImpl implements CustomerBO {
         if (null == employee){
             throw new RuntimeException("修改顾客信息操作者不存在");
         }
+        CustomerInfo existInfo = customerInfoMapper.selectByPrimaryKey(customerInfo.getId());
+        if (existInfo == null){
+            throw new RuntimeException("修改顾客信息失败");
+        }
+        customerInfo.setCreator(existInfo.getCreator());
+        customerInfo.setGmtCreate(existInfo.getGmtCreate());
         if (employee.getIsAdmin()){
             doUpdate(customerInfo);
         }else{
