@@ -250,8 +250,14 @@ public class MyCustomerController {
             info.setBirthDay(DateUtils.formatDate(customerInfo.getBirthday(), "yyyy-MM-dd"));
         }
         info.setFavor(customerInfo.getFavor());
-        info.setRemark(customerInfo.getRemark());
-        info.setYearPlan(customerInfo.getYearPlan());
+        String remark = customerInfo.getRemark();
+        if (remark != null){
+            info.setRemark(remark.replaceAll("\n", "</br>"));
+        }
+        String yearPlan = customerInfo.getYearPlan();
+        if (yearPlan != null){
+            info.setYearPlan(yearPlan.replaceAll("\n", "</br>"));
+        }
         ShopEmployee employee = shopEmployeeBO.getEmployee(customerInfo.getCreator());
         if(employee != null){
             info.setRelatedEmp(employee.getName());
