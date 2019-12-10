@@ -252,11 +252,11 @@ public class MyCustomerController {
         info.setFavor(customerInfo.getFavor());
         String remark = customerInfo.getRemark();
         if (remark != null){
-            info.setRemark(remark.replaceAll("\n", "</br>"));
+            info.setRemark(remark.replaceAll("\n", "<br>"));
         }
         String yearPlan = customerInfo.getYearPlan();
         if (yearPlan != null){
-            info.setYearPlan(yearPlan.replaceAll("\n", "</br>"));
+            info.setYearPlan(yearPlan.replaceAll("\n", "<br>"));
         }
         ShopEmployee employee = shopEmployeeBO.getEmployee(customerInfo.getCreator());
         if(employee != null){
