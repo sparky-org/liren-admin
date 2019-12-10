@@ -86,7 +86,8 @@ public class PointController {
             if (CollectionUtils.isEmpty(configs)){
                 return BaseResponseWrapper.success(new ArrayList<>());
             }
-            List<ListPointConfigVO> vos = configs.stream().map(e -> (ListPointConfigVO)e).collect(Collectors.toList());
+            List<ListPointConfigVO> vos = configs.stream().map(e -> JSONObject.parseObject(JSONObject.toJSONString(e), ListPointConfigVO.class))
+                    .collect(Collectors.toList());
             vos.forEach(e -> {
                 e.setPointTypeDesc(PointTypeEnum.valueOf(e.getPointType()).getDesc());
                 if (e.getPointDesc() != null){
