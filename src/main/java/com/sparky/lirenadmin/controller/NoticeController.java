@@ -56,9 +56,6 @@ public class NoticeController {
                                                                @RequestParam @ApiParam Long empNo){
         try {
             ShopConfig config = shopConfigBO.getShopConfig(shopNo, ShopConfigTypeEnum.NOTICE.getCode());
-            if (config == null){
-                return BaseResponseWrapper.success(null);
-            }
             return BaseResponseWrapper.success(convertToDto(config, empNo));
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,8 +70,10 @@ public class NoticeController {
         if (employee != null){
             dto.setCanEdit(employee.getIsAdmin());
         }
-        dto.setNoticeNo(config.getId());
-        dto.setContent(config.getContent());
+        if (config != null) {
+            dto.setNoticeNo(config.getId());
+            dto.setContent(config.getContent());
+        }
         return dto;
     }
 
