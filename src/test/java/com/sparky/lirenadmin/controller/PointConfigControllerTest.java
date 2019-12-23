@@ -7,6 +7,7 @@ import com.sparky.lirenadmin.constant.PointTypeEnum;
 import com.sparky.lirenadmin.controller.request.CreatePointDTO;
 import com.sparky.lirenadmin.controller.request.CreateShopEmployeeDTO;
 import com.sparky.lirenadmin.controller.response.BaseResponseWrapper;
+import com.sparky.lirenadmin.controller.response.ListPointConfigVO;
 import com.sparky.lirenadmin.controller.response.LoginVO;
 import com.sparky.lirenadmin.entity.BeautyShop;
 import com.sparky.lirenadmin.entity.PointConfig;
@@ -60,7 +61,7 @@ public class PointConfigControllerTest {
         BaseResponseWrapper wrapper = pointController.createOrModifyPointConfig(dto);
         Assert.isTrue(wrapper.isSuccess());
 
-        BaseResponseWrapper<List<PointConfig>> pointConfigs = pointController.getPointConfig(boss.getShopNo());
+        BaseResponseWrapper<List<ListPointConfigVO>> pointConfigs = pointController.getPointConfig(boss.getShopNo());
         Assert.isTrue(wrapper.isSuccess());
         System.out.println(JSONObject.toJSONString(pointConfigs.getResult()));
     }
