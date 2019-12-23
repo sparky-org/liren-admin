@@ -70,8 +70,10 @@ public class CompanySystemController {
         if (employee != null){
             dto.setCanEdit(employee.getIsAdmin());
         }
-        dto.setCompanySystemNo(config.getId());
-        dto.setContent(config.getContent());
+        if (config != null) {
+            dto.setCompanySystemNo(config.getId());
+            dto.setContent(config.getContent());
+        }
         return dto;
     }
 
