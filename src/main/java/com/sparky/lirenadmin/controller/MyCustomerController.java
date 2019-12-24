@@ -76,6 +76,7 @@ public class MyCustomerController {
     @ResponseBody
     public BaseResponseWrapper modifyCustomer(@RequestBody ModifyCustomerDTO modifyCustomerDTO){
         try {
+            addCustomerValid(modifyCustomerDTO);
             ShopEmployee employee = shopEmployeeBO.getEmployee(modifyCustomerDTO.getEmpNo());
             if (employee == null){
                 throw new RuntimeException(String.format("员工[%d]不存在。", modifyCustomerDTO.getEmpNo()));
