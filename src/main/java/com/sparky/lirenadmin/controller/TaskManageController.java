@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +84,7 @@ public class TaskManageController {
     @ResponseBody
     public BaseResponseWrapper publishTask(@RequestBody PublishTaskDTO dto){
         try {
+            validateParams(dto);
             ShopEmployee shopEmployee = shopEmployeeBO.getEmployee(dto.getEmpNo());
             checkPrivilege(shopEmployee);
             taskBO.createTask(buildTask(dto, shopEmployee), assembleTaskDtl(dto, shopEmployee));
@@ -98,6 +100,7 @@ public class TaskManageController {
     @ResponseBody
     public BaseResponseWrapper modifyTask(@RequestBody ModifyTaskDTO dto){
         try {
+            validateParams(dto);
             ShopEmployee shopEmployee = shopEmployeeBO.getEmployee(dto.getEmpNo());
             checkPrivilege(shopEmployee);
             Task task = buildTask(dto, shopEmployee);
@@ -164,6 +167,11 @@ public class TaskManageController {
             e.printStackTrace();
             return BaseResponseWrapper.fail(null, null);
         }
+    }
+
+    private void validateParams(PublishTaskDTO dto) {
+        Assert.notNull(dto.getRewardPoint(), "奖励积分不能为空值");
+        Assert.isTrue(Math.abs(dto.getRewardPoint()) < 1000, "任务奖励积分值不能大于1000");
     }
 
     private void checkPrivilege(ShopEmployee employee){
