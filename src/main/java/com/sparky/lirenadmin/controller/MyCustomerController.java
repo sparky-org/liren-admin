@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class MyCustomerController {
     @ResponseBody
     public BaseResponseWrapper addCustomer(@RequestBody AddCustomerDTO addCustomerDTO){
         try {
+            addCustomerValid(addCustomerDTO);
             ShopEmployee employee = shopEmployeeBO.getEmployee(addCustomerDTO.getEmpNo());
             if (employee == null){
                 throw new RuntimeException(String.format("员工[%d]不存在。", addCustomerDTO.getEmpNo()));
@@ -228,6 +230,11 @@ public class MyCustomerController {
             logger.error("分页查询本店顾客异常。", e);
             return PagingResponseWrapper.fail1(null, e.getMessage());
         }
+    }
+
+    private void addCustomerValid(AddCustomerDTO addCustomerDTO) {
+        Assert.notNull(addCustomerDTO.getPhone(), "手机号必填");
+        Assert.isTrue(addCustomerDTO.getPhone().matches("0?(13|14|15|17|18|19)[0-9]{9}"), "手机号不合法");
     }
 
     private SimpleCustomerVO convertToSimpleCustomerVO(CustomerInfo customerInfo) {
