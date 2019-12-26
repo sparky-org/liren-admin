@@ -13,19 +13,29 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel
 public class PublishCompanySystemDTO {
 
-    @ApiModelProperty("公告编号（为空表示需要创建）")
-    private Long noticeNo;
+    @ApiModelProperty("制度编号（为空表示需要创建）")
+    private Long articleNo;
     @ApiModelProperty("操作人")
     private Long empNo;
-    @ApiModelProperty("公告内容")
+    @ApiModelProperty("标题")
+    private String title;
+    @ApiModelProperty("内容")
     private String content;
 
-    public Long getNoticeNo() {
-        return noticeNo;
+    public Long getArticleNo() {
+        return articleNo;
     }
 
-    public void setNoticeNo(Long noticeNo) {
-        this.noticeNo = noticeNo;
+    public void setArticleNo(Long articleNo) {
+        this.articleNo = articleNo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getEmpNo() {

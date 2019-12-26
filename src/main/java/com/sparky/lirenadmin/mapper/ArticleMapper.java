@@ -4,7 +4,9 @@ import com.sparky.lirenadmin.entity.Article;
 import com.sparky.lirenadmin.entity.ArticleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ArticleMapper {
     long countByExample(ArticleExample example);
 

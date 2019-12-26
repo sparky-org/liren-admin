@@ -13,24 +13,14 @@ import io.swagger.annotations.ApiModelProperty;
  * @Version v0.0.1
  */
 @ApiModel
-public class ViewCompanySystemVO {
+public class ListCompanySystemVO {
 
     @ApiModelProperty("编号")
     private Long companySystemNo;
-    @ApiModelProperty("是否可编辑")
-    private Boolean canEdit;
     @ApiModelProperty("标题")
     private String title;
-    @ApiModelProperty("内容")
-    private String content;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @ApiModelProperty("创建时间")
+    private String createDate;
 
     public Long getCompanySystemNo() {
         return companySystemNo;
@@ -40,19 +30,19 @@ public class ViewCompanySystemVO {
         this.companySystemNo = companySystemNo;
     }
 
-    public Boolean getCanEdit() {
-        return canEdit;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCanEdit(Boolean canEdit) {
-        this.canEdit = canEdit;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }
