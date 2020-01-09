@@ -12,6 +12,6 @@ addons:
 
 script:
   - build_head=$(git rev-parse HEAD)
-  - echo $echo_header
+  - echo $build_head
   - echo $TRAVIS_BRANCH
   - echo "hello"
